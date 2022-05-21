@@ -1,15 +1,15 @@
 import producto from './producto.js';
-export{obtenerListaProductos,agregarProductos};
 
-const listaProductos = [];
+export default class Stock{
+    listaProductos = [];
+    constructor(){
+    }
 
-//getter
-function obtenerListaProductos(){
-    return this.listaProductos;
-}
+    obtenerListaProductos(){
+        return this.listaProductos;
+    }
 
-//Metodos
-consultaProductos() {
+    consultaProductos() {
         $.ajax({
             url: '../php/productos.php',
             type: 'POST',
@@ -57,5 +57,5 @@ consultaProductos() {
     agregarProductos(producto){
         this.listaProductos.push(producto);
     }
-//Comentario de prueba Github
+
 }
