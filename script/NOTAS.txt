@@ -1,0 +1,3 @@
+un if que evalue si en el dia de hoy se ingreso un registro
+Si se ingreso:Realizar un update sobre ese registro y agregar en la tabla salida la hora
+Si no: Ingresar el registro por primera vez
