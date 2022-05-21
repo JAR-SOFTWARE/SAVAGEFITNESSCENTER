@@ -65,10 +65,9 @@ export default class producto{
     
         });
     }
-
     bProductoBD(nombre){
+
     }
-    
     mProductoBD(nombre, categoria, precioCompra, precioVenta, cantidad){
         $.ajax({
             url: '../php/productos.php',

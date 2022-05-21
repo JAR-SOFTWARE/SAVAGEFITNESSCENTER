@@ -1,5 +1,6 @@
 import producto from './producto.js';
-import Stock from './stock.js';
+import {agregarProductos} from './stock.js';
+import {obtenerListaProductos} from './stock.js';
 
 const btnCrearProducto = document.getElementById('btnregProducto').onclick = function(){registroProducto($('#formNombre').val(),$('#formCategoria').val(),$('#formPrecioCompra').val(),$('#formPrecioVenta').val(),$('#formCantidad').val())};
 const footerModal = document.getElementById("MdalFooter");
@@ -15,8 +16,11 @@ function registroProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
         $('#formPrecioVenta').val('');
         $('#formCantidad').val('');},2000);
     agregarProductos(nuevoProducto);
+    mostrarTodosLosProductos();
 }
 
 function mostrarTodosLosProductos(){
-    Stock.consultaProductos();
+    listaProductos = obtenerListaProductos();
+    console.log(listaProductos);
 }
+
