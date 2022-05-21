@@ -1,6 +1,7 @@
 //VARIABLES
 var tbody_cMarcas=document.getElementById('tbody-cMarcas');
 var div_mensaje_habilitado=document.getElementById('div_msg_pagos');
+var h3_div_mensaje_habilitado=document.getElementById("H3_div_msg_pagos");
 var hoy = new Date();
 var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
@@ -24,6 +25,9 @@ function cFechas(fecha1,fecha2){
     return diasdiferentes
   }
 }
+//PRUEBA
+
+//CIERRA PRUEBA
 /*********SECCION DE LOGIN**************************************************************************** */
 $('#txt-ci').keypress(function (e) { 
     let tecla = e.keyCode; 
@@ -555,16 +559,9 @@ $('#btn_rPagoCompleto').click(function (e) {
     }
 }).done(function(datos){
     console.log(datos);
-    div_mensaje_habilitado.innerHTML="";
-    div_mensaje_habilitado.innerHTML+=`
-    <div class="alert alert-success text-white" role="alert">
-    <H3>HABILITADO</H3>
-    </div>
-    <div class="d-flex justify-content-between">
-                    <input type="button" id="btn_rPagoCompleto" class="btn btn-primary" value="Registrar Pago Completo">
-                    <input type="button" id="btn_rMedioPago" class="btn btn-primary" value="Registrar Medio Pago">
-    </div>
-    `;
+    h3_div_mensaje_habilitado.innerText='HABILITADO';
+    div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
+  
 }).fail( function( jqXHR, textStatus, errorThrown ) {
 
         if (jqXHR.status === 0) {
@@ -613,16 +610,9 @@ $('#btn_rMedioPago').click(function (e) {
     }
 }).done(function(datos){
     console.log(datos);
-    div_mensaje_habilitado.innerHTML="";
-    div_mensaje_habilitado.innerHTML+=`
-    <div class="alert alert-success text-white" role="alert">
-    <H3>HABILITADO</H3>
-    </div>
-    <div class="d-flex justify-content-between">
-    <input type="button" id="btn_rPagoCompleto" class="btn btn-primary" value="Registrar Pago Completo">
-    <input type="button" id="btn_rMedioPago" class="btn btn-primary" value="Registrar Medio Pago">
-    </div>
-    `;
+    h3_div_mensaje_habilitado.innerText='HABILITADO';
+    div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
+
 }).fail( function( jqXHR, textStatus, errorThrown ) {
 
         if (jqXHR.status === 0) {
@@ -676,54 +666,25 @@ function cPago() {
       console.log('entro');
       console.log(cFechas(fecha,fechaultimopago));
       if(cFechas(fecha,fechaultimopago)>15){
-        div_mensaje_habilitado.innerHTML="";
-        div_mensaje_habilitado.innerHTML+=`
-        <div class="alert alert-danger text-white" role="alert">
-        <H3>INHABILITADO</H3>
-        </div>
-        <div class="d-flex justify-content-between">
-        <input type="button" id="btn_rPagoCompleto" class="btn btn-primary" value="Registrar Pago Completo">
-        <input type="button" id="btn_rMedioPago" class="btn btn-primary" value="Registrar Medio Pago">
-        </div>
-        `;
+        div_mensaje_habilitado.removeAttribute("hidden");
+        h3_div_mensaje_habilitado.innerText='INHABILITADO';
+        div_mensaje_habilitado.classList.replace("alert-success","alert-danger");
+ 
       }
       else{
-        div_mensaje_habilitado.innerHTML="";
-        div_mensaje_habilitado.innerHTML+=`
-        <div class="alert alert-success text-white" role="alert">
-        <H3>HABILITADO</H3>
-        </div>
-        <div class="d-flex justify-content-between">
-        <input type="button" id="btn_rPagoCompleto" class="btn btn-primary" value="Registrar Pago Completo">
-        <input type="button" id="btn_rMedioPago" class="btn btn-primary" value="Registrar Medio Pago">
-        </div>
-        `;
+        div_mensaje_habilitado.removeAttribute("hidden");
       }
     }
     else{
       if(cFechas(fecha,fechaultimopago)>30){
-        div_mensaje_habilitado.innerHTML="";
-        div_mensaje_habilitado.innerHTML+=`
-        <div class="alert alert-danger text-white" role="alert">
-        <H3>INHABILITADO</H3>
-        </div>
-        <div class="d-flex justify-content-between">
-        <input type="button" id="btn_rPagoCompleto" class="btn btn-primary" value="Registrar Pago Completo">
-        <input type="button" id="btn_rMedioPago" class="btn btn-primary" value="Registrar Medio Pago">
-        </div>
-        `;
+        div_mensaje_habilitado.removeAttribute("hidden");
+        h3_div_mensaje_habilitado.innerText='INHABILITADO';
+        div_mensaje_habilitado.classList.replace("alert-success","alert-danger");
+    
       }
       else{
-        div_mensaje_habilitado.innerHTML="";
-        div_mensaje_habilitado.innerHTML+=`
-        <div class="alert alert-success text-white" role="alert">
-        <H3>HABILITADO</H3>
-        </div>
-        <div class="d-flex justify-content-between">
-        <input type="button" id="btn_rPagoCompleto" class="btn btn-primary" value="Registrar Pago Completo">
-        <input type="button" id="btn_rMedioPago" class="btn btn-primary" value="Registrar Medio Pago">
-        </div>
-        `;
+        div_mensaje_habilitado.removeAttribute("hidden");
+     
       }
       
     }

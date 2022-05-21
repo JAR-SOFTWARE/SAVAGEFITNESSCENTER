@@ -18,7 +18,7 @@ case '1'://ALTA DE PRODUCTO
     }
 
     break;
-case '2'://CONSULTA DE PRODUCTOS
+case '2'://CONSULTA DE USUARIOS
     $consulta="SELECT * FROM vProductos";
     $select= mysqli_query($conexion,$consulta);
     while($datos=mysqli_fetch_assoc($select)){
