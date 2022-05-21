@@ -55,8 +55,9 @@ export default class Stock{
 
         });
     }   
-
+//Metodo el cual agrega productos a la lista de productos
     agregarProductos(producto){
         this.listaProductos.push(producto);
-    }   
+    }
+   
 }
