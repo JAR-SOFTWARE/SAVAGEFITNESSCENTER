@@ -59,5 +59,5 @@ export default class Stock{
     agregarProductos(producto){
         this.listaProductos.push(producto);
     }
-   
+//Comentario de prueba Github
 }
