@@ -14,7 +14,7 @@ function registroProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
         $('#formPrecioCompra').val('');
         $('#formPrecioVenta').val('');
         $('#formCantidad').val('');},2000);
-    agregarProductos(nuevoProducto);
+    Stock.agregarProductos(nuevoProducto);
 }
 
 function mostrarTodosLosProductos(){
