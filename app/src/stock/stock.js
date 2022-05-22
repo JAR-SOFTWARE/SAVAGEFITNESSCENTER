@@ -67,4 +67,12 @@ export default class Stock{
         listaProductos.push(producto);
     }
 
+    buscarProducto(nombre){
+        for (let index = 0; index < listaProductos.length; index++) {
+            if (listaProductos[index].nombre == nombre) {
+                return listaProductos[index];
+            }
+        }
+    }
+
 }
