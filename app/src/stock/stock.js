@@ -1,5 +1,5 @@
 import producto from './producto.js';
-export const listaProductos = [];
+const listaProductos = [];
 export default class Stock{
     constructor(){  
     }
@@ -18,7 +18,6 @@ export default class Stock{
             }
         }).done(function (datos) {
             var js = JSON.parse(datos);
-            
             for (let index = 0; index < js.length; index++) {
                 var nombreProd = js[index].Producto;
                 var categoriaProd = js[index].Categoria;
