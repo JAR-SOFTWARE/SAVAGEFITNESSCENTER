@@ -3,7 +3,7 @@ var tbody_cMarcas=document.getElementById('tbody-cMarcas');
 var div_mensaje_habilitado=document.getElementById('div_msg_pagos');
 var h3_div_mensaje_habilitado=document.getElementById("H3_div_msg_pagos");
 var hoy = new Date();
-var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+var fecha = hoy.getDate() + '-0' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
 function cFechas(fecha1,fecha2){
    //FECHA 1 ES MAS GRANDE
@@ -38,6 +38,7 @@ $('#txt-ci').keypress(function (e) {
 });
 /***************************************************************************************************** */
 function userCheck(){
+  console.log(fecha);
     $.ajax({
         type: "POST",
         url: "./php/usuarios.php",
@@ -448,6 +449,7 @@ function cMarca(){
   var i=0;
   console.log(js);
   for(var i=0; i<js.length; i++){
+    tbody_cMarcas.innerHTML="";
     tbody_cMarcas.innerHTML+=`
     <tr>
       <td>${js[i].entrada}</td>
@@ -672,7 +674,10 @@ function cPago() {
  
       }
       else{
+        console.log('entro');
         div_mensaje_habilitado.removeAttribute("hidden");
+        h3_div_mensaje_habilitado.innerText='HABILITADO';
+        //div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
       }
     }
     else{
