@@ -6,6 +6,7 @@ export default class producto{
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
+        //this.aProductoBD(nombre,categoria,precioCompra,precioVenta,cantidad);
     }
     set setNombre(newNombre){this.nombre=newNombre;}   
     set setCategoria(newCategoria){this.categoria=newCategoria;}
@@ -115,5 +116,8 @@ export default class producto{
             }
     
         });
+    }
+    ventaDeProducto(fecha,categoria,nombre,precioVenta,cantidad){
+
     }
 }
