@@ -117,4 +117,7 @@ export default class producto{
     
         });
     }
+    ventaDeProducto(fecha,categoria,nombre,precioVenta,cantidad){
+
+    }
 }
