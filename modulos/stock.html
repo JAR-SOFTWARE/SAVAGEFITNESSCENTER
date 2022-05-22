@@ -141,7 +141,7 @@
                             </div>
                           </div>
                           <div class="col-lg-6 col-md-6 mb-5 d-flex justify-content-end">
-                            <button class="btn btn-outline-success"> + Nueva venta</button>
+                            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal-aVenta"> + Nueva venta</button>
                           </div>
                           <div class="col-lg-6 col-md-6 mb-5 d-flex justify-content-end">
                             <button class="btn btn-outline-danger"> + Nueva Compra</button>
@@ -221,6 +221,37 @@
         </div>
       </div>
     </main>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-aVenta" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-dark">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Registrar nueva Venta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+            <div class="modal-body">
+              <form method="POST" id="reg-usar">
+                <div class="mb-3">
+                  <label>Seleccionar</label>
+                  <select class="col-4" id="select_nuevaVenta">
+                    <option>Categoria</option>
+                    <option value="Bebida">Bebida</option>
+                    <option value="Aperitivos">Aperitivos</option>
+                  </select>
+                </div>  
+                <div class="input-group mb-3">
+                  <input type="number" class="form-control" placeholder="Cantidad" id="cantidad-producto">
+                </div>
+              </form>
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success" id="btnreg-venta">Crear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin Modal -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
