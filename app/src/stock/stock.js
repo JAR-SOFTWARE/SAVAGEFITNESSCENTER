@@ -1,15 +1,14 @@
 import producto from './producto.js';
-export{obtenerListaProductos,agregarProductos};
-
 const listaProductos = [];
+export default class Stock{
+    constructor(){  
+    }
 
-//getter
-function obtenerListaProductos(){
-    return this.listaProductos;
-}
+    obtenerListaProductos(){
+        return listaProductos;
+    }
 
-//Metodos
-consultaProductos() {
+    consultaProductos() {
         $.ajax({
             url: '../php/productos.php',
             type: 'POST',
@@ -18,7 +17,17 @@ consultaProductos() {
                 op: '2',
             }
         }).done(function (datos) {
-            console.log(datos);
+            var js = JSON.parse(datos);
+            for (let index = 0; index < js.length; index++) {
+                var nombreProd = js[index].Producto;
+                var categoriaProd = js[index].Categoria;
+                var precioCompraProd = js[index].pCompra;
+                var precioVentaProd = js[index].pVenta;
+                var cantidadProd = js[index].cantidad;
+
+                var nproducto = new producto(nombreProd,categoriaProd,precioCompraProd,precioVentaProd,cantidadProd);
+                listaProductos.push(nproducto);
+            }
         }).fail(function (jqXHR, textStatus, errorThrown) {
 
             if (jqXHR.status === 0) {
@@ -55,7 +64,7 @@ consultaProductos() {
     }   
 //Metodo el cual agrega productos a la lista de productos
     agregarProductos(producto){
-        this.listaProductos.push(producto);
+        listaProductos.push(producto);
     }
-//Comentario de prueba Github
+
 }
