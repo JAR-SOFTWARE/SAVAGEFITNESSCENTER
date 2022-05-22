@@ -1,12 +1,11 @@
 import producto from './producto.js';
-
+export const listaProductos = [];
 export default class Stock{
-    listaProductos = [];
-    constructor(){
+    constructor(){  
     }
 
     obtenerListaProductos(){
-        return this.listaProductos;
+        return listaProductos;
     }
 
     consultaProductos() {
@@ -18,7 +17,18 @@ export default class Stock{
                 op: '2',
             }
         }).done(function (datos) {
-            console.log(datos);
+            var js = JSON.parse(datos);
+            
+            for (let index = 0; index < js.length; index++) {
+                var nombreProd = js[index].Producto;
+                var categoriaProd = js[index].Categoria;
+                var precioCompraProd = js[index].pCompra;
+                var precioVentaProd = js[index].pVenta;
+                var cantidadProd = js[index].cantidad;
+
+                var nproducto = new producto(nombreProd,categoriaProd,precioCompraProd,precioVentaProd,cantidadProd);
+                listaProductos.push(nproducto);
+            }
         }).fail(function (jqXHR, textStatus, errorThrown) {
 
             if (jqXHR.status === 0) {
@@ -55,7 +65,7 @@ export default class Stock{
     }   
 //Metodo el cual agrega productos a la lista de productos
     agregarProductos(producto){
-        this.listaProductos.push(producto);
+        listaProductos.push(producto);
     }
 
 }

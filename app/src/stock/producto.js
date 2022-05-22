@@ -6,7 +6,7 @@ export default class producto{
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
-        this.aProductoBD(this.nombre,this.categoria,this.precioCompra,this.precioVenta,this.cantidad);
+        
     }
     set setNombre(newNombre){this.nombre=newNombre;}   
     set setCategoria(newCategoria){this.categoria=newCategoria;}
