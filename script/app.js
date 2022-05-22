@@ -677,7 +677,7 @@ function cPago() {
         console.log('entro');
         div_mensaje_habilitado.removeAttribute("hidden");
         h3_div_mensaje_habilitado.innerText='HABILITADO';
-        //div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
+        div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
       }
     }
     else{
@@ -689,7 +689,8 @@ function cPago() {
       }
       else{
         div_mensaje_habilitado.removeAttribute("hidden");
-     
+        h3_div_mensaje_habilitado.innerText='HABILITADO';
+        div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
       }
       
     }

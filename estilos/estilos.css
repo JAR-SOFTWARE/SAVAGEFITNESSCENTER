@@ -22,3 +22,11 @@
 main{
   height: 100vh;
 }
+.my-custom-scrollbar {
+  position: relative;
+  height: 85vh;
+  overflow: auto;
+  }
+  .table-wrapper-scroll-y {
+  display: block;
+  }
