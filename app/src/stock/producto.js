@@ -67,7 +67,7 @@ export default class producto{
     }
     bProductoBD(nombre){
 
-    }
+    }  
     mProductoBD(nombre, categoria, precioCompra, precioVenta, cantidad){
         $.ajax({
             url: '../php/productos.php',
@@ -117,7 +117,54 @@ export default class producto{
     
         });
     }
+    
     ventaDeProducto(fecha,categoria,nombre,precioVenta,cantidad){
-
+        $.ajax({
+            url: '../php/productos.php',
+            type: 'POST',
+            dataType: 'text',
+            data: {
+                op: '4',
+                fecha_n:fecha,
+                nombre:nombre,
+                categoria:categoria,
+                precioVenta:precioVenta,
+                cantidad:cantidad
+            }
+        }).done(function (datos) {
+            console.log(datos);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+    
+            if (jqXHR.status === 0) {
+    
+                alert('Not connect: Verify Network.');
+    
+            } else if (jqXHR.status == 404) {
+    
+                alert('Requested page not found [404]');
+    
+            } else if (jqXHR.status == 500) {
+    
+                alert('Internal Server Error [500].');
+    
+            } else if (textStatus === 'parsererror') {
+    
+                alert('Requested JSON parse failed.');
+    
+            } else if (textStatus === 'timeout') {
+    
+                alert('Time out error.');
+    
+            } else if (textStatus === 'abort') {
+    
+                alert('Ajax request aborted.');
+    
+            } else {
+    
+                alert('Uncaught Error: ' + jqXHR.responseText);
+    
+            }
+    
+        });
     }
 }

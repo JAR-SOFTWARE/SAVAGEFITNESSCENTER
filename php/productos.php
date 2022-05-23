@@ -40,4 +40,19 @@ case '3'://MODIFICACION DE PRODUCTO
         $row=$resultado->fetch_array();
         echo json_encode($row[0]);        
     }
+
+case '4'://VENTA DE PRODUCTO
+    $fecha=$_POST['fecha_n'];
+    $nombre=$_POST['nombre'];
+    $categoria=$_POST['categoria'];
+    $precioVenta=$_POST['precioVenta'];
+    $cantidad=$_POST['cantidad'];
+        
+    $consulta="SELECT aVenta('$categoria','$nombre',$precioVenta,'$fecha',$cantidad)";
+    $resultado= mysqli_query($conexion,$consulta);
+    if($resultado){
+        $row=$resultado->fetch_array();
+        echo json_encode($row[0]);        
+    }
+
 }
