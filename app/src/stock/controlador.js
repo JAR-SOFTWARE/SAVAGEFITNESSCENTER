@@ -39,11 +39,28 @@ function mostrarTodosLosProductos(){
         '<td>'+listaDeProductos[index].precioVenta +'</td>'+
         '<td>'+ganancia+'</td>'+
         '<td>'+listaDeProductos[index].cantidad+'</td>'+
-        '<td colspan="2"><button class="btn btn-secondary">Modificar</button> <button" class="btn btn-danger">Eliminar</button></td>'
+        '<td colspan="2"><button onclick="modificarProducto('+'\''+listaDeProductos[index].nombre+''+'\','+'\''+listaDeProductos[index].categoria+''+'\','+'\''+listaDeProductos[index].precioCompra+''+'\','+'\''+listaDeProductos[index].precioVenta+''+'\','+'\''+listaDeProductos[index].cantidad+''+'\');" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-mProducto">Modificar</button><button onclick="bajaProducto('+listaDeProductos[index].nombre+');" class="btn btn-danger">Eliminar</button></td>'
         '</tr>';
     }
 }
 
+function modificarProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
+    /* Se agregan nombre del producto seleccionado al modal*/
+    $('#formNombreM').val(nombre)
+    $('#formCategoriaM').val(categoria);
+    $('#formPrecioCompraM').val(precioCompra);
+    $('#formPrecioVentaM').val(precioVenta);
+    $('#formCantidadM').val(cantidad);
+
+    document.getElementById('btnModProducto').onclick = function(){modificacionEnBDdeProducto($('#formNombreM').val(),$('#formCategoriaM').val(),$('#formPrecioCompraM').val(),$('#formPrecioVentaM').val(),$('#formCantidadM').val())};
+}
+
+function modificacionEnBDdeProducto(nombre,categoria,precioCompra,precioVenta,cantidad) {
+     /* Debo buscar el producto para poder modificarlo en la BD */
+     productoAmod = instanceStock.buscarProducto(nombre);
+     productoAmod.mProductoBD(nombre,categoria,precioCompra,precioVenta,cantidad);
+     
+}
 $( document ).ready(function() {
     setTimeout(function () {
     mostrarTodosLosProductos();
