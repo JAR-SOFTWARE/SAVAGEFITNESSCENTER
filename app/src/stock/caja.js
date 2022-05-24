@@ -1,6 +1,6 @@
 import producto from "./producto.js";
 import Stock from "./stock.js";
-
+var tbody_producto=document.getElementById('tbody-producto');
 var instanceStock = new Stock();
 
 instanceStock.consultaProductos();
@@ -52,4 +52,82 @@ function altaVenta(productoAprocesar,cantidad) {
      var fechaDehoy = new Date();
      var fecha = fechaDehoy.getDate() + '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getFullYear();
      productoAprocesar.ventaDeProducto(fecha,'Productos',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
+}
+
+/*SECCION JAVI */
+$(function(){
+    $("#Fecha_cVenta").change(function(){
+        var valor = $(this).val();
+        if(valor!=""){
+            //Aca va el codigo
+            cVentas(valor);
+        }else{
+            $("#prueba").html("Campo Vacío");
+        }
+    })
+})
+
+function cVentas(fecha) {
+    var fecha1split=fecha.split('-');
+    var fecha1dia=fecha1split[0];
+    var fecha1mes=fecha1split[1];
+    var fecha1año=fecha1split[2];
+    fecha=(fecha1año+"-"+fecha1mes+"-"+fecha1dia);
+    console.log(fecha);
+    $.ajax({
+        url: '../php/productos.php',
+        type:'POST',
+        dataType: 'text',
+        data:{
+          fecha:fecha,
+          op:'5'
+        }
+    }).done(function(datos){
+        var js=JSON.parse(datos);
+        var i=0;
+        console.log(js);
+        for(var i=0; i<js.length; i++){
+            tbody_producto.innerHTML="";
+            tbody_producto.innerHTML+=`
+            <tr>
+              <td>${js[i].Tipo}</td>
+              <td>${js[i].Descripcion}</td>
+              <td>${js[i].Efectivo}</td>
+           </tr>
+            `;
+          }
+
+    }).fail( function( jqXHR, textStatus, errorThrown ) {
+    
+            if (jqXHR.status === 0) {
+        
+            alert('Not connect: Verify Network.');
+        
+            } else if (jqXHR.status == 404) {
+        
+            alert('Requested page not found [404]');
+        
+            } else if (jqXHR.status == 500) {
+        
+            alert('Internal Server Error [500].');
+        
+            } else if (textStatus === 'parsererror') {
+        
+            alert('Requested JSON parse failed.');
+        
+            } else if (textStatus === 'timeout') {
+        
+            alert('Time out error.');
+        
+            } else if (textStatus === 'abort') {
+        
+            alert('Ajax request aborted.');
+        
+            } else {
+        
+            alert('Uncaught Error: ' + jqXHR.responseText);
+        
+            }
+        
+        });
 }

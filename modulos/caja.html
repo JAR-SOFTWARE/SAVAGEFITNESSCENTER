@@ -112,7 +112,7 @@
               </div>
               <div class="col-12 col-md-auto flex-shrink-0">
                 <label class="form-label text-white-50" for="litepickerDateRange">Fecha:</label>
-                <input class="form-control mb-0" id="litepickerDateRange" placeholder="Select date range..." value="Mar x, xxxx - Mar xx, xxxx" style="min-width: 13rem; height: 3rem">
+                <input class="form-control mb-0" type="date" id="Fecha_cVenta" style="min-width: 13rem; height: 3rem">
               </div>
             </div>
           </div>           
@@ -164,56 +164,14 @@
                                 <table class="table">
                                   <thead>
                                     <tr>
-                                      <th data-type="date" data-format="YYYY/MM/DD" data-sortable="" style="width: 18.9112%;"><a href="#" class="dataTable-sorter">Start Date</a></th>
-                                        <th><a href="#" class="dataTable-sorter">Order No.</a></th>
-                                        <th><a href="#" class="dataTable-sorter">Name</a></th>
-                                        <th><a href="#" class="dataTable-sorter">Amount</a></th>
-                                        <th><a href="#" class="dataTable-sorter">Status</a></th>              
+                            
+                                        <th><a href="#" class="dataTable-sorter">Tipo Venta</a></th>
+                                        <th><a href="#" class="dataTable-sorter">Descripcion</a></th>
+                                        <th><a href="#" class="dataTable-sorter">Efectivo</a></th>            
                                       </tr>
                                   </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>2005/02/11</td>
-                                      <td>9958</td>
-                                      <td>Unity Pugh</td>
-                                      <td>$12.00</td>
-                                      <td><span class="badge bg-primary">Processing</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td>1999/04/07</td>
-                                      <td>8971</td>
-                                      <td>Theodore Duran</td>
-                                      <td>$25.00</td>
-                                      <td><span class="badge bg-primary">Processing</span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>2005/09/08</td>
-                                      <td>3147</td>
-                                      <td>Kylie Bishop</td>
-                                      <td>$16.00</td>
-                                      <td><span class="badge bg-info">Pending Payment</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td>2009/29/11</td><td>3497</td>
-                                      <td>Willow Gilliam</td>
-                                      <td>$12.00</td>
-                                      <td><span class="badge bg-success">Completed</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td>2006/11/09</td>
-                                      <td>5018</td>
-                                      <td>Blossom Dickerson</td>
-                                      <td>$12.00</td>
-                                      <td><span class="badge bg-success">Completed</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td>2006/03/08</td>
-                                      <td>3925</td>
-                                      <td>Elliott Snyder</td>
-                                      <td>$16.00</td>
-                                      <td><span class="badge bg-danger">Failed</span></td>
-                                    </tr>
+                                  <tbody id="tbody-producto">
+                                    
                                   </tbody>
                                 </table>
                             </div>
