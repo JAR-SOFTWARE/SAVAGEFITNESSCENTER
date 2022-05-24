@@ -27,10 +27,9 @@ function buscarProducto(nombreSeleccionado) {
     for (let index = 0; index < listaDeProductos.length; index++) {
         if (listaDeProductos[index].nombre == nombreSeleccionado) {
             return procesarVenta(listaDeProductos[index],$('#cantidad-producto').val()); 
-        }else{
-            console.log('El producto no se encuentra en Stock');
         }
     }
+    console.log('El producto no se encuentra en Stock');
 }
 
 /* <-- Funcion en la cual se resta la cantidad de productos vendidos si es posible. --> */
