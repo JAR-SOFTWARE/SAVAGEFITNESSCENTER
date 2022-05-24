@@ -26,9 +26,7 @@ function registroProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
 function mostrarTodosLosProductos(){
     const tablaProductos = document.getElementById("tbody-productos");
     var listaDeProductos = instanceStock.obtenerListaProductos();
-    tablaProductos.innerHTML = "" ;
-    console.log(listaDeProductos);
-    console.log(listaDeProductos[0].nombre);
+    tablaProductos.innerHTML = "" ; 
     for (let index = 0; index < listaDeProductos.length; index++) {
         var ganancia = listaDeProductos[index].precioVenta - listaDeProductos[index].precioCompra;
         tablaProductos.innerHTML=tablaProductos.innerHTML+
@@ -43,24 +41,26 @@ function mostrarTodosLosProductos(){
         '</tr>';
     }
 }
-function modificarProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
-    /* Se agregan nombre del producto seleccionado al modal*/
-    $('#formNombreM').val(nombre);
-    $('#formCategoriaM').val(categoria);
-    $('#formPrecioCompraM').val(precioCompra);
-    $('#formPrecioVentaM').val(precioVenta);
-    $('#formCantidadM').val(cantidad);
 
-    document.getElementById('btnModProducto').onclick = function(){modificacionEnBDdeProducto($('#formNombreM').val(),$('#formCategoriaM').val(),$('#formPrecioCompraM').val(),$('#formPrecioVentaM').val(),$('#formCantidadM').val())};
-}
+
+document.getElementById('btnModProducto').onclick = function(){modificacionEnBDdeProducto($('#formNombreM').val(),$('#formCategoriaM').val(),$('#formPrecioCompraM').val(),$('#formPrecioVentaM').val(),$('#formCantidadM').val())};
+
+
+
 
 
 function modificacionEnBDdeProducto(nombre,categoria,precioCompra,precioVenta,cantidad) {
      /* Debo buscar el producto para poder modificarlo en la BD */
-     productoAmod = instanceStock.buscarProducto(nombre);
+     const footerModalMod = document.getElementById("ModalModFooter");
+     var productoAmod = instanceStock.buscarProducto(nombre);
      productoAmod.mProductoBD(nombre,categoria,precioCompra,precioVenta,cantidad);
-     
+     footerModalMod.innerHTML = '<div class="alert alert-success" role="alert">Se ha modificado correctamente el producto</div>';
+    setTimeout(function () {
+        footerModalMod.innerHTML = ' ';
+        location.reload();
+    },2000);
 }
+
 $( document ).ready(function() {
     setTimeout(function () {
     mostrarTodosLosProductos();
