@@ -68,16 +68,17 @@ export default class producto{
     bProductoBD(nombre){
 
     }  
-    mProductoBD(nombre, categoria, precioCompra, precioVenta, cantidad){
+    
+    ventaDeProducto(fecha,categoria,nombre,precioVenta,cantidad){
         $.ajax({
             url: '../php/productos.php',
             type: 'POST',
             dataType: 'text',
             data: {
-                op: '3',
+                op: '4',
+                fecha_n:fecha,
                 nombre:nombre,
                 categoria:categoria,
-                precioCompra:precioCompra,
                 precioVenta:precioVenta,
                 cantidad:cantidad
             }
@@ -117,17 +118,17 @@ export default class producto{
     
         });
     }
-    
-    ventaDeProducto(fecha,categoria,nombre,precioVenta,cantidad){
+
+    mProductoBD(nombre, categoria, precioCompra, precioVenta, cantidad){
         $.ajax({
             url: '../php/productos.php',
             type: 'POST',
             dataType: 'text',
             data: {
-                op: '4',
-                fecha_n:fecha,
+                op: '3',
                 nombre:nombre,
                 categoria:categoria,
+                precioCompra:precioCompra,
                 precioVenta:precioVenta,
                 cantidad:cantidad
             }

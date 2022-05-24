@@ -26,7 +26,6 @@ case '2'://CONSULTA DE USUARIOS
     }
     echo json_encode($arr);
     break;
-
 case '3'://MODIFICACION DE PRODUCTO
     $nombre=$_POST['nombre'];
     $categoria=$_POST['categoria'];
@@ -78,5 +77,5 @@ case '6'://BAJA DE PRODUCTO
                 echo json_encode($row[0]);        
             }
             
-            break;        
+            break;  
 }
