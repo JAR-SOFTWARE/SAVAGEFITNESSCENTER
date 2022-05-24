@@ -43,10 +43,9 @@ function mostrarTodosLosProductos(){
         '</tr>';
     }
 }
-
 function modificarProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
     /* Se agregan nombre del producto seleccionado al modal*/
-    $('#formNombreM').val(nombre)
+    $('#formNombreM').val(nombre);
     $('#formCategoriaM').val(categoria);
     $('#formPrecioCompraM').val(precioCompra);
     $('#formPrecioVentaM').val(precioVenta);
@@ -54,6 +53,7 @@ function modificarProducto(nombre,categoria,precioCompra,precioVenta,cantidad){
 
     document.getElementById('btnModProducto').onclick = function(){modificacionEnBDdeProducto($('#formNombreM').val(),$('#formCategoriaM').val(),$('#formPrecioCompraM').val(),$('#formPrecioVentaM').val(),$('#formCantidadM').val())};
 }
+
 
 function modificacionEnBDdeProducto(nombre,categoria,precioCompra,precioVenta,cantidad) {
      /* Debo buscar el producto para poder modificarlo en la BD */
