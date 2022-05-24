@@ -54,5 +54,22 @@ case '4'://VENTA DE PRODUCTO
         $row=$resultado->fetch_array();
         echo json_encode($row[0]);        
     }
+
     break;
+
+case '5'://CONSULTA DE VENTAS 
+        $fecha=$_POST['fecha'];
+        $consulta="SELECT * FROM vVentasGeneral WHERE Fecha='$fecha'";
+        $select= mysqli_query($conexion,$consulta);
+        if($select){
+            while($datos=mysqli_fetch_assoc($select)){
+                $arr[]=$datos;
+            }
+            echo json_encode($arr);
+        }
+        else{
+            echo json_encode('No tiene dato');
+        };
+        break;
+
 }
