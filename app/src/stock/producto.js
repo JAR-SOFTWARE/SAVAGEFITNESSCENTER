@@ -70,6 +70,7 @@ export default class producto{
     }  
     
     ventaDeProducto(fecha,categoria,nombre,precioVenta,cantidad){
+        var tbody_producto=document.getElementById('tbody-producto');
         $.ajax({
             url: '../php/productos.php',
             type: 'POST',
@@ -83,7 +84,7 @@ export default class producto{
                 cantidad:cantidad
             }
         }).done(function (datos) {
-            console.log(datos);
+            console.log(datos); 
         }).fail(function (jqXHR, textStatus, errorThrown) {
     
             if (jqXHR.status === 0) {
