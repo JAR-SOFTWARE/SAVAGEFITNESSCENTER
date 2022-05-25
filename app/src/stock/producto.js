@@ -84,8 +84,7 @@ export default class producto{
                 cantidad:cantidad
             }
         }).done(function (datos) {
-            console.log(datos);
-            location.reload();
+            console.log(datos); 
         }).fail(function (jqXHR, textStatus, errorThrown) {
     
             if (jqXHR.status === 0) {

@@ -51,7 +51,7 @@ function altaVenta(productoAprocesar,cantidad) {
      var fechaDehoy = new Date();
      var fecha = fechaDehoy.getDate() + '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getFullYear();
      productoAprocesar.ventaDeProducto(fecha,'Productos',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
-     cVentas(fecha);
+     cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
 }
 
 /*SECCION LISTADO POR FECHA */
@@ -73,7 +73,6 @@ function cVentas(fecha) {
     var fecha1mes=fecha1split[1];
     var fecha1año=fecha1split[2];
     fecha=(fecha1año+"-"+fecha1mes+"-"+fecha1dia);
-    console.log(fecha);
     $.ajax({
         url: '../php/productos.php',
         type:'POST',
@@ -85,11 +84,9 @@ function cVentas(fecha) {
     }).done(function(datos){
         var js=JSON.parse(datos);
         var i=0;
-        console.log(js);
         tbody_producto.innerHTML="";
-        var total;
+        var total = 0;
         for(var i=0; i<js.length; i++){
-            
             tbody_producto.innerHTML+=`
             <tr>
               <td>${js[i].Tipo}</td>
@@ -97,9 +94,9 @@ function cVentas(fecha) {
               <td>${js[i].Efectivo}</td>
            </tr>
             `;
-            total = total + js[i].Efectivo;
+            total += parseInt(js[i].Efectivo);
+            document.getElementById("ventasTotales").innerHTML = '$'+total+'.00'
           }
-          console.log(total);
     }).fail( function( jqXHR, textStatus, errorThrown ) {
     
             if (jqXHR.status === 0) {
@@ -134,3 +131,16 @@ function cVentas(fecha) {
         
         });
 }
+
+$( document ).ready(function() {
+    var fecha = new Date(); //Fecha actual
+    var mes = fecha.getMonth()+1; //obteniendo mes
+    var dia = fecha.getDate(); //obteniendo dia
+    var ano = fecha.getFullYear(); //obteniendo año
+    if(dia<10)
+      dia='0'+dia; //agrega cero si el menor de 10
+    if(mes<10)
+      mes='0'+mes //agrega cero si el menor de 10
+    document.getElementById("Fecha_cVenta").value = ano+"-"+mes+"-"+dia;
+    cVentas(fecha.getFullYear()+ '-0' + ( fecha.getMonth() + 1 ) + '-' + fecha.getDate());
+ });
