@@ -37,7 +37,7 @@ function mostrarTodosLosProductos(){
         '<td>'+listaDeProductos[index].precioVenta +'</td>'+
         '<td>'+ganancia+'</td>'+
         '<td>'+listaDeProductos[index].cantidad+'</td>'+
-        '<td colspan="2"><button onclick="modificarProducto('+'\''+listaDeProductos[index].nombre+''+'\','+'\''+listaDeProductos[index].categoria+''+'\','+'\''+listaDeProductos[index].precioCompra+''+'\','+'\''+listaDeProductos[index].precioVenta+''+'\','+'\''+listaDeProductos[index].cantidad+''+'\');" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-mProducto">Modificar</button><button onclick="bajaProducto('+listaDeProductos[index].nombre+');" class="btn btn-danger">Eliminar</button></td>'
+        '<td colspan="2"><button onclick="modificarProducto('+'\''+listaDeProductos[index].nombre+''+'\','+'\''+listaDeProductos[index].categoria+''+'\','+'\''+listaDeProductos[index].precioCompra+''+'\','+'\''+listaDeProductos[index].precioVenta+''+'\','+'\''+listaDeProductos[index].cantidad+''+'\');" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-mProducto">Modificar</button><button onclick="bajaProducto('+'\''+listaDeProductos[index].nombre+''+'\');" class="btn btn-danger">Eliminar</button></td>'
         '</tr>';
     }
 }

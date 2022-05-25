@@ -336,6 +336,7 @@ function cUser(){
     }).done(function(datos){
       var js=JSON.parse(datos);
       var i=0;
+      tbody.innerHTML="";
       for(var i=0; i<js.length; i++){
         tbody.innerHTML=tbody.innerHTML+
         '<tr class="table-active">'+
@@ -382,6 +383,77 @@ function cUser(){
             }
         
         });
+}
+function cUserr(){
+  let txtci=$('#txt-ci').val();
+  if(txtci===""){
+    console.log('esta vacio');
+    cUser();
+  }
+  else{
+  const tbody=document.getElementById('tbody-user');
+  $.ajax({
+      url: '../php/usuarios.php',
+      type:'POST',
+      dataType: 'text',
+      data:{
+          ci:$('#txt-ci').val(),
+          op:'2'
+      }
+  }).done(function(datos){
+      var js=JSON.parse(datos);
+      var i=0;
+      tbody.innerHTML="";
+      for(var i=0; i<js.length; i++){
+        tbody.innerHTML+=tbody.innerHTML+
+        '<tr class="table-active">'+
+        '<th scope="row">'+js[i].ci+'</th>'+
+        '<td>'+js[i].nom+'</td>'+
+        '<td>'+js[i].ape+'</td>'+
+        '<td>'+js[i].tel+'</td>'+
+        '<td>'+js[i].email+'</td>'+
+        '<td>'+js[i].f_nac+'</td>'+
+        '<td colspan="2"><button onclick="cModalCliente('+'\''+js[i].ci+''+'\','+'\''+js[i].nom+''+'\','+'\''+js[i].ape+''+'\','+'\''+js[i].tel+''+'\','+'\''+js[i].email+''+'\');" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-mod-clientes">Modificar</button><button onclick="bUser('+js[i].ci+');" class="btn btn-danger">Eliminar</button></td>'
+        '</tr>';
+      }
+    
+
+    
+  }).fail( function( jqXHR, textStatus, errorThrown ) {
+
+          if (jqXHR.status === 0) {
+      
+          alert('Not connect: Verify Network.');
+      
+          } else if (jqXHR.status == 404) {
+      
+          alert('Requested page not found [404]');
+      
+          } else if (jqXHR.status == 500) {
+      
+          alert('Internal Server Error [500].');
+      
+          } else if (textStatus === 'parsererror') {
+      
+          alert('Requested JSON parse failed.');
+      
+          } else if (textStatus === 'timeout') {
+      
+          alert('Time out error.');
+      
+          } else if (textStatus === 'abort') {
+      
+          alert('Ajax request aborted.');
+      
+          } else {
+      
+          alert('Uncaught Error: ' + jqXHR.responseText);
+      
+          }
+      
+      });
+  }
+  
 }
 /*********GESTION DE MARCAS******************************************************************************************** */
 /*********ALTA DE MARCAS**************************************************************************************** */
@@ -728,4 +800,51 @@ function cPago() {
         }
     
     });
+}
+//PRODUCTO
+function bajaProducto(producto){
+  $.ajax({
+      url: '../php/productos.php',
+      type: 'POST',
+      dataType: 'text',
+      data: {
+          op: '6',
+          producto:producto,
+      }
+  }).done(function (datos) {
+      console.log(datos);
+      location.reload();
+  }).fail(function (jqXHR, textStatus, errorThrown) {
+
+      if (jqXHR.status === 0) {
+
+          alert('Not connect: Verify Network.');
+
+      } else if (jqXHR.status == 404) {
+
+          alert('Requested page not found [404]');
+
+      } else if (jqXHR.status == 500) {
+
+          alert('Internal Server Error [500].');
+
+      } else if (textStatus === 'parsererror') {
+
+          alert('Requested JSON parse failed.');
+
+      } else if (textStatus === 'timeout') {
+
+          alert('Time out error.');
+
+      } else if (textStatus === 'abort') {
+
+          alert('Ajax request aborted.');
+
+      } else {
+
+          alert('Uncaught Error: ' + jqXHR.responseText);
+
+      }
+
+  });
 }

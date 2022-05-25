@@ -26,7 +26,6 @@ case '2'://CONSULTA DE USUARIOS
     }
     echo json_encode($arr);
     break;
-
 case '3'://MODIFICACION DE PRODUCTO
     $nombre=$_POST['nombre'];
     $categoria=$_POST['categoria'];
@@ -54,9 +53,7 @@ case '4'://VENTA DE PRODUCTO
         $row=$resultado->fetch_array();
         echo json_encode($row[0]);        
     }
-
     break;
-
 case '5'://CONSULTA DE VENTAS 
         $fecha=$_POST['fecha'];
         $consulta="SELECT * FROM vVentasGeneral WHERE Fecha='$fecha'";
@@ -71,5 +68,14 @@ case '5'://CONSULTA DE VENTAS
             echo json_encode('No tiene dato');
         };
         break;
-
+case '6'://BAJA DE PRODUCTO
+            $producto=$_POST['producto'];
+            $consulta="SELECT bProducto('$producto')";
+            $select= mysqli_query($conexion,$consulta);
+            if($resultado){
+                $row=$resultado->fetch_array();
+                echo json_encode($row[0]);        
+            }
+            
+            break;  
 }
