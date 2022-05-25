@@ -45,10 +45,6 @@ function mostrarTodosLosProductos(){
 
 document.getElementById('btnModProducto').onclick = function(){modificacionEnBDdeProducto($('#formNombreM').val(),$('#formCategoriaM').val(),$('#formPrecioCompraM').val(),$('#formPrecioVentaM').val(),$('#formCantidadM').val())};
 
-
-
-
-
 function modificacionEnBDdeProducto(nombre,categoria,precioCompra,precioVenta,cantidad) {
      /* Debo buscar el producto para poder modificarlo en la BD */
      const footerModalMod = document.getElementById("ModalModFooter");

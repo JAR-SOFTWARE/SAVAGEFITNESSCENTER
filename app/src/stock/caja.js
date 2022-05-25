@@ -51,6 +51,7 @@ function altaVenta(productoAprocesar,cantidad) {
      var fechaDehoy = new Date();
      var fecha = fechaDehoy.getDate() + '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getFullYear();
      productoAprocesar.ventaDeProducto(fecha,'Productos',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
+     cVentas(fecha);
 }
 
 /*SECCION JAVI */
@@ -84,7 +85,7 @@ function cVentas(fecha) {
     }).done(function(datos){
         var js=JSON.parse(datos);
         var i=0;
-        console.log(js);
+        var total;
         for(var i=0; i<js.length; i++){
             tbody_producto.innerHTML="";
             tbody_producto.innerHTML+=`
@@ -94,8 +95,9 @@ function cVentas(fecha) {
               <td>${js[i].Efectivo}</td>
            </tr>
             `;
+            total = total + js[i].Efectivo;
           }
-
+          console.log(total);
     }).fail( function( jqXHR, textStatus, errorThrown ) {
     
             if (jqXHR.status === 0) {
