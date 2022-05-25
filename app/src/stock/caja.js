@@ -54,7 +54,7 @@ function altaVenta(productoAprocesar,cantidad) {
      cVentas(fecha);
 }
 
-/*SECCION JAVI */
+/*SECCION LISTADO POR FECHA */
 $(function(){
     $("#Fecha_cVenta").change(function(){
         var valor = $(this).val();
@@ -85,9 +85,11 @@ function cVentas(fecha) {
     }).done(function(datos){
         var js=JSON.parse(datos);
         var i=0;
+        console.log(js);
+        tbody_producto.innerHTML="";
         var total;
         for(var i=0; i<js.length; i++){
-            tbody_producto.innerHTML="";
+            
             tbody_producto.innerHTML+=`
             <tr>
               <td>${js[i].Tipo}</td>
