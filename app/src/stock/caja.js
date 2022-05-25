@@ -53,7 +53,7 @@ function altaVenta(productoAprocesar,cantidad) {
      productoAprocesar.ventaDeProducto(fecha,'Productos',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
 }
 
-/*SECCION JAVI */
+/*SECCION LISTADO POR FECHA */
 $(function(){
     $("#Fecha_cVenta").change(function(){
         var valor = $(this).val();
@@ -85,8 +85,9 @@ function cVentas(fecha) {
         var js=JSON.parse(datos);
         var i=0;
         console.log(js);
+        tbody_producto.innerHTML="";
         for(var i=0; i<js.length; i++){
-            tbody_producto.innerHTML="";
+            
             tbody_producto.innerHTML+=`
             <tr>
               <td>${js[i].Tipo}</td>
