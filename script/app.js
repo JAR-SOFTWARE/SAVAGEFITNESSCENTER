@@ -2,6 +2,7 @@
 var tbody_cMarcas=document.getElementById('tbody-cMarcas');
 var div_mensaje_habilitado=document.getElementById('div_msg_pagos');
 var h3_div_mensaje_habilitado=document.getElementById("H3_div_msg_pagos");
+var mensaje= document.querySelector('.mensaje');
 var hoy = new Date();
 var fecha = hoy.getDate() + '-0' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
@@ -151,15 +152,16 @@ function vUsuario(ci){
 function showMessage(user) {
     console.log(user.fecha);
     let Cuota=cFechas(fecha,user.fecha);
-    let mensaje= document.querySelector('.mensaje');
+    let resto=30-Cuota;
     mensaje.removeAttribute('hidden','');
     mensaje.innerHTML = '<h1 style="border-radius: 10px;padding: 10px;" class="bg-success mb-3 ">BIENVENIDO '+user[0].nom+' '+user[0].ape+'</h1>'+
-    '<h3 style="border-radius: 10px;padding: 10px;" class="text-white mb-3">Queremos recordarle que su cuota se vence en '+Cuota+' dias</h3>'+
+    '<h3 style="border-radius: 10px;padding: 10px;" class="text-white mb-3">Queremos recordarle que su cuota se vence en '+resto+' dias</h3>'+
     '<h3 class="text-white mb-3">Gracias por preferirnos</h3>';
     setTimeout(()=>{
         location.reload();
-    },5000);
-    setTimeout(mensaje.setAttribute('hidden',''),3000);
+        mensaje.setAttribute('hidden','');
+    },4000);
+    
 }
 /***************************************************************************************************** */
 /*********GESTION DE USUARIOS**************************************************************************** */
