@@ -15,6 +15,7 @@ case '1'://ALTA DE PAGO
     break;
 case '2'://CONSULTA DE PAGO
     $ci=$_POST['ci'];
+    //PRUEBA
     $consulta="SELECT * FROM vPagos WHERE ci=$ci";
     $select= mysqli_query($conexion,$consulta);
     while($datos=mysqli_fetch_assoc($select)){
