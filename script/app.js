@@ -2,11 +2,14 @@
 var tbody_cMarcas=document.getElementById('tbody-cMarcas');
 var div_mensaje_habilitado=document.getElementById('div_msg_pagos');
 var h3_div_mensaje_habilitado=document.getElementById("H3_div_msg_pagos");
+var mensaje= document.querySelector('.mensaje');
 var hoy = new Date();
 var fecha = hoy.getDate() + '-0' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+var resultado;
 function cFechas(fecha1,fecha2){
-   //FECHA 1 ES MAS GRANDE
+   //NOTA: PRIMER FECHA DEBE SER MAS GRANDE Y EN FORMATO DD-MM-AAAA, SEGUNDA FECHA TIENE QUE INGRESAR CON FORMATO AAAA-MM-DD
+   //NOTA: variable fecha contiene el dia actual
     var fecha1split=fecha1.split('-');
     var fecha1dia=fecha1split[0];
     var fecha1mes=fecha1split[1];
@@ -59,7 +62,7 @@ function userCheck(){
           //INGRESA USUARIO
           aMarca();
           vUsuario($('#txt-ci').val());
-          
+          cDiasdePago($('#txt-ci').val());
         }
         $('#txt-ci').val('');
     }).fail( function( jqXHR, textStatus, errorThrown ) {
@@ -109,6 +112,8 @@ function vUsuario(ci){
     }).done(function(datos){
       console.log(datos);
       let js=JSON.parse(datos);
+      js.fecha=localStorage.getItem("RcDiasdePago")
+      console.log(js);
       showMessage(js);
     }).fail( function( jqXHR, textStatus, errorThrown ) {
   
@@ -145,15 +150,18 @@ function vUsuario(ci){
         });
 }
 function showMessage(user) {
-    let mensaje= document.querySelector('.mensaje');
+    console.log(user.fecha);
+    let Cuota=cFechas(fecha,user.fecha);
+    let resto=30-Cuota;
     mensaje.removeAttribute('hidden','');
     mensaje.innerHTML = '<h1 style="border-radius: 10px;padding: 10px;" class="bg-success mb-3 ">BIENVENIDO '+user[0].nom+' '+user[0].ape+'</h1>'+
-    '<h3 style="border-radius: 10px;padding: 10px;" class="text-white mb-3">Queremos recordarle que su cuota se vence en 10 Dias</h3>'+
+    '<h3 style="border-radius: 10px;padding: 10px;" class="text-white mb-3">Queremos recordarle que su cuota se vence en '+resto+' dias</h3>'+
     '<h3 class="text-white mb-3">Gracias por preferirnos</h3>';
     setTimeout(()=>{
         location.reload();
-    },5000);
-    //setTimeout(mensaje.setAttribute('hidden',''),3000);
+        mensaje.setAttribute('hidden','');
+    },4000);
+    
 }
 /***************************************************************************************************** */
 /*********GESTION DE USUARIOS**************************************************************************** */
@@ -507,13 +515,13 @@ function aMarca(){
     });
 }
 /*********CONSULTA DE MARCAS**************************************************************************** */
-function cMarca(){
+function cMarca(ci){
   $.ajax({
     url: '../php/gestion.php',
     type:'POST',
     dataType: 'text',
     data:{
-      ci:$('#txt-ci-cMarca').val(),
+      ci:ci,
       op:'2'
     }
 }).done(function(datos){
@@ -565,15 +573,15 @@ function cMarca(){
     
     });
 }
-$('#btn_cCliente').click(function (e) { 
-  e.preventDefault();
+//CARGA DATOS DEL CLIENTE EN GESTION DE PAGOS
+function cDatos(ci){
   $.ajax({
     type: "POST",
     url: "../php/usuarios.php",
     datatype: 'JSON',
     data:
     {
-        ci:$('#txt-ci-cMarca').val(),
+        ci:ci,
         op:'2'
     }
 }).done(function(datos){
@@ -615,6 +623,12 @@ $('#btn_cCliente').click(function (e) {
         }
     
     });
+}
+$('#btn_cCliente').click(function (e) { 
+  e.preventDefault();
+  cDatos($('#txt-ci-cMarca').val());
+  cMarca($('#txt-ci-cMarca').val());
+  cPago($('#txt-ci-cMarca').val());
 });
 /*********GESTION DE PAGOS******************************************************************************************** */
 /*********ALTA DE PAGOS**************************************************************************************** */
@@ -722,13 +736,13 @@ $('#btn_rMedioPago').click(function (e) {
     });
 });
 /*********CONSULTA DE PAGO**************************************************************************************** */
-function cPago() {
+function cPago(ci) {
   $.ajax({
     url: '../php/pagos.php',
     type:'POST',
     dataType: 'text',
     data:{
-      ci:$('#txt-ci-cMarca').val(),
+      ci:ci,
       op:'2'
     }
 }).done(function(datos){
@@ -766,7 +780,7 @@ function cPago() {
       }
       
     }
-  
+    resultado=js;
 }).fail( function( jqXHR, textStatus, errorThrown ) {
 
         if (jqXHR.status === 0) {
@@ -800,6 +814,7 @@ function cPago() {
         }
     
     });
+
 }
 //PRODUCTO
 function bajaProducto(producto){
@@ -847,4 +862,51 @@ function bajaProducto(producto){
       }
 
   });
+}
+
+function cDiasdePago(ci){
+  $.ajax({
+    url: './php/pagos.php',
+    type:'POST',
+    dataType: 'text',
+    data:{
+      ci:ci,
+      op:'2'
+    }
+}).done(function(datos){
+  let js=JSON.parse(datos);
+  localStorage.setItem("RcDiasdePago",(js[js.length-1].fecha));
+}).fail( function( jqXHR, textStatus, errorThrown ) {
+
+        if (jqXHR.status === 0) {
+    
+        alert('Not connect: Verify Network.');
+    
+        } else if (jqXHR.status == 404) {
+          
+        alert('Requested page not found [404]');
+    
+        } else if (jqXHR.status == 500) {
+    
+        alert('Internal Server Error [500].');
+    
+        } else if (textStatus === 'parsererror') {
+    
+        alert('Requested JSON parse failed.');
+    
+        } else if (textStatus === 'timeout') {
+    
+        alert('Time out error.');
+    
+        } else if (textStatus === 'abort') {
+    
+        alert('Ajax request aborted.');
+    
+        } else {
+    
+        alert('Uncaught Error: ' + jqXHR.responseText);
+    
+        }
+    
+    });
 }
