@@ -77,5 +77,15 @@ case '6'://BAJA DE PRODUCTO
                 echo json_encode($row[0]);        
             }
             
-            break;  
+            break;
+
+case '7'://BAJA DE PRODUCTO
+                $id=$_POST['id'];
+                $consulta="SELECT bVenta('$id')";
+                $select= mysqli_query($conexion,$consulta);
+                if($resultado){
+                    $row=$resultado->fetch_array();
+                    echo json_encode($row[0]);        
+                }
+                break;  
 }
