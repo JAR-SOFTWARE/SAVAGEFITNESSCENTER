@@ -27,7 +27,7 @@ case '2'://CONSULTA DE DATOS POR CEDULA
     break;    
 case '3'://CONSULTA DE USUARIOS
   
-$consulta="SELECT * FROM vUsuarios";
+$consulta="SELECT * FROM usuarios";
 $select= mysqli_query($conexion,$consulta);
 while($datos=mysqli_fetch_assoc($select)){
     $arr[]=$datos;

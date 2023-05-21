@@ -1,5 +1,5 @@
-import producto from "./producto.js";
 import Stock from "./stock.js";
+
 var tbody_producto=document.getElementById('tbody-producto');
 var instanceStock = new Stock();
 
@@ -36,6 +36,15 @@ function buscarProducto(nombreSeleccionado) {
     console.log('El producto no se encuentra en Stock');
 }
 
+function buscarProductoGeneral(nombre) {
+    console.log(nombre);
+    for (let index = 0; index < listaDeProductos.length; index++) {
+        if (listaDeProductos[index].nombre == nombre) {
+            return listaDeProductos[index]; 
+        }
+    }
+    console.log("No se encontro producto");
+}
 
 function buscarProductoCompra(nombreSeleccionado) {
     for (let index = 0; index < listaDeProductos.length; index++) {
@@ -83,9 +92,10 @@ function altaVenta(productoAprocesar,cantidad) {
      }else{
         productoAprocesar.precioVenta = productoAprocesar.precioVenta * cantidad;
         productoAprocesar.ventaDeProducto(fecha,'Productos',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
-        cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
+        //cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
+        div.innerHTML = '<div class="alert alert-success" role="alert">Se ha procesado la venta correctamente</div>';
         setTimeout(function () {
-            div.innerHTML = '<div class="alert alert-success" role="alert">Se ha procesado la venta correctamente</div>';
+            location.reload();
         },1000);
      }
 }
@@ -98,11 +108,12 @@ function altaCompra(productoAprocesar,cantidad) {
     if (cantidad <= 0) {
         div.innerHTML = '<div class="alert alert-danger" role="alert">No se puede realizar la compra con cantidad menor o igual a 0 </div>';
     }else{
-       productoAprocesar.precioVenta = productoAprocesar.precioVenta * cantidad;
-       productoAprocesar.ventaDeProducto(fecha,'Compra',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
-       cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
+       productoAprocesar.precioCompra = productoAprocesar.precioCompra * cantidad;
+       productoAprocesar.ventaDeProducto(fecha,'Compra',productoAprocesar.nombre,productoAprocesar.precioCompra,cantidad);
+       //cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
+       div.innerHTML = '<div class="alert alert-success" role="alert">Se ha procesado la compra correctamente</div>';
        setTimeout(function () {
-           div.innerHTML = '<div class="alert alert-success" role="alert">Se ha procesado la compra correctamente</div>';
+           location.reload();
        },1000);
     }
 }
@@ -136,6 +147,7 @@ function cVentas(fecha) {
         }
     }).done(function(datos){
         var js=JSON.parse(datos);
+        console.log(js);
         var i=0;
         tbody_producto.innerHTML="";
         var total = 0;
@@ -147,6 +159,13 @@ function cVentas(fecha) {
                 <td>${js[i].Tipo}</td>
                 <td>${js[i].Descripcion}</td>
                 <td>${js[i].Efectivo}</td>
+                <td>
+                    <btn id=${js[i].ID} class="btn btn-outline-danger" onclick="bVenta(${js[i].ID},${js[i].Tipo},${js[i].Descripcion},${js[i].Efectivo});" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                        </svg>
+                    </btn>
+                </td>
                 </tr>
                 `;
                 totalCompra += parseInt(js[i].Efectivo);
@@ -157,12 +176,79 @@ function cVentas(fecha) {
                 <td>${js[i].Tipo}</td>
                 <td>${js[i].Descripcion}</td>
                 <td>${js[i].Efectivo}</td>
+                <td>
+                    <btn id="${js[i].ID}" class="btn btn-outline-danger" onclick="bVenta(${js[i].ID},${js[i].Tipo},${js[i].Descripcion},${js[i].Efectivo});" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                        </svg>
+                    </btn>
+                </td>
                 </tr>
                 `;
                 total += parseInt(js[i].Efectivo);
                 document.getElementById("ventasTotales").innerHTML = '$'+total+'.00';
             }
           }
+    }).fail( function( jqXHR, textStatus, errorThrown ) {
+    
+            if (jqXHR.status === 0) {
+        
+            alert('Not connect: Verify Network.');
+        
+            } else if (jqXHR.status == 404) {
+        
+            alert('Requested page not found [404]');
+        
+            } else if (jqXHR.status == 500) {
+        
+            alert('Internal Server Error [500].');
+        
+            } else if (textStatus === 'parsererror') {
+        
+            alert('Requested JSON parse failed.');
+        
+            } else if (textStatus === 'timeout') {
+        
+            alert('Time out error.');
+        
+            } else if (textStatus === 'abort') {
+        
+            alert('Ajax request aborted.');
+        
+            } else {
+        
+            alert('Uncaught Error: ' + jqXHR.responseText);
+        
+            }
+        
+        });
+}
+
+function bVenta(id,tipo,nombre,efectivo) {
+    console.log(nombre,id,tipo,efectivo);
+    var prod = buscarProductoGeneral(nombre);
+    if(tipo == 'Compra'){
+        var cantidad = efectivo/prod.precioCompra;
+        ajaxbVenta(id);
+        prod.mProductoBD(nombre,prod.categoria,prod.precioCompra,prod.precioVenta,cantidad);
+    }else{
+        var cantidad = efectivo/prod.precioVenta;
+        ajaxbVenta(id);
+        prod.mProductoBD(nombre,prod.categoria,prod.precioCompra,prod.precioVenta,cantidad);
+    }
+}
+
+function ajaxbVenta(id) {
+    $.ajax({
+        url: '../php/productos.php',
+        type:'POST',
+        dataType: 'text',
+        data:{
+          id:id,
+          op:'7'
+        }
+    }).done(function(datos){
+       console.log(datos);
     }).fail( function( jqXHR, textStatus, errorThrown ) {
     
             if (jqXHR.status === 0) {
@@ -210,4 +296,3 @@ $( document ).ready(function() {
     document.getElementById("Fecha_cVenta").value = ano+"-"+mes+"-"+dia;
     cVentas(ano+"-"+mes+"-"+dia);
  });
-
