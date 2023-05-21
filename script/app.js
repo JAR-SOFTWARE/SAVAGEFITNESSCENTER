@@ -342,6 +342,7 @@ function cUser(){
             op:'3'
         }
     }).done(function(datos){
+      console.log(datos);
       var js=JSON.parse(datos);
       var i=0;
       tbody.innerHTML="";
