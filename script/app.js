@@ -113,6 +113,7 @@ function vUsuario(ci){
         }
     }).done(function(datos){
        console.log(datos);
+       if(datos==='Vacio') Avisos('No se encontro Usuario');
        showMessage(js=JSON.parse(datos));
     }).fail( function( jqXHR, textStatus, errorThrown ) {
   
@@ -149,6 +150,7 @@ function vUsuario(ci){
         });
 }
 function showMessage(user) {
+  
     console.log(user[0].FechaUltimoPago);
     let Cuota=cFechas(fecha,user[0].FechaUltimoPago);
     let resto=30-Cuota;
@@ -342,7 +344,6 @@ function cUser(){
             op:'3'
         }
     }).done(function(datos){
-      console.log(datos);
       var js=JSON.parse(datos);
       var i=0;
       tbody.innerHTML="";
@@ -407,9 +408,11 @@ function cUserr(){
       dataType: 'text',
       data:{
           ci:$('#txt-ci').val(),
-          op:'2'
+          op:'7'
       }
   }).done(function(datos){
+   if(datos==='Vacio')return Avisos('No se encontraron datos');
+   console.log(datos);
       var js=JSON.parse(datos);
       var i=0;
       tbody.innerHTML="";
@@ -584,7 +587,7 @@ function cDatos(ci){
     data:
     {
         ci:ci,
-        op:'7'
+        op:'8'
     }
 }).done(function(datos){
   if(datos==='Vacio')return;
@@ -632,6 +635,7 @@ $('#btn_cCliente').click(function (e) {
   cDatos($('#txt-ci-cMarca').val());
   cMarca($('#txt-ci-cMarca').val());
   cPago($('#txt-ci-cMarca').val());
+  
 });
 /*********GESTION DE PAGOS******************************************************************************************** */
 /*********ALTA DE PAGOS**************************************************************************************** */

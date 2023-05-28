@@ -74,9 +74,9 @@ case '6'://BAJA DE USUARIOS
                                 echo json_encode($row[0]);        
                         }
             break;
-case '7'://CONSULTA DE DATOS POR CEDULA
+case '7'://CONSULTA DE DATOS POR NOMBRE
                 $ci=$_POST['ci'];   
-                $consulta="SELECT * from vUsuarios where ci='$ci'";
+                $consulta="SELECT * from vUsuarios where nom like '%$ci%'";
                 $resultado= mysqli_query($conexion,$consulta);
                 if(mysqli_num_rows($resultado) != 0){
                     while($datos=mysqli_fetch_assoc($resultado)){
@@ -86,5 +86,18 @@ case '7'://CONSULTA DE DATOS POR CEDULA
                  }else{
                     echo 'Vacio';
                  }    
-                break;           
+                break; 
+                case '8'://CONSULTA DE DATOS POR CI
+                    $ci=$_POST['ci'];   
+                    $consulta="SELECT * from vUsuarios where ci='$ci'";
+                    $resultado= mysqli_query($conexion,$consulta);
+                    if(mysqli_num_rows($resultado) != 0){
+                        while($datos=mysqli_fetch_assoc($resultado)){
+                            $arr[]=$datos;
+                        }
+                        echo json_encode($arr);
+                     }else{
+                        echo 'Vacio';
+                     }    
+                    break;            
 }
