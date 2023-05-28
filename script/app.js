@@ -112,11 +112,8 @@ function vUsuario(ci){
             op:'2'
         }
     }).done(function(datos){
-      console.log(datos);
-      let js=JSON.parse(datos);
-      js.fecha=localStorage.getItem("RcDiasdePago")
-      console.log(js);
-      showMessage(js);
+       console.log(datos);
+       showMessage(js=JSON.parse(datos));
     }).fail( function( jqXHR, textStatus, errorThrown ) {
   
             if (jqXHR.status === 0) {
@@ -152,9 +149,10 @@ function vUsuario(ci){
         });
 }
 function showMessage(user) {
-    console.log(user.fecha);
-    let Cuota=cFechas(fecha,user.fecha);
+    console.log(user[0].FechaUltimoPago);
+    let Cuota=cFechas(fecha,user[0].FechaUltimoPago);
     let resto=30-Cuota;
+    
     mensaje.removeAttribute('hidden','');
     mensaje.innerHTML = '<h1 style="border-radius: 10px;padding: 10px;" class="bg-success mb-3 ">BIENVENIDO '+user[0].nom+' '+user[0].ape+'</h1>'+
     '<h3 style="border-radius: 10px;padding: 10px;" class="text-white mb-3">Queremos recordarle que su cuota se vence en '+resto+' dias</h3>'+
@@ -652,7 +650,7 @@ $('#btn_rPagoCompleto').click(function (e) {
     console.log(datos);
     h3_div_mensaje_habilitado.innerText='HABILITADO';
     div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
-  
+    return Avisos('Se registro el Pago');
 }).fail( function( jqXHR, textStatus, errorThrown ) {
 
         if (jqXHR.status === 0) {
@@ -798,6 +796,7 @@ function cPago(ci) {
       op:'2'
     }
 }).done(function(datos){
+    if (datos==='Vacio')return;
     let js=JSON.parse(datos);
     let fechaultimopago=js[js.length-1].fecha;
     tbody_cPagos.innerHTML='';
@@ -971,4 +970,9 @@ function cDiasdePago(ci){
         }
     
     });
+}
+
+function Avisos(mensaje){
+  $('#ModalDeAvisos').modal('show');
+  $('#TituloModalDeAvisos').text(mensaje);
 }

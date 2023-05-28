@@ -21,6 +21,10 @@ case '2'://CONSULTA DE PAGO
     while($datos=mysqli_fetch_assoc($select)){
     $arr[]=$datos;
     }
+    if (empty($arr)){
+        echo 'Vacio';
+        break;
+    }
     echo json_encode($arr);
     break;
     
