@@ -14,7 +14,7 @@ case '1'://FUNCION DE LOGIN
     break;   
 case '2'://CONSULTA DE DATOS POR CEDULA
     $ci=$_POST['ci'];   
-    $consulta="SELECT * from vUsuarios where ci='$ci'";
+    $consulta="SELECT * from vUsuariosxPago where ci='$ci'";
     $resultado= mysqli_query($conexion,$consulta);
     if(mysqli_num_rows($resultado) != 0){
         while($datos=mysqli_fetch_assoc($resultado)){

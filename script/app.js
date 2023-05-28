@@ -1,5 +1,6 @@
 //VARIABLES
 var tbody_cMarcas=document.getElementById('tbody-cMarcas');
+var tbody_cPagos=document.getElementById('tbody-cPagos');
 var div_mensaje_habilitado=document.getElementById('div_msg_pagos');
 var h3_div_mensaje_habilitado=document.getElementById("H3_div_msg_pagos");
 var mensaje= document.querySelector('.mensaje');
@@ -7,6 +8,7 @@ var hoy = new Date();
 var fecha = hoy.getDate() + '-0' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
 var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
 var resultado;
+var prueba=[];
 function cFechas(fecha1,fecha2){
    //NOTA: PRIMER FECHA DEBE SER MAS GRANDE Y EN FORMATO DD-MM-AAAA, SEGUNDA FECHA TIENE QUE INGRESAR CON FORMATO AAAA-MM-DD
    //NOTA: variable fecha contiene el dia actual
@@ -110,11 +112,8 @@ function vUsuario(ci){
             op:'2'
         }
     }).done(function(datos){
-      console.log(datos);
-      let js=JSON.parse(datos);
-      js.fecha=localStorage.getItem("RcDiasdePago")
-      console.log(js);
-      showMessage(js);
+       console.log(datos);
+       showMessage(js=JSON.parse(datos));
     }).fail( function( jqXHR, textStatus, errorThrown ) {
   
             if (jqXHR.status === 0) {
@@ -150,9 +149,10 @@ function vUsuario(ci){
         });
 }
 function showMessage(user) {
-    console.log(user.fecha);
-    let Cuota=cFechas(fecha,user.fecha);
+    console.log(user[0].FechaUltimoPago);
+    let Cuota=cFechas(fecha,user[0].FechaUltimoPago);
     let resto=30-Cuota;
+    
     mensaje.removeAttribute('hidden','');
     mensaje.innerHTML = '<h1 style="border-radius: 10px;padding: 10px;" class="bg-success mb-3 ">BIENVENIDO '+user[0].nom+' '+user[0].ape+'</h1>'+
     '<h3 style="border-radius: 10px;padding: 10px;" class="text-white mb-3">Queremos recordarle que su cuota se vence en '+resto+' dias</h3>'+
@@ -636,7 +636,7 @@ $('#btn_cCliente').click(function (e) {
 /*********REGISTRO DE PAGO COMPLETO**************************************************************************************** */
 $('#btn_rPagoCompleto').click(function (e) { 
   e.preventDefault();
-  
+  //REGISTRO DEL PAGO
   $.ajax({
     url: '../php/pagos.php',
     type:'POST',
@@ -650,7 +650,7 @@ $('#btn_rPagoCompleto').click(function (e) {
     console.log(datos);
     h3_div_mensaje_habilitado.innerText='HABILITADO';
     div_mensaje_habilitado.classList.replace("alert-danger","alert-success");
-  
+    return Avisos('Se registro el Pago');
 }).fail( function( jqXHR, textStatus, errorThrown ) {
 
         if (jqXHR.status === 0) {
@@ -684,6 +684,55 @@ $('#btn_rPagoCompleto').click(function (e) {
         }
     
     });
+//REGISTRO DEL PAGO COMO VENTA-------------------------------------------------------------->
+$.ajax({
+  url: '../php/productos.php',
+  type: 'POST',
+  dataType: 'text',
+  data: {
+      op: '4',
+      fecha_n:fecha,
+      nombre:`Pago completo de ${$('#txt-ci-cMarca').val()}`,
+      categoria:'Cuotas',
+      precioVenta:'1500',
+      cantidad:1
+  }
+}).done(function (datos) {
+  console.log(datos);
+}).fail(function (jqXHR, textStatus, errorThrown) {
+
+  if (jqXHR.status === 0) {
+
+      alert('Not connect: Verify Network.');
+
+  } else if (jqXHR.status == 404) {
+
+      alert('Requested page not found [404]');
+
+  } else if (jqXHR.status == 500) {
+
+      alert('Internal Server Error [500].');
+
+  } else if (textStatus === 'parsererror') {
+
+      alert('Requested JSON parse failed.');
+
+  } else if (textStatus === 'timeout') {
+
+      alert('Time out error.');
+
+  } else if (textStatus === 'abort') {
+
+      alert('Ajax request aborted.');
+
+  } else {
+
+      alert('Uncaught Error: ' + jqXHR.responseText);
+
+  }
+
+});
+
 });
 /*********REGISTRO DE MEDIO PAGO**************************************************************************************** */
 $('#btn_rMedioPago').click(function (e) { 
@@ -747,10 +796,19 @@ function cPago(ci) {
       op:'2'
     }
 }).done(function(datos){
+    if (datos==='Vacio')return;
     let js=JSON.parse(datos);
     let fechaultimopago=js[js.length-1].fecha;
-    console.log(js);
-    console.log(js[js.length-1]);
+    tbody_cPagos.innerHTML='';
+    for(var i=0; i<js.length; i++){
+      tbody_cPagos.innerHTML+=`
+    <tr>
+      <td>${js[i].tipo_pago}</td>
+      <td>${js[i].fecha}</td>
+   </tr>
+    `
+    }
+    
     if(js[js.length-1].tipo_pago=='medio'){
       console.log('entro');
       console.log(cFechas(fecha,fechaultimopago));
@@ -782,6 +840,8 @@ function cPago(ci) {
       
     }
     resultado=js;
+  
+
 }).fail( function( jqXHR, textStatus, errorThrown ) {
 
         if (jqXHR.status === 0) {
@@ -910,4 +970,9 @@ function cDiasdePago(ci){
         }
     
     });
+}
+
+function Avisos(mensaje){
+  $('#ModalDeAvisos').modal('show');
+  $('#TituloModalDeAvisos').text(mensaje);
 }
