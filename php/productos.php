@@ -18,6 +18,7 @@ case '1'://ALTA DE PRODUCTO
     }
 
     break;
+    
 case '2'://CONSULTA DE USUARIOS
     $consulta="SELECT * FROM vProductos";
     $select= mysqli_query($conexion,$consulta);
@@ -26,6 +27,7 @@ case '2'://CONSULTA DE USUARIOS
     }
     echo json_encode($arr);
     break;
+
 case '3'://MODIFICACION DE PRODUCTO
     $nombre=$_POST['nombre'];
     $categoria=$_POST['categoria'];
@@ -40,6 +42,7 @@ case '3'://MODIFICACION DE PRODUCTO
         echo json_encode($row[0]);        
     }
     break;
+
 case '4'://VENTA DE PRODUCTO
     $fecha=$_POST['fecha_n'];
     $nombre=$_POST['nombre'];
@@ -54,6 +57,7 @@ case '4'://VENTA DE PRODUCTO
         echo json_encode($row[0]);        
     }
     break;
+
 case '5'://CONSULTA DE VENTAS 
         $fecha=$_POST['fecha'];
         $consulta="SELECT * FROM vVentasGeneral WHERE Fecha='$fecha'";
@@ -62,12 +66,17 @@ case '5'://CONSULTA DE VENTAS
             while($datos=mysqli_fetch_assoc($select)){
                 $arr[]=$datos;
             }
+            if (empty($arr)){
+                echo 'Vacio';
+                break;
+            }
             echo json_encode($arr);
         }
         else{
             echo json_encode('No tiene dato');
         };
         break;
+
 case '6'://BAJA DE PRODUCTO
             $producto=$_POST['producto'];
             $consulta="SELECT bProducto('$producto')";
@@ -83,9 +92,18 @@ case '7'://BAJA DE PRODUCTO
                 $id=$_POST['id'];
                 $consulta="SELECT bVenta('$id')";
                 $select= mysqli_query($conexion,$consulta);
-                if($resultado){
-                    $row=$resultado->fetch_array();
-                    echo json_encode($row[0]);        
+                if($select){
+                    while($datos=mysqli_fetch_assoc($select)){
+                        $arr[]=$datos;
+                    }
+                    if (empty($arr)){
+                        echo 'Vacio';
+                        break;
+                    }
+                    echo json_encode($arr);
                 }
-                break;  
+                else{
+                    echo json_encode('No tiene dato');
+                };
+                break;
 }
