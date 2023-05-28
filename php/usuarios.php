@@ -73,5 +73,18 @@ case '6'://BAJA DE USUARIOS
                                 $row=$resultado->fetch_array();
                                 echo json_encode($row[0]);        
                         }
-            break;           
+            break;
+case '7'://CONSULTA DE DATOS POR CEDULA
+                $ci=$_POST['ci'];   
+                $consulta="SELECT * from vUsuarios where ci='$ci'";
+                $resultado= mysqli_query($conexion,$consulta);
+                if(mysqli_num_rows($resultado) != 0){
+                    while($datos=mysqli_fetch_assoc($resultado)){
+                        $arr[]=$datos;
+                    }
+                    echo json_encode($arr);
+                 }else{
+                    echo 'Vacio';
+                 }    
+                break;           
 }

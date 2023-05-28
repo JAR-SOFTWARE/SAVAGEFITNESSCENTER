@@ -526,6 +526,7 @@ function cMarca(ci){
       op:'2'
     }
 }).done(function(datos){
+  if(datos==='Vacio')return;
   var js=JSON.parse(datos);
   var i=0;
   console.log(js);
@@ -583,9 +584,10 @@ function cDatos(ci){
     data:
     {
         ci:ci,
-        op:'2'
+        op:'7'
     }
 }).done(function(datos){
+  if(datos==='Vacio')return;
   var js=JSON.parse(datos);
   $('#c-nom').val(js[0].nom);
   $('#c-ape').val(js[0].ape);
