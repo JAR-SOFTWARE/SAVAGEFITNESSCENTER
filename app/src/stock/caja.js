@@ -25,7 +25,7 @@ function rellenarProductos() {
 
 /* <-- Funcion de con la cual obtengo el producto seleccionado --> */
 document.getElementById('btnreg-venta').onclick = function(){buscarProducto($('#select_nuevaVenta').val())}
-document.getElementById('btnreg-compra').onclick = function(){buscarProductoCompra($('#select_nuevaVenta').val())}
+document.getElementById('btnreg-compra').onclick = function(){buscarProductoCompra($('#select_nuevaCompra').val())}
 
 function buscarProducto(nombreSeleccionado) {
     for (let index = 0; index < listaDeProductos.length; index++) {
@@ -92,7 +92,7 @@ function altaVenta(productoAprocesar,cantidad) {
      }else{
         productoAprocesar.precioVenta = productoAprocesar.precioVenta * cantidad;
         productoAprocesar.ventaDeProducto(fecha,'Productos',productoAprocesar.nombre,productoAprocesar.precioVenta,cantidad);
-        //cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
+        cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
         div.innerHTML = '<div class="alert alert-success" role="alert">Se ha procesado la venta correctamente</div>';
         setTimeout(function () {
             location.reload();
@@ -110,7 +110,7 @@ function altaCompra(productoAprocesar,cantidad) {
     }else{
        productoAprocesar.precioCompra = productoAprocesar.precioCompra * cantidad;
        productoAprocesar.ventaDeProducto(fecha,'Compra',productoAprocesar.nombre,productoAprocesar.precioCompra,cantidad);
-       //cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
+       cVentas( fechaDehoy.getFullYear()+ '-0' + ( fechaDehoy.getMonth() + 1 ) + '-' + fechaDehoy.getDate());
        div.innerHTML = '<div class="alert alert-success" role="alert">Se ha procesado la compra correctamente</div>';
        setTimeout(function () {
            location.reload();
@@ -225,7 +225,6 @@ function cVentas(fecha) {
 }
 
 function bVenta(id,tipo,nombre,efectivo) {
-    console.log(nombre,id,tipo,efectivo);
     var prod = buscarProductoGeneral(nombre);
     if(tipo == 'Compra'){
         var cantidad = efectivo/prod.precioCompra;
