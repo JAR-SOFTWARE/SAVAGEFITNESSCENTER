@@ -23,7 +23,7 @@ case '2'://CONSULTA DE MARCAS
     while($datos=mysqli_fetch_assoc($select)){
     $arr[]=$datos;
     }
-    if (empty($arr)){
+     if (empty($arr)){
         echo 'Vacio';
         break;
     }
