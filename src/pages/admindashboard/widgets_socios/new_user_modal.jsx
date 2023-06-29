@@ -10,50 +10,51 @@ const NewUserModal = (props) =>{
    const [inputApellido,setValueApellido] = useState();
    const [inputCorreo,setValueCorreo] = useState();
    const [inputTelefono,setValueTelefono] = useState();
+   const [inputPassword,setValuePassword] = useState();
    const [inputFecha, setValueFecha] = useState();
    const [selectSexo,getvalueSexo] = useState();
    const [selectOpt,getValueOpt] = useState();
    
-   async function sendRequest() {
-    var data = {}
-    selectOpt == 'Administrador'? data = {
-        ci: inputCi, 
-        Nombre: inputName, 
-        Apellido: inputApellido, 
-        Mail: inputCorreo, 
-        Telefono: inputTelefono,
-        FechaDeNacimiento: inputFecha,
-        Sexo: selectSexo,
-        Opcion: selectOpt,
-        password: inputCi
-     } : 
-     data = { ci: inputCi, 
-        Nombre: inputName, 
-        Apellido: inputApellido, 
-        Mail: inputCorreo, 
-        Telefono: inputTelefono,
-        FechaDeNacimiento: inputFecha,
-        Sexo: selectSexo,
-        Opcion: selectOpt
-     }
-     console.log(data)
-    //  var url = 'http://192.168.1.37:8000/api/Usuarios';
-    //     await fetch (url,{
-    //         method:'POST',
-    //         headers:{'Content-Type': 'application/json'}, 
-    //         body: JSON.stringify(data)
-    //     }).then(res => res.json())
-    //     .catch(error => console.error('Error:', error))
-    //     .then(response => handleresponse(response));  
-   }
-
-   const handleresponse = (response) =>{
-    console.log(response);
-   }
+   
+    const handleRegister = () => {
+        const data = {
+            ci: inputCi,
+            Nombre: inputName,
+            Apellido:inputApellido,
+            FechaDeNacimiento:inputFecha,
+            Telefono:inputTelefono,
+            Mail:inputCorreo,
+            Sexo:selectSexo,
+            Opcion:selectOpt,
+            password:inputPassword,
+          };
+          fetch('http://127.0.0.1:8000/api/Usuarios', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Error en la solicitud');
+              }
+              return response.json();
+            })
+            .then(data => {
+              // Manipula los datos de respuesta
+              console.log(data);
+            })
+            .catch(error => {
+              // Maneja cualquier error de la solicitud
+              console.error(error);
+            });
+        
+      }; 
    return (
         <Modal
             {...props}
-            size="lg"
+            size="xl"
             aria-labelledby="contained-modal-title-vcenter"
             centered 
             >
@@ -108,7 +109,7 @@ const NewUserModal = (props) =>{
                 </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={() => sendRequest()}> Crear </Button>
+                <Button variant="success" onClick={() => handleRegister()}> Crear </Button>
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>

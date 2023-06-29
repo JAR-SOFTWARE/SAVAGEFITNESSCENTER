@@ -9,8 +9,9 @@ const User_table = () => {
 
     const [modalShow, setModalShow] = useState(false);
 
+    const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
-        var url = 'http://192.168.1.37:8000/api/Usuarios';
+        const url = apiUrl+':8000/api/Usuarios';
         const response =  fetch (url,{
             method:'GET',
             headers:{'Content-Type': 'application/json'}
