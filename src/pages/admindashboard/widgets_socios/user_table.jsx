@@ -22,7 +22,30 @@ const User_table = () => {
             setTablaUsuarios(response.data);
         });
     }
-    
+    const handleDelete = (ci) => {
+          fetch(apiUrl+':8000/api/Usuarios/'+ci, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Error en la solicitud');
+              }
+              return response.json();
+            })
+            .then(data => {
+              // Manipula los datos de respuesta
+              console.log(data);
+              peticionGet();
+            })
+            .catch(error => {
+              // Maneja cualquier error de la solicitud
+              console.error(error);
+            });
+        
+      }; 
     const handleChange=e=>{
         setBusqueda(e.target.value);
         filtrar(e.target.value);
@@ -85,7 +108,7 @@ const User_table = () => {
                                 <td>{socio.Mail}</td>
                                 <td>{socio.Telefono}</td>
                                 <td>
-                                <button className='btn btn-outline-danger mx-2'>
+                                <button onClick={() => handleDelete(socio.ci)}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
                                 </button>
                                 <button className='btn btn-outline-primary mx-2'>

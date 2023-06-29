@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import {useState} from 'react';
 
 const NewUserModal = (props) =>{
-    
+   const apiUrl = process.env.REACT_APP_API_URL;
    const [inputCi,setValueCi] = useState();
    const [inputName,setValueName] = useState();
    const [inputApellido,setValueApellido] = useState();
@@ -28,7 +28,7 @@ const NewUserModal = (props) =>{
             Opcion:selectOpt,
             password:inputPassword,
           };
-          fetch('http://127.0.0.1:8000/api/Usuarios', {
+          fetch(apiUrl+':8000/api/Usuarios', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

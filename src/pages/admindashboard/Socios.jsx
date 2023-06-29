@@ -2,6 +2,8 @@ import Navbar from "./components/navbar"
 import Sidebar from './components/sidebar'
 import Footerbar from './components/footerbar'
 import User_table from './widgets_socios/user_table'
+import {useEffect, useState} from 'react';
+
 const socios = () =>{
     return (
         <div className='home'>
