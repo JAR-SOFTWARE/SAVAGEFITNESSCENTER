@@ -1,5 +1,9 @@
-const cards = () =>{
-    
+import { useEffect,useState } from "react";
+
+const Cards = ({data}) =>{
+const [ci, setci] = useState()
+console.log(data);
+
     return (
         <div className="card w-100 h-100 shadow-sm">
             <div className="card-body">
@@ -10,11 +14,11 @@ const cards = () =>{
             <div className="row card-body">
                 <div className="col-6">
                     <div className="form-floating mb-3">
-                        <input type="text" className="form-control" id="floatingInputValue2" placeholder="name@example.com" value="48118687" disabled/>
+                        <input type="text" className="form-control" id="floatingInputValue2" placeholder="name@example.com" value={ci} disabled/>
                         <label htmlFor="floatingInputValue2">Cédula</label>
                     </div>
                     <div className="form-floating mb-3">
-                        <input type="text" className="form-control" id="floatingInputValue1" placeholder="name@example.com" value="Angel Rodriguez" disabled/>
+                        <input type="text" className="form-control" id="floatingInputValue1" placeholder="name@example.com"  disabled/>
                         <label htmlFor="floatingInputValue1">Nombre</label>
                     </div>
                     <div className="form-floating mb-3">
@@ -125,4 +129,4 @@ const cards = () =>{
     )
 }
 
-export default cards
+export default Cards

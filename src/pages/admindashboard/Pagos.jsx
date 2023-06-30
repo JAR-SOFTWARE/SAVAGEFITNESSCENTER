@@ -25,8 +25,6 @@ const Pagos = () => {
         .then(data => {
           // Manipula los datos de respuesta
           setInfosocio(data);
-          console.log(infosocio);
-          console.log(data);
         })
         .catch(error => {
           // Maneja cualquier error de la solicitud
@@ -36,7 +34,7 @@ const Pagos = () => {
   };
   const handleHTTPGetIngresos = (inputCi) => {
     var data={ci:inputCi}
-       fetch(apiUrl+':8000/api/Usuarios/'+inputCi, {
+       fetch(apiUrl+':8000/api/Ingresos/'+inputCi, {
          method: 'GET'
        })
          .then(response => {
@@ -47,9 +45,7 @@ const Pagos = () => {
          })
          .then(data => {
            // Manipula los datos de respuesta
-           setInfosocio(data);
-           console.log(infosocio);
-           console.log(data);
+           setInfoingresos(data);
          })
          .catch(error => {
            // Maneja cualquier error de la solicitud
@@ -59,7 +55,7 @@ const Pagos = () => {
    }; 
    const handleHTTPGetCuotas = (inputCi) => {
     var data={ci:inputCi}
-       fetch(apiUrl+':8000/api/Usuarios/'+inputCi, {
+       fetch(apiUrl+':8000/api/Cuotas/'+inputCi, {
          method: 'GET'
        })
          .then(response => {
@@ -70,16 +66,29 @@ const Pagos = () => {
          })
          .then(data => {
            // Manipula los datos de respuesta
-           setInfosocio(data);
-           console.log(infosocio);
-           console.log(data);
+           setInfopago(data);
+
          })
          .catch(error => {
            // Maneja cualquier error de la solicitud
            console.error(error);
          });
      
-   };  
+   };
+   const handleHTTPGetInformacionCompleta=(inputCi)=>{
+    handleHTTPGetUsuario(inputCi);
+    handleHTTPGetIngresos(inputCi);
+    handleHTTPGetCuotas(inputCi);
+    console.log(infosocio);
+    console.log(infopago);
+    console.log(infoingresos);
+    // const data={
+    //     infoingresos:infoingresos,
+    //     infopago:infopago,
+    //     infosocio:infosocio
+    // }
+    // console.log(data);
+   }  
   return (
         <div className='home'>
             <div className='row'>
@@ -93,11 +102,11 @@ const Pagos = () => {
                     <div className='d-flex py-2 justify-content-start'>
                         <div className='input-group w-25'>
                             <input type="text" className='form-control' placeholder='Ingresar CI de Socio' onChange={(event) => setValueCi(event.target.value)}/>
-                            <button onClick={() => handleHTTPGetUsuario(inputCi)} className='btn btn-primary'>Cargar Datos</button>
+                            <button onClick={() => handleHTTPGetInformacionCompleta(inputCi)} className='btn btn-primary'>Cargar Datos</button>
                         </div>
                     </div>
                     <div>
-                        <Cards/>
+                        <Cards infoingresos={infoingresos} infopago={infopago} infosocio={infosocio} />
                     </div>                    
                 </div>
                 <div className='col-12 footer text-bg-dark'>
