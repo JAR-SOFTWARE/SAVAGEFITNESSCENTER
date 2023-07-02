@@ -45,6 +45,7 @@ const User_table = () => {
     },[])
         
     return (
+        
         <div>
             <div className='d-flex py-2 justify-content-end'>
                 <div className='input-group w-25'>

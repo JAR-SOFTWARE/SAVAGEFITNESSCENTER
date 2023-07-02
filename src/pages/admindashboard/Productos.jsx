@@ -1,6 +1,7 @@
 import Navbar from "./components/navbar"
 import Sidebar from './components/sidebar'
 import Footerbar from './components/footerbar'
+import Products_table from "./widgets_productos/products_table"
 const productos = () =>{
     return (
         <div className='home'>
@@ -12,7 +13,7 @@ const productos = () =>{
                      <Sidebar/>  
                 </div>
                 <div className='col-10'>
-                    
+                    <Products_table/>
                 </div>
                 <div className='col-12 footer text-bg-dark'>
                     <Footerbar/>
