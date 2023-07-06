@@ -3,6 +3,8 @@ import Sidebar from './components/sidebar'
 import Footerbar from './components/footerbar'
 import Cards from "./widgets_pagos/card_usuario"
 import React, { useState } from 'react';
+import { Spinner } from "react-bootstrap";
+import ModalAvisos from "../../Utils/ModalAvisos";
 
 const Pagos = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -10,9 +12,13 @@ const Pagos = () => {
   const [infosocio, setInfosocio] = useState();
   const [infopago, setInfopago] = useState();
   const [infoingresos, setInfoingresos] = useState();
+  const [isLoading, setisLoading] = useState(false)
+  const [modalShow, setModalShow] = useState(false);
+  const [titulo, settitulo] = useState();
+  const [mensaje, setmensaje] = useState();
+  const [diasDeCuota, setdiasDeCuota] = useState();
 
   const handleHTTPGetUsuario = (inputCi) => {
-   var data={ci:inputCi}
       fetch(apiUrl+':8000/api/Usuarios/'+inputCi, {
         method: 'GET'
       })
@@ -25,6 +31,7 @@ const Pagos = () => {
         .then(data => {
           // Manipula los datos de respuesta
           setInfosocio(data);
+          console.log(data);
         })
         .catch(error => {
           // Maneja cualquier error de la solicitud
@@ -33,7 +40,6 @@ const Pagos = () => {
     
   };
   const handleHTTPGetIngresos = (inputCi) => {
-    var data={ci:inputCi}
        fetch(apiUrl+':8000/api/Ingresos/'+inputCi, {
          method: 'GET'
        })
@@ -54,7 +60,6 @@ const Pagos = () => {
      
    }; 
    const handleHTTPGetCuotas = (inputCi) => {
-    var data={ci:inputCi}
        fetch(apiUrl+':8000/api/Cuotas/'+inputCi, {
          method: 'GET'
        })
@@ -67,7 +72,7 @@ const Pagos = () => {
          .then(data => {
            // Manipula los datos de respuesta
            setInfopago(data);
-
+           console.log(data);
          })
          .catch(error => {
            // Maneja cualquier error de la solicitud
@@ -75,19 +80,38 @@ const Pagos = () => {
          });
      
    };
-   const handleHTTPGetInformacionCompleta=(inputCi)=>{
-    handleHTTPGetUsuario(inputCi);
-    handleHTTPGetIngresos(inputCi);
-    handleHTTPGetCuotas(inputCi);
-    console.log(infosocio);
-    console.log(infopago);
-    console.log(infoingresos);
-    // const data={
-    //     infoingresos:infoingresos,
-    //     infopago:infopago,
-    //     infosocio:infosocio
-    // }
-    // console.log(data);
+   const handleHTTPGetDiasDeCuota = (inputCi) => {
+    var data = {"ci": parseInt(inputCi)};
+
+    fetch(apiUrl+':8000/api/Ingresos', {
+      method: 'POST',
+      headers:{'Content-Type': 'application/json'},
+      body:JSON.stringify(data)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Manipula los datos de respuesta
+        setdiasDeCuota(data.diasDeCuota);
+        console.log(data);
+        if(data='Su cuota esta vencida'){console.log('si')}
+      })
+      .catch(error => {
+        // Maneja cualquier error de la solicitud
+        console.error(error);
+      });
+  
+};
+   const handleHTTPGetInformacionCompleta=(inputCi)=>{   
+    // handleHTTPGetUsuario(inputCi);
+    // handleHTTPGetIngresos(inputCi);
+    // handleHTTPGetCuotas(inputCi);
+    handleHTTPGetDiasDeCuota(inputCi);
+    
    }  
   return (
         <div className='home'>
@@ -101,12 +125,18 @@ const Pagos = () => {
                 <div className='col-10'>
                     <div className='d-flex py-2 justify-content-start'>
                         <div className='input-group w-25'>
-                            <input type="text" className='form-control' placeholder='Ingresar CI de Socio' onChange={(event) => setValueCi(event.target.value)}/>
+                            <input type="text" className='form-control me-2' placeholder='Ingresar CI de Socio' onChange={(event) => setValueCi(event.target.value)}/>
                             <button onClick={() => handleHTTPGetInformacionCompleta(inputCi)} className='btn btn-primary'>Cargar Datos</button>
                         </div>
                     </div>
                     <div>
-                        <Cards infoingresos={infoingresos} infopago={infopago} infosocio={infosocio} />
+                    <ModalAvisos
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    titulo={titulo}
+                    mensaje={mensaje}
+                />
+                        <Cards infoingresos={infoingresos} infopago={infopago} infosocio={infosocio} diasDeCuota={diasDeCuota} />
                     </div>                    
                 </div>
                 <div className='col-12 footer text-bg-dark'>

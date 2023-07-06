@@ -81,6 +81,7 @@ const NewUserModal = (props) =>{
                     <div className='col-4 mb-2'>
                         <label htmlFor="floatingInputValue3">Sexo: </label>
                         <select className='form-select' name="" id="floatingInputValue3" onChange={(event) => getvalueSexo(event.target.value)}>
+                            <option value="">Seleccione Sexo</option>
                             <option value="Mujer">Femenino</option>
                             <option value="Hombre">Masculino</option>
                             <option value="Sin definir">Sin Definir</option>
@@ -102,6 +103,7 @@ const NewUserModal = (props) =>{
                     <div className='col-4'>
                         <label htmlFor="floatingInputValue7">Opcion:</label>
                         <select className='form-select' name="" id="floatingInputValue7" onChange={(event) => getValueOpt(event.target.value)}>
+                            <option value="">Seleccione tipo de Usuario</option>
                             <option value="Administrador">Administrador</option>
                             <option value="Cliente">Socio</option>
                         </select>
@@ -110,7 +112,7 @@ const NewUserModal = (props) =>{
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="success" onClick={() => handleRegister()}> Crear </Button>
-                <Button onClick={props.onHide}>Close</Button>
+                <Button onClick={props.onHide}>Cerrar</Button>
             </Modal.Footer>
         </Modal>
     )

@@ -6,12 +6,11 @@ const User_table = () => {
     const [socios, setSocios] = useState([]);
     const [tablaUsuarios, setTablaUsuarios]= useState([]);
     const [busqueda, setBusqueda]= useState("");
-
     const [modalShow, setModalShow] = useState(false);
 
     const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
-        const url = apiUrl+':8000/api/Usuarios';
+        const url = apiUrl+':8000/api/Usuarios/0';
         const response =  fetch (url,{
             method:'GET',
             headers:{'Content-Type': 'application/json'}
@@ -64,7 +63,7 @@ const User_table = () => {
 
         
     useEffect(()=>{
-        peticionGet();
+       peticionGet();
     },[])
         
     return (

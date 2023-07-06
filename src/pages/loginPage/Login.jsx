@@ -1,9 +1,11 @@
 import './login_style.css';
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 const logo = require('../images/logo.png');
 
 
 export default function Login() {   
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [ci,setCi] = useState();
     const [pass, setPass] = useState();
 
@@ -16,7 +18,7 @@ export default function Login() {
 
     const[inputCI, setVisibleCI] = useState(true);
     
-    var url = 'http://192.168.1.37:8000/api/Ingresos';
+    var url = apiUrl+':8000/api/Ingresos';
     var data = {"ci": parseInt(ci)};
     
     //Control de CI Utilizada
@@ -83,6 +85,7 @@ export default function Login() {
     //Control de respuesta del back
     const handlePassword = (response) =>{
         if (response.respuesta == 'Se valida el ingreso') {
+            Cookies.set('Sesion', ci);
             window.location = '/home'        
         }else{
             setError(response.respuesta);
@@ -118,7 +121,7 @@ export default function Login() {
                     onKeyUp={handleKeyPress}
                 />
                 {passInput ? (<input type="password" 
-                    className="form-control" 
+                    className="form-control mt-2" 
                     value={pass} 
                     placeholder="Ingrese Contraseña" 
                     aria-describedby="basic-addon1"
