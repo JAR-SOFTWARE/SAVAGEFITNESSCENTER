@@ -1,10 +1,8 @@
 import Navbar from "./components/navbar"
 import Sidebar from './components/sidebar'
 import Footerbar from './components/footerbar'
-import BoxCompra from "./widgets_caja/box_compra"
-import BoxVenta from "./widgets_caja/box_venta"
-import Transaction_table from "./widgets_caja/table_transacciones"
-const caja = () =>{
+import Products_table from "./widgets_productos/products_table"
+const productos = () =>{
     return (
         <div className='home'>
             <div className='row'>
@@ -15,11 +13,7 @@ const caja = () =>{
                      <Sidebar/>  
                 </div>
                 <div className='col-10'>
-                    <div className="row">
-                        <BoxVenta/>
-                        <BoxCompra/>
-                        <Transaction_table/>
-                    </div>
+                    <Products_table/>
                 </div>
                 <div className='col-12 footer text-bg-dark'>
                     <Footerbar/>
@@ -30,4 +24,4 @@ const caja = () =>{
     )
 }
 
-export default caja
+export default productos

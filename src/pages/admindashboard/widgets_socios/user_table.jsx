@@ -70,6 +70,7 @@ const User_table = () => {
     },[])
         
     return (
+        
         <div>
             <div className='row'>
                 <div className="col-3">
