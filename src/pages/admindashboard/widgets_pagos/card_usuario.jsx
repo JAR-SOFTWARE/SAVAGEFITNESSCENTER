@@ -6,19 +6,22 @@ const Cards = ({infoingresos,infopago,infosocio,diasDeCuota}) =>{
     const apiUrl = process.env.REACT_APP_API_URL;
     const [modalShow, setModalShow] = useState(false);
     const [titulo, settitulo] = useState();
-    const [mensaje, setmensaje] = useState()
-    const [claseCSS, setclaseCSS] = useState("form-control text-white bg-success");
-    const [texto, settexto] = useState('HABILITADO');
+    const [mensaje, setmensaje] = useState();
+    const [contador, setcontador] = useState();
+    var vencido;
     const handleMessage=(respuesta)=>{
         setModalShow(true);
         settitulo('AVISO');
         setmensaje(respuesta);
     }
-console.log(diasDeCuota);
-   if(diasDeCuota='Su cuota esta vencida'){
-    console.log('prueba');
-    //setclaseCSS("form-control text-white bg-danger")
-   }
+    console.log(diasDeCuota);
+    if(diasDeCuota==='Esta vencido'){
+        console.log('no entra');
+        vencido=true;
+        // setclaseCSS("form-control text-white bg-success");
+        // settexto('INHABILITADO');
+    }
+
     const RegistroDeCuota=(inputCi)=>{   
         
         const data = {
@@ -75,11 +78,17 @@ console.log(diasDeCuota);
                         <label htmlFor="floatingInputValue3">Telefono</label>
                     </div>
                 </div>
-                
-                <div className="col-2 form-floating mb-3">
-                    <input type="text" className={claseCSS} id="floatingInputValue4" placeholder="name@example.com" value={texto} disabled/>
-                    <label htmlFor="floatingInputValue4">Estado</label>
+                <div className="col-2 form-floating mb-3">           
+                    {vencido ? (
+                    <input type="text" className="form-control text-white bg-danger" id="floatingInputValue4" placeholder="name@example.com" value='INHABILITADO' disabled/>
+                    ) 
+                    :
+                    (
+                        <input type="text" className="form-control text-white bg-success" id="floatingInputValue4" placeholder="name@example.com" value='HABILITADO' disabled/>
+                    )}
+
                 </div>
+
                 <div className="col-2 form-floating mb-3" >
                     <button onClick={() => RegistroDeCuota(infosocio.ci)} className="btn btn-primary w-100">Registrar Cuota</button>
                 </div>

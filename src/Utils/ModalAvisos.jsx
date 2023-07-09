@@ -6,14 +6,8 @@ const ModalAvisos = (props) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [modalShow, setModalShow] = useState(false);
-    const [titulo, settitulo] = useState();
-    const [mensaje, setmensaje] = useState()
-    function handleMessage(respuesta){
-        setModalShow(true);
-        settitulo('AVISO');
-        setmensaje(respuesta);
-    }
+   
+    console.log(props);
     return (
         <Modal
             {...props}
