@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import NewUserModal from './new_user_modal';
 import ModalAvisos from '../../../Utils/ModalAvisos';
 
+
 const User_table = () => {
     const [socios, setSocios] = useState([]);
     const [tablaUsuarios, setTablaUsuarios]= useState([]);
@@ -10,6 +11,7 @@ const User_table = () => {
     const [modalShow, setModalShow] = useState(false);
     const [modalShowConfirmacion, setModalConfirmacion] = useState(false);
     const [confirmacion, setConfirmacion] = useState(false);
+
     const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
         const url = apiUrl+':8000/api/Usuarios/0';
@@ -91,6 +93,7 @@ const User_table = () => {
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                 />
+               
             </div>
                 </div>
                 </div>

@@ -1,14 +1,17 @@
-import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useState } from 'react';
-const ModalAvisos = (props) => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-   
-    console.log(props);
-    return (
+import {useState} from 'react';
+
+const ModalAvisos = (props) =>{
+   const apiUrl = process.env.REACT_APP_API_URL;
+   const [respuesta, setRespuesta] = useState();
+   var tipoNotificacion;
+   if (props.tipo=='Confirmacion'){
+    tipoNotificacion=true;
+    
+   }
+   const refresh=()=>{window.location.reload()} 
+   return (
         <Modal
             {...props}
             size="xl"
@@ -17,21 +20,29 @@ const ModalAvisos = (props) => {
             >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {props.titulo}
+                    {tipoNotificacion ? (
+                        <h2>CONFIRMACION</h2>
+                    ):(
+                        <h2>AVISO</h2>
+                    )}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <form className='row mb-3'>
-                    <h4 className='text-uppercase mb-3'>{props.mensaje}</h4>
-                    
-                </form>
+                {props.mensaje}
             </Modal.Body>
             <Modal.Footer>
-                {/* <Button variant="success" > Crear </Button> */}
-                <Button onClick={props.onHide}>Close</Button>
+            {tipoNotificacion ? (
+                        <div>
+                            <Button onClick={()=> setRespuesta(true)} className='me-3 text-white' variant="warning"> Confirmar </Button>
+                            <Button variant='secondary' onClick={props.onHide}>Cancelar</Button>
+                        </div>
+                    ):(
+                        <Button onClick={()=>refresh()}>Close</Button>
+                    )}
+                
             </Modal.Footer>
         </Modal>
     )
-};
+}
 
 export default ModalAvisos;
