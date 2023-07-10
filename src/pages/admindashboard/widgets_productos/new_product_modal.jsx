@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import ModalAvisos from '../../../Utils/ModalAvisos';
 
 const NewProductModal = (props) =>{
@@ -98,6 +98,8 @@ const NewProductModal = (props) =>{
         }
   }; 
   const handleGetHTTPProductos = (id) => {
+    console.log('muestro id: ',props.id);
+    console.log('muestro metodo: ',props.metodo);
     fetch(apiUrl+':8000/api/Productos/'+id, {
       method: 'GET',
       headers: {
@@ -112,17 +114,27 @@ const NewProductModal = (props) =>{
       })
       .then(data => {
         // Manipula los datos de respuesta
-        console.log(data.data);
+        setValueName(data.Nombre);
+        setDescripcion(data.Descripcion);
+        setPrecioCompra(data.PrecioCompra);
+        setPrecioVenta(data.PrecioVenta);
+        setStock(data.Stock);
+        setLote(data.Lote);
+        setFechaDeVencimiento(data.FechaVencimiento);
+        setFechaDeIngreso(data.FechaIngreso);
       })
       .catch(error => {
         // Maneja cualquier error de la solicitud
         console.error(error);
       });
   
-}; 
-if(props.metodo){handleGetHTTPProductos(props.id)}
+};
+useEffect(() => {handleGetHTTPProductos(props.id);},[props.metodo])
+
 
 //----------------------------------------------------LOGICA DEL COMPONENTE------------------------------------------------------------->
+
+
 //----------------------------------------------------VISUAL---------------------------------------------------------------------------->
    return (
         <Modal
@@ -144,41 +156,41 @@ if(props.metodo){handleGetHTTPProductos(props.id)}
                     <h6 className='text-uppercase mb-3'>DATOS DEL PRODUCTO </h6>
                     <div className='col-6 mb-2'>
                         <label htmlFor="floatingInputValue1">Nombre: </label>
-                        <input type="text" className="form-control" id="floatingInputValue1" placeholder='ej: Pepito' onChange={(event) => setValueName(event.target.value)}/>
-                    </div>
+                        <input type="text" className="form-control" id="floatingInputValue1" name="Nombre" value={inputName?? ''}  onChange={(event) => setValueName(event.target.value)}/>
+                    </div   >
                     <div className='col-6 mb-2'>
                         <label htmlFor="floatingInputValue2">Descripción:</label>
-                        <input type="text" className="form-control" id="floatingInputValue2" placeholder='ej: Rodriguez' onChange={(event) => setDescripcion(event.target.value)} />
+                        <input type="text" className="form-control" id="floatingInputValue2" value={inputDescripcion?? ''}  onChange={(event) => setDescripcion(event.target.value)} />
                     </div>
                     <div className='col-2 mb-2'>
                         <label htmlFor="floatingInputValue3">Precio Compra: </label>
-                        <input type="text" className="form-control" id="floatingInputValue2" placeholder='ej: Rodriguez' onChange={(event) => setPrecioCompra(event.target.value)} />
+                        <input type="text" className="form-control" id="floatingInputValue2" value={inputPrecioCompra?? ''}  onChange={(event) => setPrecioCompra(event.target.value)} />
                     </div>
                     <div className='col-2 mb-2'>
                         <label htmlFor="floatingInputValue4">Precio Venta: </label>
-                        <input type="text" className="form-control" id="floatingInputValue4" onChange={(event) => setPrecioVenta(event.target.value)} />
+                        <input type="text" className="form-control" id="floatingInputValue4" value={inputPrecioVenta?? ''} onChange={(event) => setPrecioVenta(event.target.value)} />
                     </div>
                     <div className='col-1 mb-3'>
                         <label htmlFor="floatingInputValue5">Stock: </label>
-                        <input type="text" className="form-control" id="floatingInputValue5" placeholder='ej: example@gmail.com'onChange={(event) => setStock(event.target.value)}/>
+                        <input type="text" className="form-control" id="floatingInputValue5" value={inputStock?? ''} onChange={(event) => setStock(event.target.value)}/>
                     </div>
                     <div className='col-2 mb-3'>
                         <label htmlFor="floatingInputValue6">Lote:</label>
-                        <input type="text" className="form-control" id="floatingInputValue6" placeholder='ej: 099999999' onChange={(event) => setLote(event.target.value)}/>
+                        <input type="text" className="form-control" id="floatingInputValue6" value={inputLote?? ''}  onChange={(event) => setLote(event.target.value)}/>
                     </div>
                     <div className='col-2 mb-3'>
                         <label htmlFor="floatingInputValue6">Fecha de Vencimiento:</label>
-                        <input type="date" className="form-control" id="floatingInputValue6" placeholder='ej: 099999999' onChange={(event) => setFechaDeVencimiento(event.target.value)}/>
+                        <input type="date" className="form-control" id="floatingInputValue6" value={inputFechaDeVencimiento?? ''}  onChange={(event) => setFechaDeVencimiento(event.target.value)}/>
                     </div>
                     <div className='col-2 mb-3'>
                         <label htmlFor="floatingInputValue6">Fecha de Ingreso:</label>
-                        <input type="date" className="form-control" id="floatingInputValue6" placeholder='ej: 099999999' onChange={(event) => setFechaDeIngreso(event.target.value)}/>
+                        <input type="date" className="form-control" id="floatingInputValue6" value={inputFechaDeIngreso?? ''}  onChange={(event) => setFechaDeIngreso(event.target.value)}/>
                     </div>
     
                 </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={() => handleUpdate(props.id)}> Crear </Button>
+                <Button variant="success" onClick={() => handleUpdate(props.id)}> Actualizar Datos </Button>
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
                     </div>

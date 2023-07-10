@@ -25,7 +25,7 @@ const Products_table = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleGetHTTPProductos = () => {
-          fetch(apiUrl+':8000/api/Productos', {
+          fetch(apiUrl+':8000/api/Productos/0', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
