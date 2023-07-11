@@ -17,7 +17,6 @@ const NewProductModal = (props) =>{
    const [modalAvisos, setModalAvisos] = useState(false);
    const [tipoNotificacion, setTipoNotificacion] = useState();
    const [mensajeNotificacion, setMensajeNotificacion] = useState();
-    console.log(props.metodo);
 //----------------------------------------------------METODOS DEL COMPONENTE------------------------------------------------------------->
    const handleRegister = () => {
     const data = {

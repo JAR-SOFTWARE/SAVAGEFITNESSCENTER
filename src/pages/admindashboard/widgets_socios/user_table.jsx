@@ -9,6 +9,8 @@ const User_table = () => {
     const [tablaUsuarios, setTablaUsuarios]= useState([]);
     const [busqueda, setBusqueda]= useState("");
     const [modalShow, setModalShow] = useState(false);
+    const [ci, setCi] = useState();
+    const [metodo, setMetodo] = useState(false);
     const [modalShowConfirmacion, setModalConfirmacion] = useState(false);
     const [confirmacion, setConfirmacion] = useState(false);
 
@@ -65,8 +67,15 @@ const User_table = () => {
         });
         setSocios(resultadosBusqueda);
         }
-
-        
+        const handleUpdate=(ci)=>{
+            setModalShow(true);
+            setCi(ci);
+            setMetodo('PATCH');
+        }
+        const handleRegister=()=>{
+            setModalShow(true);
+            setMetodo(false);
+        }
     useEffect(()=>{
        peticionGet();
     },[])
@@ -86,12 +95,14 @@ const User_table = () => {
                     <button className='btn btn-primary'><i className="bi bi-search"></i></button>
                 </div>
 
-                <button className='btn btn-outline-success mx-2' variant="primary" onClick={() => setModalShow(true)}>
+                <button className='btn btn-outline-success mx-2' variant="primary" onClick={() => handleRegister()}>
                     <i className='bi bi-person-plus'></i>
                 </button>
                 <NewUserModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
+                    metodo={metodo}
+                    ci={ci}
                 />
                
             </div>
@@ -126,7 +137,7 @@ const User_table = () => {
                                 <button onClick={() => handleDelete(socio.ci)}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
                                 </button>
-                                <button className='btn btn-outline-primary mx-2'>
+                                <button onClick={() => handleUpdate(socio.ci)} className='btn btn-outline-primary mx-2'>
                                     <i className='bi bi-pen'></i>
                                 </button>    
                                     

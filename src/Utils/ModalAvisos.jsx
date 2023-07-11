@@ -3,6 +3,19 @@ import Modal from 'react-bootstrap/Modal';
 import {useState} from 'react';
 
 const ModalAvisos = (props) =>{
+    //VARIABLES QUE NECESITO PARA QUE FUNCIONE
+    // const [tipoNotificacion, setTipoNotificacion] = useState(); LA NOTIFICACION PUEDE SER AVISO O NTOFICACION
+    // const [mensajeNotificacion, setMensajeNotificacion] = useState(); MENSAJE QUE QUIERO QUE APAREZCA
+    // const [modalAvisos, setModalAvisos] = useState(false); ESTO ABRE EL MODAL TRUE O FALSE
+//METODO PARA UTILIZAR LAS NOTIFICACIONES
+    // const handleNotificacion=(tipo,mensaje)=>{
+    //     setTipoNotificacion(tipo);
+    //     setMensajeNotificacion(mensaje);
+    //     setModalShow(false);
+    //     setModalAvisos(true);
+             
+    // }
+
    const apiUrl = process.env.REACT_APP_API_URL;
    const [respuesta, setRespuesta] = useState();
    var tipoNotificacion;
