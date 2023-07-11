@@ -16,10 +16,7 @@ const Cards = ({infoingresos,infopago,infosocio,diasDeCuota}) =>{
     }
     console.log(diasDeCuota);
     if(diasDeCuota==='Esta vencido'){
-        console.log('no entra');
         vencido=true;
-        // setclaseCSS("form-control text-white bg-success");
-        // settexto('INHABILITADO');
     }
 
     const RegistroDeCuota=(inputCi)=>{   
