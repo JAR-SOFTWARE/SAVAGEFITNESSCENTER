@@ -6,9 +6,8 @@ import Login from "./pages/loginPage/Login";
 import Home from "./pages/admindashboard/Home";
 import Caja from "./pages/admindashboard/Caja";
 import Pagos from "./pages/admindashboard/Pagos";
-import Productos from "./pages/admindashboard/Productos";
 import Socios from "./pages/admindashboard/Socios";
-
+import Productos from "./pages/admindashboard/Productos";
 function App() {
   return (
       <div className="App">
@@ -20,7 +19,7 @@ function App() {
                 <Route path="socios" element={<Socios/>}></Route>   
                 <Route path="pagos" element={<Pagos/>}></Route>   
                 <Route path="caja" element={<Caja/>}></Route>   
-                <Route path="productos" element={<Productos/>}></Route>   
+                <Route path="productos" element={<Productos/>}></Route> 
               </Route>
           </Routes>
         </BrowserRouter>

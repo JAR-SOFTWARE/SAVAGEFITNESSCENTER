@@ -1,17 +1,22 @@
 import './widgets_socios.css'
 import {useEffect, useState} from 'react';
 import NewUserModal from './new_user_modal';
+import ModalAvisos from '../../../Utils/ModalAvisos';
+
 
 const User_table = () => {
     const [socios, setSocios] = useState([]);
     const [tablaUsuarios, setTablaUsuarios]= useState([]);
     const [busqueda, setBusqueda]= useState("");
-
     const [modalShow, setModalShow] = useState(false);
+    const [ci, setCi] = useState();
+    const [metodo, setMetodo] = useState(false);
+    const [modalShowConfirmacion, setModalConfirmacion] = useState(false);
+    const [confirmacion, setConfirmacion] = useState(false);
 
     const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
-        const url = apiUrl+':8000/api/Usuarios';
+        const url = apiUrl+':8000/api/Usuarios/0';
         const response =  fetch (url,{
             method:'GET',
             headers:{'Content-Type': 'application/json'}
@@ -22,7 +27,31 @@ const User_table = () => {
             setTablaUsuarios(response.data);
         });
     }
-    
+    const handleDelete = (ci) => {
+        setModalShow(true);
+        //   fetch(apiUrl+':8000/api/Usuarios/'+ci, {
+        //     method: 'DELETE',
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //     },
+        //   })
+        //     .then(response => {
+        //       if (!response.ok) {
+        //         throw new Error('Error en la solicitud');
+        //       }
+        //       return response.json();
+        //     })
+        //     .then(data => {
+        //       // Manipula los datos de respuesta
+        //       console.log(data);
+        //       peticionGet();
+        //     })
+        //     .catch(error => {
+        //       // Maneja cualquier error de la solicitud
+        //       console.error(error);
+        //     });
+        
+      }; 
     const handleChange=e=>{
         setBusqueda(e.target.value);
         filtrar(e.target.value);
@@ -38,29 +67,48 @@ const User_table = () => {
         });
         setSocios(resultadosBusqueda);
         }
-
-        
+        const handleUpdate=(ci)=>{
+            setModalShow(true);
+            setCi(ci);
+            setMetodo('PATCH');
+        }
+        const handleRegister=()=>{
+            setModalShow(true);
+            setMetodo(false);
+        }
     useEffect(()=>{
-        peticionGet();
+       peticionGet();
     },[])
         
     return (
         
         <div>
-            <div className='d-flex py-2 justify-content-end'>
-                <div className='input-group w-25'>
+            <div className='row'>
+                <div className="col-3">
+                    <h3 className='mt-2'>GESTION DE SOCIOS</h3>
+                </div>
+                <div className="col-9">
+                <div className='d-flex py-2 justify-content-end'>
+                
+                <div className='input-group w-50'>
                     <input type="text" className='form-control' value={busqueda} placeholder='Buscar' onChange={handleChange}/>
                     <button className='btn btn-primary'><i className="bi bi-search"></i></button>
                 </div>
 
-                <button className='btn btn-outline-success mx-2' variant="primary" onClick={() => setModalShow(true)}>
+                <button className='btn btn-outline-success mx-2' variant="primary" onClick={() => handleRegister()}>
                     <i className='bi bi-person-plus'></i>
                 </button>
                 <NewUserModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
+                    metodo={metodo}
+                    ci={ci}
                 />
+               
             </div>
+                </div>
+                </div>
+           
             <div className="card shadow-sm my-2 tablas">
                 <table className="table table-striped">
                     <thead>
@@ -86,10 +134,10 @@ const User_table = () => {
                                 <td>{socio.Mail}</td>
                                 <td>{socio.Telefono}</td>
                                 <td>
-                                <button className='btn btn-outline-danger mx-2'>
+                                <button onClick={() => handleDelete(socio.ci)}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
                                 </button>
-                                <button className='btn btn-outline-primary mx-2'>
+                                <button onClick={() => handleUpdate(socio.ci)} className='btn btn-outline-primary mx-2'>
                                     <i className='bi bi-pen'></i>
                                 </button>    
                                     
@@ -98,7 +146,21 @@ const User_table = () => {
                         ))}
                     </tbody>
                 </table>
-
+                <div>
+      {confirmacion ? (
+        <ModalAvisos
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        />
+        // <div>
+        //   <p>¿Estás seguro de borrar este usuario?</p>
+        //   <button className='btn btn-danger' >Confirmar</button>
+        //   <button className='btn btn-secondary' >Cancelar</button>
+        // </div>
+      ) : (
+        <p></p>
+      )}
+    </div>
             </div>
         </div>
         
