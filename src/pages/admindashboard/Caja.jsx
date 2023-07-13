@@ -1,8 +1,6 @@
 import Navbar from "./components/navbar"
 import Sidebar from './components/sidebar'
 import Footerbar from './components/footerbar'
-import BoxCompra from "./widgets_caja/box_compra"
-import BoxVenta from "./widgets_caja/box_venta"
 import Transaction_table from "./widgets_caja/table_transacciones"
 const caja = () =>{
     return (
@@ -16,9 +14,10 @@ const caja = () =>{
                 </div>
                 <div className='col-10'>
                     <div className="row">
-                        <BoxVenta/>
-                        <BoxCompra/>
-                        <Transaction_table/>
+                       
+                        <Transaction_table
+                        
+                        />
                     </div>
                 </div>
                 <div className='col-12 footer text-bg-dark'>
