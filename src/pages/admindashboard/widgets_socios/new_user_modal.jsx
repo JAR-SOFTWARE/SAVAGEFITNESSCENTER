@@ -38,8 +38,9 @@ const NewUserModal = (props) =>{
             Mail:inputCorreo,
             Sexo:selectSexo,
             Opcion:selectOpt,
-            password:inputPassword,
+            password:inputCi,
           };
+
           fetch(apiUrl+':8000/api/Usuarios', {
             method: 'POST',
             headers: {
@@ -63,8 +64,8 @@ const NewUserModal = (props) =>{
               // Maneja cualquier error de la solicitud
               console.error(error);
             });
-        
       };
+      
       const handleUpdate = (ci) => {
         const data = {
             ci: inputCi,

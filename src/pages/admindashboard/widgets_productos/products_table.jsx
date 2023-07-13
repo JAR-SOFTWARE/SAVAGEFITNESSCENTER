@@ -76,7 +76,7 @@ const Products_table = ({respuesta,setRespuesta}) => {
     }, [respuesta])
     const handleResponse=(id)=>{
         setId(id);
-        handleNotificacion('Confirmacion','SEGURO QUE DESEA ELIMINAR'); 
+        handleNotificacion('Confirmacion','¿ESTA SEGURO QUE DESEA ELIMINAR?'); 
     }
     const handleDelete = (id) => {
           fetch(apiUrl+':8000/api/Productos/'+id, {
@@ -151,9 +151,9 @@ const Products_table = ({respuesta,setRespuesta}) => {
                                 <td>{producto.PrecioCompra}</td>
                                 <td>{producto.PrecioVenta}</td>
                                 <td>{producto.Stock}</td>
-                                <td>{producto.FechaIngreso}</td>
                                 <td>{producto.Lote}</td>
                                 <td>{producto.FechaVencimiento}</td>
+                                <td>{producto.FechaIngreso}</td>
                                 <td>
                                 <button onClick={() => handleResponse(producto.id)}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
