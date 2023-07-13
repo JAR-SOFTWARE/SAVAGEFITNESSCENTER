@@ -1,8 +1,12 @@
+import { useState } from "react"
 import Navbar from "./components/navbar"
 import Sidebar from './components/sidebar'
 import Footerbar from './components/footerbar'
 import Products_table from "./widgets_productos/products_table"
-const productos = () =>{
+
+
+const Productos = () =>{
+    const [respuesta, setRespuesta] = useState();
     return (
         <div className='home'>
             <div className='row'>
@@ -13,7 +17,10 @@ const productos = () =>{
                      <Sidebar/>  
                 </div>
                 <div className='col-10'>
-                    <Products_table/>
+                    <Products_table
+                    respuesta={respuesta}
+                    setRespuesta={setRespuesta}
+                    />
                 </div>
                 <div className='col-12 footer text-bg-dark'>
                     <Footerbar/>
@@ -24,4 +31,4 @@ const productos = () =>{
     )
 }
 
-export default productos
+export default Productos
