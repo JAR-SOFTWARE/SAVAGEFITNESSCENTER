@@ -3,7 +3,7 @@ import NewProductModal from './new_product_modal';
 import productos from "../Productos";
 import ModalAvisos from "../../../Utils/ModalAvisos";
 
-const Products_table = () => {
+const Products_table = ({respuesta,setRespuesta}) => {
     
     var fecha = new Date(); //Fecha actual
     var mes = fecha.getMonth()+1; //obteniendo mes
@@ -23,7 +23,7 @@ const Products_table = () => {
     const [metodo, setMetodo] = useState();
     const [productos, setProductos] = useState([]);
     const apiUrl = process.env.REACT_APP_API_URL;
-
+    console.log(respuesta);
     const handleGetHTTPProductos = () => {
           fetch(apiUrl+':8000/api/Productos/0', {
             method: 'GET',
@@ -69,6 +69,15 @@ const Products_table = () => {
         setModalAvisos(true);
              
     }
+    useEffect(() => {
+      if(respuesta==='true'){
+        handleDelete(id);
+      }
+    }, [respuesta])
+    const handleResponse=(id)=>{
+        setId(id);
+        handleNotificacion('Confirmacion','SEGURO QUE DESEA ELIMINAR'); 
+    }
     const handleDelete = (id) => {
           fetch(apiUrl+':8000/api/Productos/'+id, {
             method: 'DELETE',
@@ -94,7 +103,6 @@ const Products_table = () => {
             });
         
       };
-
     return(
         <div>
             <div className="row">
@@ -147,7 +155,7 @@ const Products_table = () => {
                                 <td>{producto.Lote}</td>
                                 <td>{producto.FechaVencimiento}</td>
                                 <td>
-                                <button onClick={() => handleDelete(producto.id)}  className='btn btn-outline-danger mx-2'>
+                                <button onClick={() => handleResponse(producto.id)}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
                                 </button>
                                 <button onClick={() => handlePatchHTTPProductos(producto.id)}  className='btn btn-outline-primary mx-2'>
@@ -171,6 +179,9 @@ const Products_table = () => {
                         onHide={() => setModalAvisos(false)}
                         tipo={tipoNotificacion}
                         mensaje={mensajeNotificacion}
+                        respuesta={respuesta}
+                        setRespuesta={setRespuesta}
+                        
             />
         </div>
         

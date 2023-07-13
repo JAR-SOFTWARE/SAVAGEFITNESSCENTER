@@ -1,12 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 
 const ModalAvisos = (props) =>{
     //VARIABLES QUE NECESITO PARA QUE FUNCIONE
     // const [tipoNotificacion, setTipoNotificacion] = useState(); LA NOTIFICACION PUEDE SER AVISO O NTOFICACION
     // const [mensajeNotificacion, setMensajeNotificacion] = useState(); MENSAJE QUE QUIERO QUE APAREZCA
-    // const [modalAvisos, setModalAvisos] = useState(false); ESTO ABRE EL MODAL TRUE O FALSE
+    
+    const [modalAvisos, setModalAvisos] = useState(false);
+    
 //METODO PARA UTILIZAR LAS NOTIFICACIONES
     // const handleNotificacion=(tipo,mensaje)=>{
     //     setTipoNotificacion(tipo);
@@ -15,14 +17,19 @@ const ModalAvisos = (props) =>{
     //     setModalAvisos(true);
              
     // }
-
+   
    const apiUrl = process.env.REACT_APP_API_URL;
-   const [respuesta, setRespuesta] = useState();
    var tipoNotificacion;
    if (props.tipo=='Confirmacion'){
     tipoNotificacion=true;
     
+}
+const handleResponse=()=>{
+    setModalAvisos(false);
+    props.setRespuesta('true');       
    }
+
+
    const refresh=()=>{window.location.reload()} 
    return (
         <Modal
@@ -46,7 +53,7 @@ const ModalAvisos = (props) =>{
             <Modal.Footer>
             {tipoNotificacion ? (
                         <div>
-                            <Button onClick={()=> setRespuesta(true)} className='me-3 text-white' variant="warning"> Confirmar </Button>
+                            <Button onClick={()=> handleResponse()} className='me-3 text-white' variant="warning"> Confirmar </Button>
                             <Button variant='secondary' onClick={props.onHide}>Cancelar</Button>
                         </div>
                     ):(
