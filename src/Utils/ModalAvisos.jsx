@@ -6,7 +6,7 @@ const ModalAvisos = (props) =>{
     //VARIABLES QUE NECESITO PARA QUE FUNCIONE
     // const [tipoNotificacion, setTipoNotificacion] = useState(); LA NOTIFICACION PUEDE SER AVISO O NTOFICACION
     // const [mensajeNotificacion, setMensajeNotificacion] = useState(); MENSAJE QUE QUIERO QUE APAREZCA
-    
+    // const [respuesta, setRespuesta] = useState();
     const [modalAvisos, setModalAvisos] = useState(false);
     
 //METODO PARA UTILIZAR LAS NOTIFICACIONES

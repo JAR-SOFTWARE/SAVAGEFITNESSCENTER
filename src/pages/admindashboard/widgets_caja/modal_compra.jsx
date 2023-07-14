@@ -16,7 +16,7 @@ const NewCompraModal = (props) =>{
             >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    NUEVA VENTA
+                    REGISTRAR COMPRA
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

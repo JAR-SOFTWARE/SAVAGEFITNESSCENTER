@@ -1,65 +1,46 @@
 import { useState,useEffect } from "react";
 import NewVentaModal from "./modal_venta";
 import NewCompraModal from "./modal_compra"
-
+import ModalAvisos from "../../../Utils/ModalAvisos";
 const Transaction_table = () => {
 //-------------------------------------------------------------------INICIO DE VARIABLES------------------------------------------------------------------->
     const apiUrl = process.env.REACT_APP_API_URL;
     const [ventas, setVentas] = useState([]);
     const [ventasDelDia, setVentasDelDia] = useState();   
-    const [modalShow, setModalShow] = useState(); 
+    const [fecha, setFecha] = useState(currentdate);
+    const [modalVentaShow, setModalVentaShow] = useState();
+    const [modalCompraShow, setModalCompraShow] = useState();
+    const [tipoNotificacion, setTipoNotificacion] = useState(); 
+    const [mensajeNotificacion, setMensajeNotificacion] = useState(); 
+    const [modalAvisos, setModalAvisos] = useState(false);
+    const [respuesta, setRespuesta] = useState();
+    const [id, setId] = useState();
     var date = new Date(); //Fecha actual
     var mes = date.getMonth()+1; //obteniendo mes
     var dia = date.getDate(); //obteniendo dia
     var ano = date.getFullYear(); //obteniendo año
-    if(dia<10)
-    dia='0'+dia; //agrega cero si el menor de 10
-    if(mes<10)
-    mes='0'+mes //agrega cero si el menor de 10
+    if(dia<10)dia='0'+dia; //agrega cero si el menor de 10
+    if(mes<10)mes='0'+mes //agrega cero si el menor de 10
     var currentdate = ano+"-"+mes+"-"+dia;
 //-------------------------------------------------------------------DECLARACION DE METODOS------------------------------------------------------------------->
-// const handleGetHTTPVentas=(fecha)=>{
-//     console.log(fecha);
-//     fetch(apiUrl+':8000/api/Transacciones/Venta/'+fecha, {
-//         method: 'GET'
-//       })
-//         .then(response => {
-//           if (!response.ok) {
-//             throw new Error('Error en la solicitud');
-//           }
-//           return response.json();
-//         })
-//         .then(data => {
-//           // Manipula los datos de respuesta
-//           console.log(data.data[0]);
-//           setVentas(data.data[0]);
-//         })
-//         .catch(error => {
-//           // Maneja cualquier error de la solicitud
-//           console.error(error);
-//         });
-// }
 const handleGETALL=(fecha)=>{
-    
+    setFecha(fecha);
     handleGetHTTPVentas(fecha);
     handleGetHTTPVentasDelDia(fecha);
 }
 const handleGetHTTPVentas = async(fecha) =>{ 
     const url = apiUrl+':8000/api/Transacciones/Venta/'+fecha;
-    console.log(url);
     const response =  fetch (url,{
         method:'GET',
         headers:{'Content-Type': 'application/json'}
     }).then(res => res.json())
     .catch(error => console.error('Error:', error))
     .then(response => {
-        console.log(response.data);
         setVentas(response.data);
     });
 }
 const handleGetHTTPVentasDelDia = async(fecha) =>{ 
     const url = apiUrl+':8000/api/Transacciones/VentasDelDia/'+fecha;
-    console.log(url);
     const response =  fetch (url,{
         method:'GET',
         headers:{'Content-Type': 'application/json'}
@@ -69,15 +50,66 @@ const handleGetHTTPVentasDelDia = async(fecha) =>{
         setVentasDelDia(response);
     });
 }
+const handleDelete = (id) => {
+      fetch(apiUrl+':8000/api/Transacciones/'+id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la solicitud');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Manipula los datos de respuesta
+          handleNotificacion('Aviso',data.respuesta,'');
+          console.log(data);
+        })
+        .catch(error => {
+          // Maneja cualquier error de la solicitud
+          console.error(error);
+        });
+    
+  }; 
+const handleNotificacion=(tipo,mensaje,id)=>{
+        setTipoNotificacion(tipo);
+        setMensajeNotificacion(mensaje);
+        setModalAvisos(true);
+        setId(id);     
+    }
+//-------------------------------------------------------------------LOGICA DEL COMPONENTE------------------------------------------------------------------->
 useEffect(() => {
-  
     handleGetHTTPVentas(currentdate);
     handleGetHTTPVentasDelDia(currentdate);
     
 },[])
-
+useEffect(() => {
+    if(respuesta==='true'){
+      handleDelete(id);
+    }
+  }, [respuesta])
+  
     return(
         <div>
+            
+            <div className="row mt-2">
+                <div className="col-6">
+                <div className="d-flex justify-content-start"> 
+                <h2 className="border border-radius-5">FECHA SELECCIONADA: {fecha??currentdate}</h2>
+                </div>
+                    
+                </div>
+                <div className="col-6">
+                <div className="d-flex justify-content-end">    
+                            <div className='input-group w-25'>
+                                <input type="date" className='form-control' onChange={(event) => handleGETALL(event.target.value)} defaultValue={currentdate}/>
+                            </div>
+                        </div>
+                </div>
+            </div>
             <div className="row">
             <div className="col-6">
                     <div className="py-3">
@@ -90,13 +122,19 @@ useEffect(() => {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex justify-content-end">
-                        <button className="btn btn-outline-success" onClick={() => setModalShow(true)}> + Nueva Venta </button>
+                    <div className="row justify-content-end">
+                    <div className="col-3">
+                        <button className="btn btn-outline-secondary" onClick={() => setModalVentaShow(true)}>Ventas de Productos</button>
                     </div>
-                    <NewVentaModal
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        />
+                    <div className="col-3">
+                        <button className="btn btn-outline-secondary" onClick={() => setModalVentaShow(true)}>Ver Pago de Cuotas</button>
+                    </div>
+                    <div className="col-3">
+                        <button className="btn btn-outline-success" onClick={() => setModalVentaShow(true)}> + Nueva Venta </button>
+                    </div>
+                    </div>
+                    
+                    
                     </div>
                     <div className="col-6">
              <div className="py-3">
@@ -109,80 +147,80 @@ useEffect(() => {
                     </div>
                 </div>
             </div>
+            
             <div className="d-flex justify-content-end">
-                <button className="btn btn-outline-danger" onClick={() => setModalShow(true)}> + Nueva Compra </button>
+                <button className="btn btn-outline-danger" onClick={() => setModalCompraShow(true)}> + Nueva Compra </button>
             </div>
-            <NewCompraModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                />
+            
                     </div>
             </div>
                     
-            <div className="row py-3">
-                <div className='col-2'>
-                    <div className='input-group w-100'>
-                        <input type="text" className='form-control'/>
-                        <button className='btn btn-primary'><i className="bi bi-search"></i></button>
-                    </div>
-                </div>
-                <div className='col-10'>
-                    <div className="">    
-                        <div className="d-flex justify-content-end">    
-                            <div className='input-group w-25'>
-                                <input type="date" className='form-control' onChange={(event) => handleGETALL(event.target.value)} defaultValue={currentdate}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <br />
+            
             <div className="row">
-            <div className="col-6">
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Producto</th>
-                        <th>Vendedor</th>
-                        <th>Cliente</th>
-                        <th>Hora Transaccion</th>
-                        <th>Precio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {ventas.map((venta) => (
-                            <tr key={venta.id}>
-                                <th scope="row">{venta.id}</th>
-                                <th>{venta.Producto}</th>
-                                <th>{venta.Vendedor}</th>
-                                <th>{venta.Cliente}</th>
-                                <th>{venta.HoraTransaccion}</th>
-                                <th>{venta.Precio}</th>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
-            </div>
-            <div className="col-6">
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Producto</th>
-                        <th>Descripcion</th>
-                        <th>Cantidad</th>
-                        <th>Precio Venta</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <div className="row">
+                    <h2 className="d-flex justify-content-start">Pagos</h2>
+                </div>
+                <div className="row border mt-2 mb-2"></div>
+            <div className="row">
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Vendedor</th>
+                            <th>Cliente</th>
+                            <th>Hora Transaccion</th>
+                            <th>Precio</th>
+                            <th>Gestion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {ventas.map((venta) => (
+                                <tr key={venta.id}>
+                                    
+                                    <th scope="row">{venta.id}</th>
+                                    <th>{venta.Producto}</th>
+                                    <th>{venta.Vendedor}</th>
+                                    <th>{venta.Cliente}</th>
+                                    <th>{venta.HoraTransaccion}</th>
+                                    <th>{venta.Precio}</th>
+                                    <th>
+                                        <button onClick={() => handleNotificacion('Confirmacion','Desea Eliminar la Transaccion',venta.id)}  className='btn btn-outline-danger mx-2'>
+                                            <i className='bi bi-trash'> </i>
+                                        </button>
+                                       
+                                    </th>
+                                </tr>
+                            ))}
+                    </tbody>
+                    
+                </table>
                 
-                </tbody>
-            </table>
             </div>
+           
             </div>
             
-            
+{/* -------------------------------------------------------------------MODALES-------------------------------------------------------------------> */}
+            <ModalAvisos 
+            show={modalAvisos}
+            onHide={() => setModalAvisos(false)}
+            tipo={tipoNotificacion}
+            mensaje={mensajeNotificacion}
+            respuesta={respuesta}
+            setRespuesta={setRespuesta}
+            />
+            <NewVentaModal
+                        show={modalVentaShow}
+                        onHide={() => setModalVentaShow(false)}
+            />
+            <NewCompraModal
+                show={modalCompraShow}
+                onHide={() => setModalCompraShow(false)}
+            />   
         </div>
     )
+   
+    
 }
 export default Transaction_table
