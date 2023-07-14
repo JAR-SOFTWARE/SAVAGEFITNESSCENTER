@@ -2,7 +2,7 @@ import './widgets_socios.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {useState,useEffect} from 'react';
-import ModalAvisos from '../../../Utils/ModalAvisos';
+import ModalAvisos from '../../../Utils/modal_confirmacion';
 
 const NewUserModal = (props) =>{
    const apiUrl = process.env.REACT_APP_API_URL;

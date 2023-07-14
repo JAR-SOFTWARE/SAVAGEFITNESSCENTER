@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {useState,useEffect} from 'react';
-import ModalAvisos from '../../../Utils/ModalAvisos';
+import ModalAvisos from '../../../Utils/modal_confirmacion';
 
 const NewProductModal = (props) =>{
 //----------------------------------------------------SETEO DE VARIABLES------------------------------------------------------------->

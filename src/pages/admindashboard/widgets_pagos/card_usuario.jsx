@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import Cookies from 'js-cookie';
-import ModalAvisos from "../../../Utils/ModalAvisos";
+import Modal_confirmacion from "../../../Utils/modal_confirmacion";
 
 const Cards = ({infoingresos,infopago,infosocio,diasDeCuota}) =>{
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -89,7 +89,7 @@ const Cards = ({infoingresos,infopago,infosocio,diasDeCuota}) =>{
                 <div className="col-2 form-floating mb-3" >
                     <button onClick={() => RegistroDeCuota(infosocio.ci)} className="btn btn-primary w-100">Registrar Cuota</button>
                 </div>
-                <ModalAvisos
+                <Modal_confirmacion
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     titulo={titulo}

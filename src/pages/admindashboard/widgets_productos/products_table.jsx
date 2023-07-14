@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import NewProductModal from './new_product_modal';
 import productos from "../Productos";
-import ModalAvisos from "../../../Utils/ModalAvisos";
+import Modal_confirmacion from "../../../Utils/modal_confirmacion";
 
 const Products_table = ({respuesta,setRespuesta}) => {
     
@@ -23,7 +23,7 @@ const Products_table = ({respuesta,setRespuesta}) => {
     const [metodo, setMetodo] = useState();
     const [productos, setProductos] = useState([]);
     const apiUrl = process.env.REACT_APP_API_URL;
-    console.log(respuesta);
+
     const handleGetHTTPProductos = () => {
           fetch(apiUrl+':8000/api/Productos/0', {
             method: 'GET',
@@ -174,7 +174,7 @@ const Products_table = ({respuesta,setRespuesta}) => {
                         id={id}
                         metodo={metodo}
             />
-            <ModalAvisos
+            <Modal_confirmacion
                         show={modalAvisos}
                         onHide={() => setModalAvisos(false)}
                         tipo={tipoNotificacion}

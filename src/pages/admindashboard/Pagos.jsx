@@ -4,7 +4,7 @@ import Footerbar from './components/footerbar'
 import Cards from "./widgets_pagos/card_usuario"
 import React, { useState } from 'react';
 import { Spinner } from "react-bootstrap";
-import ModalAvisos from "../../Utils/ModalAvisos";
+import Modal_confirmacion from "../../Utils/modal_confirmacion";
 
 const Pagos = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -134,7 +134,7 @@ const Pagos = () => {
                         </div>
                     </div>
                     <div>
-                    <ModalAvisos
+                    <Modal_confirmacion
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     titulo={titulo}

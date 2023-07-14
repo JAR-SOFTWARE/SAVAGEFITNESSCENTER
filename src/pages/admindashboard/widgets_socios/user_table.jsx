@@ -1,18 +1,21 @@
 import './widgets_socios.css'
 import {useEffect, useState} from 'react';
 import NewUserModal from './new_user_modal';
-import ModalAvisos from '../../../Utils/ModalAvisos';
+import Modal_confirmacion from '../../../Utils/modal_confirmacion';
 
 
-const User_table = () => {
+const User_table = ({respuesta,setRespuesta}) => {
+
     const [socios, setSocios] = useState([]);
     const [tablaUsuarios, setTablaUsuarios]= useState([]);
     const [busqueda, setBusqueda]= useState("");
     const [modalShow, setModalShow] = useState(false);
     const [ci, setCi] = useState();
     const [metodo, setMetodo] = useState(false);
-    const [modalShowConfirmacion, setModalConfirmacion] = useState(false);
-    const [confirmacion, setConfirmacion] = useState(false);
+
+    const [tipoNotificacion, setTipoNotificacion] = useState();
+    const [mensajeNotificacion, setMensajeNotificacion] = useState();
+    const [modalAvisos, setModalAvisos] = useState(false);
 
     const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
@@ -27,6 +30,14 @@ const User_table = () => {
             setTablaUsuarios(response.data);
         });
     }
+
+    const handleNotificacion=(tipo,mensaje)=>{
+        setTipoNotificacion(tipo);
+        setMensajeNotificacion(mensaje);
+        setModalShow(false);
+        setModalAvisos(true);        
+    }
+
     const handleDelete = (ci) => {
         setModalShow(true);
         //   fetch(apiUrl+':8000/api/Usuarios/'+ci, {
@@ -134,7 +145,7 @@ const User_table = () => {
                                 <td>{socio.Mail}</td>
                                 <td>{socio.Telefono}</td>
                                 <td>
-                                <button onClick={() => handleDelete(socio.ci)}  className='btn btn-outline-danger mx-2'>
+                                <button onClick={() => handleNotificacion('Confirmacion','¿Estas seguro que deseas eliminar a este usuario?')}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
                                 </button>
                                 <button onClick={() => handleUpdate(socio.ci)} className='btn btn-outline-primary mx-2'>
@@ -146,21 +157,15 @@ const User_table = () => {
                         ))}
                     </tbody>
                 </table>
-                <div>
-      {confirmacion ? (
-        <ModalAvisos
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        />
-        // <div>
-        //   <p>¿Estás seguro de borrar este usuario?</p>
-        //   <button className='btn btn-danger' >Confirmar</button>
-        //   <button className='btn btn-secondary' >Cancelar</button>
-        // </div>
-      ) : (
-        <p></p>
-      )}
-    </div>
+                <Modal_confirmacion
+                        show={modalAvisos}
+                        onHide={() => setModalAvisos(false)}
+                        tipo={tipoNotificacion}
+                        mensaje={mensajeNotificacion}
+                        respuesta={respuesta}
+                        setRespuesta={setRespuesta}
+                        
+                />
             </div>
         </div>
         
