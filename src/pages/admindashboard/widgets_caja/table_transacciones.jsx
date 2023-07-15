@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, Fragment } from "react";
 import NewVentaModal from "./modal_venta";
 import NewCompraModal from "./modal_compra"
 import ModalAvisos from "../../../Utils/ModalAvisos";
@@ -6,7 +6,9 @@ const Transaction_table = () => {
 //-------------------------------------------------------------------INICIO DE VARIABLES------------------------------------------------------------------->
     const apiUrl = process.env.REACT_APP_API_URL;
     const [ventas, setVentas] = useState([]);
-    const [ventasDelDia, setVentasDelDia] = useState();   
+    const [ventasDelDia, setVentasDelDia] = useState();
+    const [compras, setCompras] = useState([]);
+    const [comprasDelDia, setComprasDelDia] = useState();   
     const [fecha, setFecha] = useState(currentdate);
     const [modalVentaShow, setModalVentaShow] = useState();
     const [modalCompraShow, setModalCompraShow] = useState();
@@ -15,6 +17,7 @@ const Transaction_table = () => {
     const [modalAvisos, setModalAvisos] = useState(false);
     const [respuesta, setRespuesta] = useState();
     const [id, setId] = useState();
+    const [valueOption, setValueOption] = useState(true);
     var date = new Date(); //Fecha actual
     var mes = date.getMonth()+1; //obteniendo mes
     var dia = date.getDate(); //obteniendo dia
@@ -25,7 +28,8 @@ const Transaction_table = () => {
 //-------------------------------------------------------------------DECLARACION DE METODOS------------------------------------------------------------------->
 const handleGETALL=(fecha)=>{
     setFecha(fecha);
-    handleGetHTTPVentas(fecha);
+    {valueOption?handleGetHTTPVentas(fecha):handleGetHTTPCompras(fecha)}
+    handleGetHTTPComprasDelDia(fecha);
     handleGetHTTPVentasDelDia(fecha);
 }
 const handleGetHTTPVentas = async(fecha) =>{ 
@@ -48,6 +52,28 @@ const handleGetHTTPVentasDelDia = async(fecha) =>{
     .catch(error => console.error('Error:', error))
     .then(response => {
         setVentasDelDia(response);
+    });
+}
+const handleGetHTTPCompras = async(fecha) =>{ 
+    const url = apiUrl+':8000/api/Transacciones/Compra/'+fecha;
+    const response =  fetch (url,{
+        method:'GET',
+        headers:{'Content-Type': 'application/json'}
+    }).then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        setCompras(response.data);
+    });
+}
+const handleGetHTTPComprasDelDia = async(fecha) =>{ 
+    const url = apiUrl+':8000/api/Transacciones/ComprasDelDia/'+fecha;
+    const response =  fetch (url,{
+        method:'GET',
+        headers:{'Content-Type': 'application/json'}
+    }).then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        setComprasDelDia(response);
     });
 }
 const handleDelete = (id) => {
@@ -91,9 +117,9 @@ useEffect(() => {
       handleDelete(id);
     }
   }, [respuesta])
-  
+  console.log(valueOption);
     return(
-        <div>
+        <Fragment>
             
             <div className="row mt-2">
                 <div className="col-6">
@@ -103,11 +129,18 @@ useEffect(() => {
                     
                 </div>
                 <div className="col-6">
-                <div className="d-flex justify-content-end">    
-                            <div className='input-group w-25'>
+                    <div className="d-flex justify-content-end">    
+                            <div className='input-group w-25 me-3'>
                                 <input type="date" className='form-control' onChange={(event) => handleGETALL(event.target.value)} defaultValue={currentdate}/>
                             </div>
-                        </div>
+                            <div className='input-group w-25 me-3'>
+                            <select className='form-select' onChange={(event) => setValueOption(event.target.value)}>
+                                <option>Filtar por</option>
+                                <option value={true}>Ventas del Día</option>
+                                <option value={''}>Compras del Día</option>
+                            </select>
+                            </div>
+                    </div>
                 </div>
             </div>
             <div className="row">
@@ -124,12 +157,6 @@ useEffect(() => {
                     </div>
                     <div className="row justify-content-end">
                     <div className="col-3">
-                        <button className="btn btn-outline-secondary" onClick={() => setModalVentaShow(true)}>Ventas de Productos</button>
-                    </div>
-                    <div className="col-3">
-                        <button className="btn btn-outline-secondary" onClick={() => setModalVentaShow(true)}>Ver Pago de Cuotas</button>
-                    </div>
-                    <div className="col-3">
                         <button className="btn btn-outline-success" onClick={() => setModalVentaShow(true)}> + Nueva Venta </button>
                     </div>
                     </div>
@@ -143,7 +170,7 @@ useEffect(() => {
                         Compras del día
                     </div>
                     <div className="card-body">
-                        <h2 className="card-body">$ 1000.00</h2>
+                        <h2 className="card-body">${comprasDelDia??'0'}</h2>
                     </div>
                 </div>
             </div>
@@ -158,12 +185,18 @@ useEffect(() => {
             <br />
             
             <div className="row">
-                <div className="row">
-                    <h2 className="d-flex justify-content-start">Pagos</h2>
-                </div>
+                
                 <div className="row border mt-2 mb-2"></div>
             <div className="row">
-                <table className="table table-striped">
+                {valueOption ? (
+//---------------------------------------------------------------------------------TABLA PARA LAS VENTAS --------------------------------------------------------------------------------->
+<Fragment>
+    <div className="row">
+        <div className="d-flex justify-content-start">
+            <h2 className="mt-2">Ventas del día</h2>
+        </div>
+    </div>
+                    <table className="table table-striped">  
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -171,11 +204,12 @@ useEffect(() => {
                             <th>Vendedor</th>
                             <th>Cliente</th>
                             <th>Hora Transaccion</th>
-                            <th>Precio</th>
+                            <th>Precio Venta</th>
                             <th>Gestion</th>
                         </tr>
                     </thead>
                     <tbody>
+                        
                     {ventas.map((venta) => (
                                 <tr key={venta.id}>
                                     
@@ -188,20 +222,48 @@ useEffect(() => {
                                     <th>
                                         <button onClick={() => handleNotificacion('Confirmacion','Desea Eliminar la Transaccion',venta.id)}  className='btn btn-outline-danger mx-2'>
                                             <i className='bi bi-trash'> </i>
-                                        </button>
-                                       
+                                        </button> 
                                     </th>
                                 </tr>
                             ))}
                     </tbody>
                     
                 </table>
+</Fragment>
+                ):(
+//---------------------------------------------------------------------------------TABLA PARA LAS COMPRAS --------------------------------------------------------------------------------->
+<Fragment>
+    <div className="row">
+        <div className="d-flex justify-content-start">
+            <h2 className="mt-2">Compras del día</h2>
+        </div>
+    </div>
+                    <table className="table table-striped">  
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Comprador</th>
+                            <th>Hora Transaccion</th>
+                            <th>Precio Compra</th>
+                            <th>Gestion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                   
+                    </tbody>
+                    
+                </table>
+</Fragment>
+                )}
+                
                 
             </div>
            
             </div>
             
-{/* -------------------------------------------------------------------MODALES-------------------------------------------------------------------> */}
+{/* -------------------------------------------------------------------MODALES-----------------------------------------------------------------------------------------------------------> */}
             <ModalAvisos 
             show={modalAvisos}
             onHide={() => setModalAvisos(false)}
@@ -218,7 +280,8 @@ useEffect(() => {
                 show={modalCompraShow}
                 onHide={() => setModalCompraShow(false)}
             />   
-        </div>
+        
+</Fragment>
     )
    
     

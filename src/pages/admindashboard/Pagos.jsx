@@ -12,13 +12,12 @@ const Pagos = () => {
   const [infosocio, setInfosocio] = useState();
   const [infopago, setInfopago] = useState();
   const [infoingresos, setInfoingresos] = useState();
-  const [isLoading, setisLoading] = useState(false)
+
   const [modalShow, setModalShow] = useState(false);
   const [titulo, settitulo] = useState();
   const [mensaje, setmensaje] = useState();
   const [diasDeCuota, setdiasDeCuota] = useState();
-  const [contador, setcontador] = useState();
-
+ 
   const handleHTTPGetUsuario = (inputCi) => {
       fetch(apiUrl+':8000/api/Usuarios/'+inputCi, {
         method: 'GET'
@@ -97,6 +96,7 @@ const Pagos = () => {
       })
       .then(data => {
         // Manipula los datos de respuesta
+        data?setdiasDeCuota(data.diasDeCuota):setdiasDeCuota(false);
         setdiasDeCuota(data.DiasDeCuota);
         console.log(data.DiasDeCuota);
       })
@@ -129,9 +129,6 @@ const Pagos = () => {
                             <input type="text" className='form-control me-2' placeholder='Ingresar CI de Socio' onChange={(event) => setValueCi(event.target.value)}/>
                             <button onClick={() => handleHTTPGetInformacionCompleta(inputCi)} className='btn btn-primary'>Cargar Datos</button>
                         </div>
-                        <div className='ms-3 input-group w-25'>
-                            <button onClick={() => setcontador(0)} className='btn btn-primary'>Limpiar</button>
-                        </div>
                     </div>
                     <div>
                     <ModalAvisos
@@ -140,7 +137,12 @@ const Pagos = () => {
                     titulo={titulo}
                     mensaje={mensaje}
                 />
-                        <Cards infoingresos={infoingresos} infopago={infopago} infosocio={infosocio} diasDeCuota={diasDeCuota} contador />
+                        <Cards 
+                        infoingresos={infoingresos} 
+                        infopago={infopago} 
+                        infosocio={infosocio} 
+                        diasDeCuota={diasDeCuota}
+                         />
                     </div>                    
                 </div>
                 <div className='col-12 footer text-bg-dark'>
