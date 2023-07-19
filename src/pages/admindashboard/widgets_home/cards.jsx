@@ -1,52 +1,140 @@
-const cards = ({type}) =>{
-    let data;
-    switch(type){
-        case 1:
-            data = {
-                title: "SOCIOS ACTIVOS VS PASIVOS",
-                data: {0:'Activos: 100', 1: 'Pasivos: 100'},
-                icon: '',
-                card_text:'',
-            };
-            break;
-        case 2:
-            data = {
-                title:"SEXOS DE SOCIOS MUJERES VS HOMBRES",
-                data: {0:'Mujeres: 10', 1:'Hombres: 5'},
-                icon: '',
-            };
-            break;
-        case 3:
-            data = {
-                title: "EDAD PROMEDIO DE SOCIOS",
-                data: {0:'Mujeres: 35', 1:'Hombres: 25'},
-                icon: '',
-            };
-            break;
-        case 4:
-            data = {
-                title: "HORA PROMEDIO DE CONCURRENCIA",
-                data: {0:'18',1: ': 00'},
-                icon:'bi bi-clock',
-            };
-            break;        
-        default:
-            break;
+import { useEffect, useState } from "react";
+
+const Cards = ({type}) =>{
+//--------------------------------------------SETEO DE VARIALBES ---------------------------------------------------------------------------------------------------
+const apiUrl = process.env.REACT_APP_API_URL;
+const [respuestaActivos, setRespuestaActivos] = useState();
+const [respuestaSexo, setRespuestaSexo] = useState();
+const [respuestaEdad, setRespuestaEdad] = useState();
+var data;
+//--------------------------------------------HANDLESS---------------------------------------------------------------------------------------------------
+    function handleHTTPGetActivos() {
+
+        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Activos', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Manipula los datos de respuesta
+                
+                setRespuestaActivos(data);
+            })
+            .catch(error => {
+                // Maneja cualquier error de la solicitud
+                console.error(error);
+            });
+
     }
-    
+    function handleHTTPGetSexo() {
+
+        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Sexo', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Manipula los datos de respuesta
+                
+                setRespuestaSexo(data);
+            })
+            .catch(error => {
+                // Maneja cualquier error de la solicitud
+                console.error(error);
+            });
+
+    }
+    function handleHTTPGetEdad() {
+        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Edad', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Manipula los datos de respuesta
+                
+                setRespuestaEdad(data);
+            })
+            .catch(error => {
+                // Maneja cualquier error de la solicitud
+                console.error(error);
+            });
+
+    }
+//--------------------------------------------LOGICA DEL COMPONENTE---------------------------------------------------------------------------------------------------
+useEffect(() => {
+    handleHTTPGetActivos();
+    handleHTTPGetSexo();
+    handleHTTPGetEdad();
+}, [])
+
+
+//--------------------------------------------VISTA---------------------------------------------------------------------------------------------------
+
+
     return (
         <div className="card w-100 h-100 shadow-sm">
-            <div className="card-body">
-                <h5 className="card-title">{data.title}</h5>
+            <input type="button" value="Exportar" className="btn btn-success" />
+            <div className="row">
+                <div className="col border">
+                    <div className="card-body">
+                        <h5 className="card-title">SOCIOS ACTIVOS VS PASIVOS</h5>
+                    </div>
+                    <div className="card-body">
+                        <p className="card-text">Activos: {respuestaActivos?.Activos}</p>
+                        <p className="card-text">Pasivos: {respuestaActivos?.Pasivos}</p>
+                    </div>
+                    <div className="card-body">
+                        <a href="" className="text-decoration-none" >Ver mas <i className="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div className="col border">
+                    <div className="card-body">
+                        <h5 className="card-title">CANTIDAD MUJERES VS HOMBRES</h5>
+                    </div>
+                    <div className="card-body">
+                        <p className="card-text">Mujeres: {respuestaSexo?.Femeninos} </p>
+                        <p className="card-text">Hombres: {respuestaSexo?.Masculinos}</p>
+                    </div>
+                    <div className="card-body">
+                        <a href="" className="text-decoration-none" >Ver mas <i className="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div className="col border">
+                    <div className="card-body">
+                        <h5 className="card-title">EDAD PROMEDIO</h5>
+                    </div>
+                    <div className="card-body">
+                        <p className="card-text">Mujeres: {respuestaEdad?.EdadMujeres}</p>
+                        <p className="card-text">Hombres: {respuestaEdad?.EdadHombres}</p>
+                    </div>
+                    <div className="card-body">
+                        <a href="" className="text-decoration-none" >Ver mas <i className="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                
             </div>
-            <div className="card-body">
-                <p className="card-text">{data.data[0]} {data.data[1]} <i className={data.icon}></i></p>
-            </div>
-            <div className="card-body">
-                <a href="" className="text-decoration-none" >Ver mas <i className="bi bi-arrow-right"></i></a>
-            </div>
+            
         </div>
     )
 }
 
-export default cards
+export default Cards

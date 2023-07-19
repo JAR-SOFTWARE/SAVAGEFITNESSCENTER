@@ -1,5 +1,8 @@
-import './widgets_home.css'
-
+import React from 'react';
+import './widgets_home.css';
+//import XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import XLSX from 'sheetjs-style';
 const table = () => {    
     const socios = [
         {
@@ -20,7 +23,38 @@ const table = () => {
             apellido: "Rodriguez",
             hora_ingreso: "18:00 hs"
         }]
-    
+    const fileType= 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension= '.xlsx';
+    const excelData=[
+        {
+            "Nombre":"Javier",
+            "Apellido":"Romero",
+            "Telefono":"230010"
+        },
+        {
+            "Nombre":"Tatiana",
+            "Apellido":"Perez",
+            "Telefono":"0951010"
+        },
+        {
+            "Nombre":"Santi",
+            "Apellido":"Zapa",
+            "Telefono":"0910202"
+        }
+    ]
+    const ExportarExcel=()=>{
+    //     const workbook = XLSX.utils.book_new();
+    //     const sheetData = data.map((item) => [item.nombre, item.edad /*, Agregar más datos aquí */]);
+    //     const sheet = XLSX.utils.aoa_to_sheet([['Nombre', 'Edad' /*, Agregar más encabezados aquí */], ...sheetData]);
+    //     XLSX.utils.book_append_sheet(workbook, sheet, 'Datos');
+
+    // XLSX.writeFile(workbook, 'datos.xlsx');
+    const ws = XLSX.utils.json_to_sheet(excelData);
+    const wb= {Sheets: {'data':ws},SheetNames:['data']};
+    const excelBuffer= XLSX.write(wb,{bookType:'xlsx',type:'array'});
+    const data = new Blob([excelBuffer],{type: fileType});
+    FileSaver.saveAs(data,'Prueba'+ fileExtension);
+    }
         return (
         <div className="card shadow-sm my-2 tablas">
                 <table className="table">
@@ -34,7 +68,8 @@ const table = () => {
                     </thead>
                     <tbody>
                         {socios.map((socio) => (
-                            <tr>
+                            <tr key={socio.id}>
+
                                 <th scope="row">{socio.id}</th>
                                 <td>{socio.nombre}</td>
                                 <td>{socio.apellido}</td>
@@ -43,6 +78,7 @@ const table = () => {
                         ))}
                     </tbody>
                 </table>
+                <button className='btn btn-success' onClick={()=>ExportarExcel()}>Exportar a Excel</button>
         </div>
     )
 }

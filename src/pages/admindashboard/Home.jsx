@@ -16,17 +16,8 @@ const home = () =>{
                 </div>
                 <div className='col-10'>
                     <div className="row py-2">
-                        <div className="col-3">
+                        <div>
                             <Cards type={4}/>
-                        </div>
-                        <div className="col-3">
-                            <Cards type={1}/>
-                        </div>
-                        <div className="col-3">
-                            <Cards type={2}/>
-                        </div>
-                        <div className="col-3">
-                            <Cards type={3}/>
                         </div>
                     </div>
                     <div className="row">
