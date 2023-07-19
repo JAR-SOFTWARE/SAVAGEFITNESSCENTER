@@ -6,7 +6,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const [respuestaActivos, setRespuestaActivos] = useState();
 const [respuestaSexo, setRespuestaSexo] = useState();
 const [respuestaEdad, setRespuestaEdad] = useState();
-var data;
+const [respuestaIngresos, setRespuestaIngresos] = useState();
 //--------------------------------------------HANDLESS---------------------------------------------------------------------------------------------------
     function handleHTTPGetActivos() {
 
@@ -79,11 +79,36 @@ var data;
             });
 
     }
+    function handleHTTPGetIngresos() {
+        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Ingresos', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Manipula los datos de respuesta
+                
+                setRespuestaIngresos(data);
+            })
+            .catch(error => {
+                // Maneja cualquier error de la solicitud
+                console.error(error);
+            });
+
+    }
+
 //--------------------------------------------LOGICA DEL COMPONENTE---------------------------------------------------------------------------------------------------
 useEffect(() => {
     handleHTTPGetActivos();
     handleHTTPGetSexo();
     handleHTTPGetEdad();
+    handleHTTPGetIngresos();
 }, [])
 
 
@@ -92,7 +117,7 @@ useEffect(() => {
 
     return (
         <div className="card w-100 h-100 shadow-sm">
-            <input type="button" value="Exportar" className="btn btn-success" />
+     
             <div className="row">
                 <div className="col border">
                     <div className="card-body">
@@ -130,7 +155,17 @@ useEffect(() => {
                         <a href="" className="text-decoration-none" >Ver mas <i className="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
-                
+                <div className="col border">
+                    <div className="card-body">
+                        <h5 className="card-title">HORARIO MAS CONCURRIDO</h5>
+                    </div>
+                    <div className="card-body">
+                        <p className="card-text">HORARIO: {respuestaIngresos??''}</p>
+                    </div>
+                    <div className="card-body">
+                        <a href="" className="text-decoration-none" >Ver mas <i className="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
             </div>
             
         </div>
