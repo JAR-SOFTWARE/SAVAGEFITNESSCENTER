@@ -20,11 +20,11 @@ const NewUserModal = (props) =>{
    const [tipoNotificacion, setTipoNotificacion] = useState();
    const [mensajeNotificacion, setMensajeNotificacion] = useState();
    const [modalAvisos, setModalAvisos] = useState(false);
+   const [respuesta, setRespuesta] = useState();
 
    const handleNotificacion=(tipo,mensaje)=>{
         setTipoNotificacion(tipo);
         setMensajeNotificacion(mensaje);
-        setModalShow(false);
         setModalAvisos(true);
              
     }
@@ -56,7 +56,6 @@ const NewUserModal = (props) =>{
             .then(data => {
               // Manipula los datos de respuesta
               console.log(data);
-              setModalShow(false);
               handleNotificacion('AVISO',data.respuesta);
             })
             .catch(error => {
@@ -93,6 +92,7 @@ const NewUserModal = (props) =>{
             .then(data => {
               // Manipula los datos de respuesta
               console.log(data);
+              handleNotificacion('Aviso','Se Modifico con exito');
             })
             .catch(error => {
               // Maneja cualquier error de la solicitud
@@ -136,6 +136,15 @@ const NewUserModal = (props) =>{
             aria-labelledby="contained-modal-title-vcenter"
             centered 
             >
+              <ModalAvisos
+                        show={modalAvisos}
+                        onHide={() => setModalAvisos(false)}
+                        tipo={tipoNotificacion}
+                        mensaje={mensajeNotificacion}
+                        respuesta={respuesta}
+                        setRespuesta={setRespuesta}
+                        
+            />
                 {props.metodo?(
 //-----------------------------------------------------------------SECCION UPDATE SOCIO--------------------------------------------------------------------------->
                     <div>
@@ -241,6 +250,7 @@ const NewUserModal = (props) =>{
                                             <option value="Cliente">Socio</option>
                                         </select>
                                     </div>
+                                  
                                 </form>
                         </Modal.Body>
                         <Modal.Footer>

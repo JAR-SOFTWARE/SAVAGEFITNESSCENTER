@@ -17,7 +17,15 @@ const ModalAvisos = (props) =>{
     //     setModalAvisos(true);
              
     // }
-   
+//     <ModalAvisos
+//     show={modalAvisos}
+//     onHide={() => setModalAvisos(false)}
+//     tipo={tipoNotificacion}
+//     mensaje={mensajeNotificacion}
+//     respuesta={respuesta}
+//     setRespuesta={setRespuesta}
+    
+// />
    const apiUrl = process.env.REACT_APP_API_URL;
    var tipoNotificacion;
    if (props.tipo=='Confirmacion'){

@@ -43,12 +43,6 @@ const table = () => {
         }
     ]
     const ExportarExcel=()=>{
-    //     const workbook = XLSX.utils.book_new();
-    //     const sheetData = data.map((item) => [item.nombre, item.edad /*, Agregar más datos aquí */]);
-    //     const sheet = XLSX.utils.aoa_to_sheet([['Nombre', 'Edad' /*, Agregar más encabezados aquí */], ...sheetData]);
-    //     XLSX.utils.book_append_sheet(workbook, sheet, 'Datos');
-
-    // XLSX.writeFile(workbook, 'datos.xlsx');
     const ws = XLSX.utils.json_to_sheet(excelData);
     const wb= {Sheets: {'data':ws},SheetNames:['data']};
     const excelBuffer= XLSX.write(wb,{bookType:'xlsx',type:'array'});

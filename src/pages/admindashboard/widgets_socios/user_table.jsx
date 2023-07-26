@@ -13,7 +13,11 @@ const User_table = () => {
     const [metodo, setMetodo] = useState(false);
     const [modalShowConfirmacion, setModalConfirmacion] = useState(false);
     const [confirmacion, setConfirmacion] = useState(false);
-
+    const [id, setId] = useState();
+    const [modalAvisos, setModalAvisos] = useState(false);
+    const [tipoNotificacion, setTipoNotificacion] = useState();
+    const [mensajeNotificacion, setMensajeNotificacion] = useState(); 
+    const [respuesta, setRespuesta] = useState();
     const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
         const url = apiUrl+':8000/api/Usuarios/0';
@@ -23,40 +27,56 @@ const User_table = () => {
         }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-            setSocios(response.data);
-            setTablaUsuarios(response.data);
+            setSocios(response);
+            setTablaUsuarios(response);
         });
     }
+    const handleNotificacion=(tipo,mensaje)=>{
+        setTipoNotificacion(tipo);
+        setMensajeNotificacion(mensaje);
+        setModalShow(false);
+        setModalAvisos(true);
+             
+    }
+    const handleResponse=(id)=>{
+        console.log(id);
+        setId(id);
+        handleNotificacion('Confirmacion','SEGURO QUE DESEA ELIMINAR'); 
+    }
     const handleDelete = (ci) => {
-        setModalShow(true);
-        //   fetch(apiUrl+':8000/api/Usuarios/'+ci, {
-        //     method: 'DELETE',
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     },
-        //   })
-        //     .then(response => {
-        //       if (!response.ok) {
-        //         throw new Error('Error en la solicitud');
-        //       }
-        //       return response.json();
-        //     })
-        //     .then(data => {
-        //       // Manipula los datos de respuesta
-        //       console.log(data);
-        //       peticionGet();
-        //     })
-        //     .catch(error => {
-        //       // Maneja cualquier error de la solicitud
-        //       console.error(error);
-        //     });
+          fetch(apiUrl+':8000/api/Usuarios/'+ci, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Error en la solicitud');
+              }
+              return response.json();
+            })
+            .then(data => {
+              // Manipula los datos de respuesta
+              console.log(data);
+              peticionGet();
+            })
+            .catch(error => {
+              // Maneja cualquier error de la solicitud
+              console.error(error);
+            });
         
       }; 
+      useEffect(() => {
+        if(respuesta==='true'){
+          handleDelete(id);
+          handleNotificacion('Aviso','Se elimino el usuario con exito');
+        }
+      }, [respuesta])
     const handleChange=e=>{
         setBusqueda(e.target.value);
         filtrar(e.target.value);
     }
-
     const filtrar=(terminoBusqueda)=>{
         var resultadosBusqueda = tablaUsuarios.filter((elemento)=>{
             if(elemento.Nombre.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
@@ -134,7 +154,7 @@ const User_table = () => {
                                 <td>{socio.Mail}</td>
                                 <td>{socio.Telefono}</td>
                                 <td>
-                                <button onClick={() => handleDelete(socio.ci)}  className='btn btn-outline-danger mx-2'>
+                                <button onClick={() => handleResponse(socio.ci)}  className='btn btn-outline-danger mx-2'>
                                     <i className='bi bi-trash'> </i>
                                 </button>
                                 <button onClick={() => handleUpdate(socio.ci)} className='btn btn-outline-primary mx-2'>
@@ -147,19 +167,14 @@ const User_table = () => {
                     </tbody>
                 </table>
                 <div>
-      {confirmacion ? (
-        <ModalAvisos
-        show={modalShow}
-        onHide={() => setModalShow(false)}
+                <ModalAvisos
+        show={modalAvisos}
+                        onHide={() => setModalAvisos(false)}
+                        tipo={tipoNotificacion}
+                        mensaje={mensajeNotificacion}
+                        respuesta={respuesta}
+                        setRespuesta={setRespuesta}
         />
-        // <div>
-        //   <p>¿Estás seguro de borrar este usuario?</p>
-        //   <button className='btn btn-danger' >Confirmar</button>
-        //   <button className='btn btn-secondary' >Cancelar</button>
-        // </div>
-      ) : (
-        <p></p>
-      )}
     </div>
             </div>
         </div>

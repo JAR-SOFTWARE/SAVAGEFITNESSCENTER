@@ -2,6 +2,8 @@ import { useState,useEffect, Fragment } from "react";
 import NewVentaModal from "./modal_venta";
 import NewCompraModal from "./modal_compra"
 import ModalAvisos from "../../../Utils/ModalAvisos";
+import * as FileSaver from 'file-saver';
+import XLSX from 'sheetjs-style';
 const Transaction_table = () => {
 //-------------------------------------------------------------------INICIO DE VARIABLES------------------------------------------------------------------->
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -18,6 +20,9 @@ const Transaction_table = () => {
     const [respuesta, setRespuesta] = useState();
     const [id, setId] = useState();
     const [valueOption, setValueOption] = useState(true);
+    const [excelData, setExcelData] = useState();
+    const fileType= 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension= '.xlsx';
     var date = new Date(); //Fecha actual
     var mes = date.getMonth()+1; //obteniendo mes
     var dia = date.getDate(); //obteniendo dia
@@ -106,6 +111,13 @@ const handleNotificacion=(tipo,mensaje,id)=>{
         setModalAvisos(true);
         setId(id);     
     }
+const ExportarExcel=()=>{
+        const ws = XLSX.utils.json_to_sheet(ventas);
+        const wb= {Sheets: {'data':ws},SheetNames:['data']};
+        const excelBuffer= XLSX.write(wb,{bookType:'xlsx',type:'array'});
+        const data = new Blob([excelBuffer],{type: fileType});
+        FileSaver.saveAs(data,'Ventas'+ fileExtension);
+        }    
 //-------------------------------------------------------------------LOGICA DEL COMPONENTE------------------------------------------------------------------->
 useEffect(() => {
     handleGetHTTPVentas(currentdate);
@@ -150,6 +162,7 @@ useEffect(() => {
                             <div className="card-header bg-success text-white">
                                 Ventas del día
                             </div>
+                            
                             <div className="card-body">
                                 <h2 className="card-body">${ventasDelDia??'0'}</h2>
                             </div>
@@ -192,8 +205,11 @@ useEffect(() => {
 //---------------------------------------------------------------------------------TABLA PARA LAS VENTAS --------------------------------------------------------------------------------->
 <Fragment>
     <div className="row">
-        <div className="d-flex justify-content-start">
+        <div className="d-flex justify-content-start col">
             <h2 className="mt-2">Ventas del día</h2>
+        </div>
+        <div className="d-flex justify-content-end col">
+            <input onClick={()=>{ExportarExcel()}} type="button" value="Exportar" className="btn btn-success" />
         </div>
     </div>
                     <table className="table table-striped">  
