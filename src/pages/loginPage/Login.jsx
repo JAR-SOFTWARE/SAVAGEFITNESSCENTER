@@ -17,7 +17,7 @@ export default function Login() {
     const[socio,setSocio] = useState();
 
     const[inputCI, setVisibleCI] = useState(true);
-    
+    const [usuarioNoExiste, setUsuarioNoExiste] = useState();
     const [pago, setPago] = useState();
     var url = apiUrl+':8000/api/Ingresos';
     var data = {"ci": parseInt(ci)};
@@ -40,23 +40,32 @@ export default function Login() {
         setCi(e.target.value);
     }
 
-    //Control de respuesta del back
-    const handleresponse=(response)=>{
-        if (response.respuesta == true) {
-           return setVisible(true)
-        }
-        if (response == false){
-            setPago(true)
-           return setTimeout(() => {
-                window.location.reload();
-            }, 6500);
-        }
-        setSocio(response);
-        setVisibleUserDiv(true);
+   //-----------------------------------------------Control de respuesta del back----------------------------------------------------------------------------->
+   const handleresponse=(response)=>{
+    if (response.respuesta == true) {
+       return setVisible(true)
+    }
+    if (response.respuesta==='Usuario no existe'){
+        setUsuarioNoExiste(true)
         return setTimeout(() => {
             window.location.reload();
-        }, 6500);
+        }, 6000);
     }
+    if (response == false){
+        setPago(true)
+       return setTimeout(() => {
+            window.location.reload();
+        }, 6000);
+    }
+    setSocio(response);
+    setVisibleUserDiv(true);
+    return setTimeout(() => {
+        window.location.reload();
+    }, 6000);
+}
+
+
+
     //Control de contraseña colocada.
     const handleChangePass=e=>{
         setPass(e.target.value);
@@ -77,7 +86,7 @@ export default function Login() {
         }
     };
 
-    //Control de respuesta del back
+    //Control para redirigir al usuario administrador
     const handlePassword = (response) =>{
         if (response.respuesta == 'Se valida el ingreso') {
             Cookies.set('Sesion', ci);
@@ -112,6 +121,12 @@ export default function Login() {
             ):
             (false)}
 
+            {usuarioNoExiste?(
+            <div className='alert alert-danger' role="alert">
+            <h1>USUARIO NO EXISTE</h1>
+            </div>
+            ):
+            (false)}
 
             {inputCI? (
             <div className="py-4">

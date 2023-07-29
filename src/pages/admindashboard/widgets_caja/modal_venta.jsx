@@ -60,6 +60,35 @@ const handleRegister = () => {
         });
     
   };
+  const handleUpdateStock = () => {
+    const data = {
+        productos_id:valueOption,
+        cantidad:cantidadProducto,
+        Opcion:'Stock'
+      };
+      fetch(apiUrl+':8000/api/Productos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la solicitud');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Manipula los datos de respuesta
+          console.log(data);
+        })
+        .catch(error => {
+          // Maneja cualquier error de la solicitud
+          console.error(error);
+        });
+    
+  };
   const handleNotificacion=(tipo,mensaje,id)=>{
     setTipoNotificacion(tipo);
     setMensajeNotificacion(mensaje);

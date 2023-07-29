@@ -144,6 +144,7 @@ const Pagos = () => {
                             <input type="text" className='form-control me-2' placeholder='Ingresar CI de Socio' onChange={(event) => setValueCi(event.target.value)}/>
                             <button onClick={() => handleHTTPGetInformacionCompleta(inputCi)} className='btn btn-primary'>Cargar Datos</button>
                         </div>
+                        
                     </div>
                     <div>
                     <ModalAvisos
