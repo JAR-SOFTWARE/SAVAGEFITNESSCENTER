@@ -18,6 +18,17 @@ const Pagos = () => {
   const [mensaje, setmensaje] = useState();
   const [diasDeCuota, setdiasDeCuota] = useState();
  
+    const [tipoNotificacion, setTipoNotificacion] = useState(); 
+    const [mensajeNotificacion, setMensajeNotificacion] = useState();
+    const [respuesta, setRespuesta] = useState();
+    const [modalAvisos, setModalAvisos] = useState(false);
+
+  const handleNotificacion=(tipo,mensaje)=>{
+        setTipoNotificacion(tipo);
+        setMensajeNotificacion(mensaje);
+        setModalShow(false);
+        setModalAvisos(true);    
+    }
   const handleHTTPGetUsuario = (inputCi) => {
       fetch(apiUrl+':8000/api/Usuarios/'+inputCi, {
         method: 'GET'
@@ -30,6 +41,10 @@ const Pagos = () => {
         })
         .then(data => {
           // Manipula los datos de respuesta
+          if (Object.keys(data).length===0){
+            console.log('no');
+           return handleNotificacion('Aviso','Usuario no existe');
+          }
           setInfosocio(data);
           console.log(data);
         })
@@ -107,8 +122,8 @@ const Pagos = () => {
   
 };
    const handleHTTPGetInformacionCompleta=(inputCi)=>{   
-    handleHTTPGetDiasDeCuota(inputCi);
     handleHTTPGetUsuario(inputCi);
+    handleHTTPGetDiasDeCuota(inputCi);
     handleHTTPGetIngresos(inputCi);
     handleHTTPGetCuotas(inputCi);
     
@@ -149,9 +164,18 @@ const Pagos = () => {
                     <Footerbar/>
                 </div>
             </div>
-            
+            <ModalAvisos
+              show={modalAvisos}
+              onHide={() => setModalAvisos(false)}
+              tipo={tipoNotificacion}
+              mensaje={mensajeNotificacion}
+              respuesta={respuesta}
+              setRespuesta={setRespuesta}
+            />
         </div>
+        
     )
+        
 };
 
 export default Pagos;

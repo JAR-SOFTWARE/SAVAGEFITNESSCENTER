@@ -14,7 +14,6 @@ const Cards = (props) =>{
         settitulo('AVISO');
         setmensaje(respuesta);
     }
-    {props.diasDeCuota?console.log('habilitado'):console.log('inhabilitado')}
     if(props.diasDeCuota==='Esta vencido'){
         vencido=true;
     }
