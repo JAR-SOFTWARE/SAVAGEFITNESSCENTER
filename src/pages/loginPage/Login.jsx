@@ -13,14 +13,14 @@ export default function Login() {
     const[errorDiv,setVisibleDiv] = useState(false);
     const[error, setError] = useState();
 
-    const[userDiv,setVisibleUserDiv] = useState(false);
+    const[userDiv,setVisibleUserDiv] = useState();
     const[socio,setSocio] = useState();
 
     const[inputCI, setVisibleCI] = useState(true);
     
+    const [pago, setPago] = useState();
     var url = apiUrl+':8000/api/Ingresos';
     var data = {"ci": parseInt(ci)};
-    
     //Control de CI Utilizada
     const handleKeyPress = async(event) => {
         var respuesta;
@@ -41,27 +41,22 @@ export default function Login() {
     }
 
     //Control de respuesta del back
-    const handleresponse = (response) =>{
+    const handleresponse=(response)=>{
         if (response.respuesta == true) {
-            setVisible(true)           
-        }else{
-            if (response.respuesta == 'Usuario no existe') {
-                setError(response.respuesta);
-                setVisibleDiv(true);
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);                
-            }else{
-                setSocio(response);
-                setVisibleCI(false);
-                setVisibleUserDiv(true); 
-                setTimeout(() => {
-                    window.location.reload();
-                }, 6500);
-            }
+           return setVisible(true)
         }
+        if (response == false){
+            setPago(true)
+           return setTimeout(() => {
+                window.location.reload();
+            }, 6500);
+        }
+        setSocio(response);
+        setVisibleUserDiv(true);
+        return setTimeout(() => {
+            window.location.reload();
+        }, 6500);
     }
-    
     //Control de contraseña colocada.
     const handleChangePass=e=>{
         setPass(e.target.value);
@@ -109,6 +104,15 @@ export default function Login() {
             </div>):
             (false)}
 
+
+            {pago?(
+            <div className='alert alert-danger' role="alert">
+            <h1>USUARIO SIN PAGO REGISTRADO</h1>
+            </div>
+            ):
+            (false)}
+
+
             {inputCI? (
             <div className="py-4">
                 <input type="text" 
@@ -120,7 +124,8 @@ export default function Login() {
                     onChange={handleChange}
                     onKeyUp={handleKeyPress}
                 />
-                {passInput ? (<input type="password" 
+                {passInput ? (<input type="password"
+                    autoFocus 
                     className="form-control mt-2" 
                     value={pass} 
                     placeholder="Ingrese Contraseña" 
