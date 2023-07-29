@@ -61,17 +61,16 @@ const handleRegister = () => {
     
   };
   const handleUpdateStock = () => {
-    const data = {
-        productos_id:valueOption,
-        cantidad:cantidadProducto,
-        Opcion:'Stock'
-      };
-      fetch(apiUrl+':8000/api/Productos', {
-        method: 'POST',
+    
+       const productos_id=valueOption;
+       const cantidad=1;
+      
+      fetch(apiUrl+':8000/api/Stock/'+productos_id+'/'+cantidad, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        // body: JSON.stringify(data)
       })
         .then(response => {
           if (!response.ok) {
@@ -81,7 +80,8 @@ const handleRegister = () => {
         })
         .then(data => {
           // Manipula los datos de respuesta
-          console.log(data);
+          if(data==1){handleRegister()}
+          handleNotificacion('aviso',data,'');
         })
         .catch(error => {
           // Maneja cualquier error de la solicitud
@@ -115,10 +115,10 @@ useEffect(() => {
             </Modal.Header>
             <Modal.Body>
                 <form className='row mb-3'>
-                    <div className='col-3 mb-2'>
+                    {/* <div className='col-3 mb-2'>
                         <label htmlFor="floatingInputValue1">Cantidad: </label>
                         <input type="number" className="form-control" id="floatingInputValue1" placeholder='ej: Pepito' onChange={(event) => setCantidadProducto(event.target.value)}/>
-                    </div>
+                    </div> */}
                     <div className='col-9 mb-2'>
                         <label htmlFor="floatingInputValue2">Producto:</label>
                         <select className='form-select' onChange={(event) => setValueOption(event.target.value)}>
@@ -135,7 +135,7 @@ useEffect(() => {
                 </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={() => handleRegister()}> + Nueva Venta </Button>
+                <Button variant="success" onClick={() => handleUpdateStock()}> + Nueva Venta </Button>
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
             <ModalAvisos 
