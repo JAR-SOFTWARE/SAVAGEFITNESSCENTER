@@ -30,7 +30,7 @@ const NewProductModal = (props) =>{
         Lote:inputLote,
         FechaVencimiento:inputFechaDeVencimiento,
       };
-      fetch(apiUrl+':8000/api/Productos', {
+      fetch(apiUrl+'/api/Productos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ const NewProductModal = (props) =>{
         Lote:inputLote,
         FechaVencimiento:inputFechaDeVencimiento,
       };
-      fetch(apiUrl+':8000/api/Productos/'+id, {
+      fetch(apiUrl+'/api/Productos/'+id, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -100,7 +100,7 @@ const NewProductModal = (props) =>{
   const handleGetHTTPProductos = (id) => {
     console.log('muestro id: ',props.id);
     console.log('muestro metodo: ',props.metodo);
-    fetch(apiUrl+':8000/api/Productos/'+id, {
+    fetch(apiUrl+'/api/Productos/'+id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

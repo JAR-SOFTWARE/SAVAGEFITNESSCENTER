@@ -25,7 +25,7 @@ const Products_table = ({respuesta,setRespuesta}) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     console.log(respuesta);
     const handleGetHTTPProductos = () => {
-          fetch(apiUrl+':8000/api/Productos/0', {
+          fetch(apiUrl+'/api/Productos/0', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ const Products_table = ({respuesta,setRespuesta}) => {
         handleNotificacion('Confirmacion','SEGURO QUE DESEA ELIMINAR'); 
     }
     const handleDelete = (id) => {
-          fetch(apiUrl+':8000/api/Productos/'+id, {
+          fetch(apiUrl+'/api/Productos/'+id, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'
