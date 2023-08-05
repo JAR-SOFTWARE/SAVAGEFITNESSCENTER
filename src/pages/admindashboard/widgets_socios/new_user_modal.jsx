@@ -40,7 +40,7 @@ const NewUserModal = (props) =>{
             Opcion:selectOpt,
             password:inputPassword,
           };
-          fetch(apiUrl+':8000/api/Usuarios', {
+          fetch(apiUrl+'/api/Usuarios', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const NewUserModal = (props) =>{
             Opcion:selectOpt,
             password:inputPassword,
           };
-          fetch(apiUrl+':8000/api/Usuarios/'+ci, {
+          fetch(apiUrl+'/api/Usuarios/'+ci, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ const NewUserModal = (props) =>{
         
       }; 
       const handleGetHTTPUsuario = (ci) => {
-          fetch(apiUrl+':8000/api/Usuarios/'+ci, {
+          fetch(apiUrl+'/api/Usuarios/'+ci, {
             method: 'GET'
           })
             .then(response => {

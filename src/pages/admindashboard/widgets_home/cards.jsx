@@ -10,7 +10,7 @@ const [respuestaIngresos, setRespuestaIngresos] = useState();
 //--------------------------------------------HANDLESS---------------------------------------------------------------------------------------------------
     function handleHTTPGetActivos() {
 
-        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Activos', {
+        fetch(apiUrl + '/api/Estadisticas/Usuarios/Activos', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
 
@@ -34,7 +34,7 @@ const [respuestaIngresos, setRespuestaIngresos] = useState();
     }
     function handleHTTPGetSexo() {
 
-        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Sexo', {
+        fetch(apiUrl + '/api/Estadisticas/Usuarios/Sexo', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
 
@@ -57,7 +57,7 @@ const [respuestaIngresos, setRespuestaIngresos] = useState();
 
     }
     function handleHTTPGetEdad() {
-        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Edad', {
+        fetch(apiUrl + '/api/Estadisticas/Usuarios/Edad', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
 
@@ -80,7 +80,7 @@ const [respuestaIngresos, setRespuestaIngresos] = useState();
 
     }
     function handleHTTPGetIngresos() {
-        fetch(apiUrl + ':8000/api/Estadisticas/Usuarios/Ingresos', {
+        fetch(apiUrl + '/api/Estadisticas/Usuarios/Ingresos', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
 

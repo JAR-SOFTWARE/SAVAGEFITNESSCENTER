@@ -20,7 +20,7 @@ const User_table = () => {
     const [respuesta, setRespuesta] = useState();
     const apiUrl = process.env.REACT_APP_API_URL;
     const peticionGet = async() =>{
-        const url = apiUrl+':8000/api/Usuarios/0';
+        const url = apiUrl+'/api/Usuarios/0';
         const response =  fetch (url,{
             method:'GET',
             headers:{'Content-Type': 'application/json'}
@@ -44,7 +44,7 @@ const User_table = () => {
         handleNotificacion('Confirmacion','SEGURO QUE DESEA ELIMINAR'); 
     }
     const handleDelete = (ci) => {
-          fetch(apiUrl+':8000/api/Usuarios/'+ci, {
+          fetch(apiUrl+'/api/Usuarios/'+ci, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'

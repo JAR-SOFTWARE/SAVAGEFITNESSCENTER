@@ -19,7 +19,7 @@ export default function Login() {
     const[inputCI, setVisibleCI] = useState(true);
     const [usuarioNoExiste, setUsuarioNoExiste] = useState();
     const [pago, setPago] = useState();
-    var url = apiUrl+':8000/api/Ingresos';
+    var url = apiUrl+'/api/Ingresos';
     var data = {"ci": parseInt(ci)};
     //Control de CI Utilizada
     const handleKeyPress = async(event) => {

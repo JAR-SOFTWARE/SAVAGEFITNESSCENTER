@@ -26,7 +26,7 @@ const Cards = (props) =>{
             productos_id:1,
             TipoDeTransaccion:"Venta",
           };
-          fetch(apiUrl+':8000/api/Transacciones', {
+          fetch(apiUrl+'/api/Transacciones', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

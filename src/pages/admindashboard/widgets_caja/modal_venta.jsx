@@ -6,7 +6,7 @@ import ModalAvisos from '../../../Utils/ModalAvisos';
 const NewVentaModal = (props) =>{
 //-------------------------------------------------------------------INICIO DE VARIABLES------------------------------------------------------------------->    
     const apiUrl = process.env.REACT_APP_API_URL;
-    const url = apiUrl+':8000/api/Productos/0';
+    const url = apiUrl+'/api/Productos/0';
     const [cantidadProducto,setCantidadProducto] = useState();
     const [selectProducto,setselectProducto] = useState();
     const [valueOption, setValueOption] = useState();
@@ -36,7 +36,7 @@ const handleRegister = () => {
         socios_ci:12345678,
         TipoDeTransaccion:'Venta'
       };
-      fetch(apiUrl+':8000/api/Transacciones', {
+      fetch(apiUrl+'/api/Transacciones', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ const handleRegister = () => {
        const productos_id=valueOption;
        const cantidad=1;
       
-      fetch(apiUrl+':8000/api/Stock/'+productos_id+'/'+cantidad, {
+      fetch(apiUrl+'/api/Stock/'+productos_id+'/'+cantidad, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
