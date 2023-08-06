@@ -38,7 +38,7 @@ const handleGETALL=(fecha)=>{
     handleGetHTTPVentasDelDia(fecha);
 }
 const handleGetHTTPVentas = async(fecha) =>{ 
-    const url = apiUrl+':8000/api/Transacciones/Venta/'+fecha;
+    const url = apiUrl+'/api/Transacciones/Venta/'+fecha;
     const response =  fetch (url,{
         method:'GET',
         headers:{'Content-Type': 'application/json'}
@@ -49,7 +49,7 @@ const handleGetHTTPVentas = async(fecha) =>{
     });
 }
 const handleGetHTTPVentasDelDia = async(fecha) =>{ 
-    const url = apiUrl+':8000/api/Transacciones/VentasDelDia/'+fecha;
+    const url = apiUrl+'/api/Transacciones/VentasDelDia/'+fecha;
     const response =  fetch (url,{
         method:'GET',
         headers:{'Content-Type': 'application/json'}
@@ -60,7 +60,7 @@ const handleGetHTTPVentasDelDia = async(fecha) =>{
     });
 }
 const handleGetHTTPCompras = async(fecha) =>{ 
-    const url = apiUrl+':8000/api/Transacciones/Compra/'+fecha;
+    const url = apiUrl+'/api/Transacciones/Compra/'+fecha;
     const response =  fetch (url,{
         method:'GET',
         headers:{'Content-Type': 'application/json'}
@@ -71,7 +71,7 @@ const handleGetHTTPCompras = async(fecha) =>{
     });
 }
 const handleGetHTTPComprasDelDia = async(fecha) =>{ 
-    const url = apiUrl+':8000/api/Transacciones/ComprasDelDia/'+fecha;
+    const url = apiUrl+'/api/Transacciones/ComprasDelDia/'+fecha;
     const response =  fetch (url,{
         method:'GET',
         headers:{'Content-Type': 'application/json'}
@@ -82,7 +82,7 @@ const handleGetHTTPComprasDelDia = async(fecha) =>{
     });
 }
 const handleDelete = (id) => {
-      fetch(apiUrl+':8000/api/Transacciones/'+id, {
+      fetch(apiUrl+'/api/Transacciones/'+id, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
