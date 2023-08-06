@@ -30,7 +30,7 @@ const Pagos = () => {
         setModalAvisos(true);    
     }
   const handleHTTPGetUsuario = (inputCi) => {
-      fetch(apiUrl+':8000/api/Usuarios/'+inputCi, {
+      fetch(apiUrl+'/api/Usuarios/'+inputCi, {
         method: 'GET'
       })
         .then(response => {
@@ -55,7 +55,7 @@ const Pagos = () => {
     
   };
   const handleHTTPGetIngresos = (inputCi) => {
-       fetch(apiUrl+':8000/api/Ingresos/'+inputCi, {
+       fetch(apiUrl+'/api/Ingresos/'+inputCi, {
          method: 'GET'
        })
          .then(response => {
@@ -75,7 +75,7 @@ const Pagos = () => {
      
    }; 
    const handleHTTPGetCuotas = (inputCi) => {
-       fetch(apiUrl+':8000/api/Cuotas/'+inputCi, {
+       fetch(apiUrl+'/api/Cuotas/'+inputCi, {
          method: 'GET'
        })
          .then(response => {
@@ -98,7 +98,7 @@ const Pagos = () => {
    const handleHTTPGetDiasDeCuota = (inputCi) => {
     var data = {"ci": parseInt(inputCi)};
 
-    fetch(apiUrl+':8000/api/Ingresos', {
+    fetch(apiUrl+'/api/Ingresos', {
       method: 'POST',
       headers:{'Content-Type': 'application/json'},
       body:JSON.stringify(data)
