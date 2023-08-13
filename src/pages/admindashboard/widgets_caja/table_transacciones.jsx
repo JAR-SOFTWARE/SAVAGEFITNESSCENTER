@@ -36,6 +36,7 @@ const handleGETALL=(fecha)=>{
     {valueOption?handleGetHTTPVentas(fecha):handleGetHTTPCompras(fecha)}
     handleGetHTTPComprasDelDia(fecha);
     handleGetHTTPVentasDelDia(fecha);
+    console.log(ventas);
 }
 const handleGetHTTPVentas = async(fecha) =>{ 
     const url = apiUrl+'/api/Transacciones/Venta/'+fecha;
@@ -45,7 +46,8 @@ const handleGetHTTPVentas = async(fecha) =>{
     }).then(res => res.json())
     .catch(error => console.error('Error:', error))
     .then(response => {
-        setVentas(response.data);
+        console.log(response);
+        setVentas(response);
     });
 }
 const handleGetHTTPVentasDelDia = async(fecha) =>{ 
@@ -129,7 +131,6 @@ useEffect(() => {
       handleDelete(id);
     }
   }, [respuesta])
-  console.log(valueOption);
     return(
         <Fragment>
             
@@ -218,6 +219,7 @@ useEffect(() => {
                             <th>ID</th>
                             <th>Producto</th>
                             <th>Vendedor</th>
+                            <th>Cedula</th>
                             <th>Cliente</th>
                             <th>Hora Transaccion</th>
                             <th>Precio Venta</th>
@@ -232,7 +234,8 @@ useEffect(() => {
                                     <th scope="row">{venta.id}</th>
                                     <th>{venta.Producto}</th>
                                     <th>{venta.Vendedor}</th>
-                                    <th>{venta.Cliente}</th>
+                                    <th>{venta.CI}</th>
+                                    <th>{venta.Nombre} {venta.Apellido}</th>
                                     <th>{venta.HoraTransaccion}</th>
                                     <th>{venta.Precio}</th>
                                     <th>

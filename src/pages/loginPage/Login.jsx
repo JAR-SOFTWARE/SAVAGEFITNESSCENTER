@@ -42,6 +42,7 @@ export default function Login() {
 
    //-----------------------------------------------Control de respuesta del back----------------------------------------------------------------------------->
    const handleresponse=(response)=>{
+    console.log(response);
     if (response.respuesta == true) {
        return setVisible(true)
     }
@@ -49,19 +50,19 @@ export default function Login() {
         setUsuarioNoExiste(true)
         return setTimeout(() => {
             window.location.reload();
-        }, 6000);
+        }, 4000);
     }
     if (response == false){
         setPago(true)
        return setTimeout(() => {
             window.location.reload();
-        }, 6000);
+        }, 4000);
     }
     setSocio(response);
     setVisibleUserDiv(true);
     return setTimeout(() => {
         window.location.reload();
-    }, 6000);
+    }, 4000);
 }
 
 

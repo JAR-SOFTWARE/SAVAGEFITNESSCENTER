@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import ModalChangePassword from '../../../Utils/ModalChangePassword';
 const logo = require('../../images/logo.png');
 
 const navbar = () =>{
@@ -27,13 +28,17 @@ const navbar = () =>{
             </div>
             <div className='col-2'>
                 <div className='d-flex align-items-center justify-content-center h-100'>
+              
+
                     <div>
-                        <Link to='/'>
+                 
+                        <Link to='/'> 
                         <button className='btn btn-danger'>SALIR</button>
                         </Link> 
                     </div>
                 </div>                      
-            </div>         
+            </div>      
+   
         </div>
     )
 }

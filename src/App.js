@@ -20,6 +20,7 @@ function App() {
                 <Route path="pagos" element={<Pagos/>}></Route>   
                 <Route path="caja" element={<Caja/>}></Route>   
                 <Route path="productos" element={<Productos/>}></Route> 
+                
               </Route>
           </Routes>
         </BrowserRouter>

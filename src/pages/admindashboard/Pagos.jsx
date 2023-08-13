@@ -111,6 +111,7 @@ const Pagos = () => {
       })
       .then(data => {
         // Manipula los datos de respuesta
+        console.log(data);
         data?setdiasDeCuota(data.diasDeCuota):setdiasDeCuota(false);
         setdiasDeCuota(data.DiasDeCuota);
         console.log(data.DiasDeCuota);
