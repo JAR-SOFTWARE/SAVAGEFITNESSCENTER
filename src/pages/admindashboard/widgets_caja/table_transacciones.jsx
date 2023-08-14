@@ -69,7 +69,8 @@ const handleGetHTTPCompras = async(fecha) =>{
     }).then(res => res.json())
     .catch(error => console.error('Error:', error))
     .then(response => {
-        setCompras(response.data);
+        console.log(response);
+        setCompras(response);
     });
 }
 const handleGetHTTPComprasDelDia = async(fecha) =>{ 
@@ -119,7 +120,8 @@ const ExportarExcel=()=>{
         const excelBuffer= XLSX.write(wb,{bookType:'xlsx',type:'array'});
         const data = new Blob([excelBuffer],{type: fileType});
         FileSaver.saveAs(data,'Ventas'+ fileExtension);
-        }    
+        } 
+        console.log(valueOption);   
 //-------------------------------------------------------------------LOGICA DEL COMPONENTE------------------------------------------------------------------->
 useEffect(() => {
     handleGetHTTPVentas(currentdate);
@@ -150,7 +152,7 @@ useEffect(() => {
                             <select className='form-select' onChange={(event) => setValueOption(event.target.value)}>
                                 <option>Filtar por</option>
                                 <option value={true}>Ventas del Día</option>
-                                <option value={''}>Compras del Día</option>
+                                <option value={false}>Compras del Día</option>
                             </select>
                             </div>
                     </div>
@@ -250,6 +252,7 @@ useEffect(() => {
                 </table>
 </Fragment>
                 ):(
+                    
 //---------------------------------------------------------------------------------TABLA PARA LAS COMPRAS --------------------------------------------------------------------------------->
 <Fragment>
     <div className="row">
@@ -269,7 +272,23 @@ useEffect(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        
+                    {compras.map((compra) => (
+                                <tr key={compra.id}>
+                                    
+                                    <th scope="row">{compra.id}</th>
+                                    <th>{compra.Producto}</th>
+                                    <th>{compra.Vendedor}</th>
+                                    <th>{compra.CI}</th>
+                                    <th>{compra.Nombre} {compra.Apellido}</th>
+                                    <th>{compra.HoraTransaccion}</th>
+                                    <th>{compra.Precio}</th>
+                                    <th>
+                                        <button onClick={() => handleNotificacion('Confirmacion','Desea Eliminar la Transaccion',compra.id)}  className='btn btn-outline-danger mx-2'>
+                                            <i className='bi bi-trash'> </i>
+                                        </button> 
+                                    </th>
+                                </tr>
+                            ))}
                    
                     </tbody>
                     

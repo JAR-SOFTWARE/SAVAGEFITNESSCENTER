@@ -1,8 +1,14 @@
+import { Fragment, useState } from 'react';
 import './components_style.css';
 import {Link} from 'react-router-dom';
-
-const sidebar = () =>{
+import ModalChangePassword from '../../../Utils/ModalChangePassword';
+const Sidebar = () =>{
+    
+    const [modalChangePassword, setModalChangePassword] = useState(false);
+    
+    
     return (
+        <Fragment>
         <div className='sidebar'>
             <hr/>
             <div className='list py-3 h-100'>
@@ -55,7 +61,7 @@ const sidebar = () =>{
                                 PERFIL
                             </button>
                             <ul class="dropdown-menu">
-                                {/* <li><a onClick={()=>{ChangePassword()}} class="dropdown-item" href="#">Cambiar Password</a></li> */}
+                                <li><a onClick={()=>{setModalChangePassword(true)}} class="dropdown-item" href="#">Cambiar Password</a></li>
                                 <li><hr class="dropdown-divider"></hr></li>
                                 <Link to='/'>
                                     <li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
@@ -63,13 +69,19 @@ const sidebar = () =>{
                                 
                             </ul>
                             </div>
-</li>
+                        </li>
                     </ul>                  
                 </div>
             </div>
             <hr/>
         </div>
+        
+        <ModalChangePassword 
+         show={modalChangePassword}
+         onHide={() => setModalChangePassword(false)}
+        />
+        </Fragment>
     )
 }
 
-export default sidebar
+export default Sidebar
