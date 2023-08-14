@@ -31,9 +31,10 @@ const Transaction_table = () => {
     if(mes<10)mes='0'+mes //agrega cero si el menor de 10
     var currentdate = ano+"-"+mes+"-"+dia;
 //-------------------------------------------------------------------DECLARACION DE METODOS------------------------------------------------------------------->
+
 const handleGETALL=(fecha)=>{
     setFecha(fecha);
-    {valueOption?handleGetHTTPVentas(fecha):handleGetHTTPCompras(fecha)}
+    {valueOption?handleGetHTTPVentas(fecha):console.log('funca')}
     handleGetHTTPComprasDelDia(fecha);
     handleGetHTTPVentasDelDia(fecha);
     console.log(ventas);
@@ -121,13 +122,16 @@ const ExportarExcel=()=>{
         const data = new Blob([excelBuffer],{type: fileType});
         FileSaver.saveAs(data,'Ventas'+ fileExtension);
         } 
-        console.log(valueOption);   
+        console.log(compras);   
 //-------------------------------------------------------------------LOGICA DEL COMPONENTE------------------------------------------------------------------->
+
 useEffect(() => {
     handleGetHTTPVentas(currentdate);
     handleGetHTTPVentasDelDia(currentdate);
-    
+    handleGetHTTPCompras(currentdate);
+    handleGetHTTPComprasDelDia(currentdate);
 },[])
+
 useEffect(() => {
     if(respuesta==='true'){
       handleDelete(id);
@@ -150,9 +154,9 @@ useEffect(() => {
                             </div>
                             <div className='input-group w-25 me-3'>
                             <select className='form-select' onChange={(event) => setValueOption(event.target.value)}>
-                                <option>Filtar por</option>
+                                <option>Filtrar por</option>
                                 <option value={true}>Ventas del Día</option>
-                                <option value={false}>Compras del Día</option>
+                                <option value={''}>Compras del Día</option>
                             </select>
                             </div>
                     </div>
@@ -250,6 +254,7 @@ useEffect(() => {
                     </tbody>
                     
                 </table>
+                
 </Fragment>
                 ):(
                     
@@ -266,6 +271,8 @@ useEffect(() => {
                             <th>ID</th>
                             <th>Producto</th>
                             <th>Comprador</th>
+                            <th>Cedula</th>
+                            <th>Cliente</th>
                             <th>Hora Transaccion</th>
                             <th>Precio Compra</th>
                             <th>Gestion</th>
