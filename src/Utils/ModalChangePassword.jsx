@@ -22,6 +22,7 @@ const ModalChangePassword = (props) =>{
             ci,
             password: valuePassword
           };
+          console.log(apiUrl+'/api/ChangePassword');
           fetch(apiUrl+'/api/ChangePassword', {
             method: 'POST',
             headers: {
